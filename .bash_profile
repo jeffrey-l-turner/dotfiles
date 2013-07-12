@@ -54,6 +54,16 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
+# Added check and start ssh-agent because of problems with Heroku authtentication
+# Heroku was refusing connections because ssh-agent was not started
+# start agent and set environment variables, if needed
+agent_started=0
+if ! env | grep -q SSH_AGENT_PID >/dev/null; then
+  echo "Starting ssh agent"
+  eval $(ssh-agent -s)
+  agent_started=1
+fi
+
 # Configure PATH
 #  - These are line by line so that you can kill one without affecting the others.
 #  - Lowest priority first, highest priority last.
