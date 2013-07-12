@@ -64,22 +64,13 @@ if ! env | grep -q SSH_AGENT_PID >/dev/null; then
   agent_started=1
 fi
 
-# ssh become a function, adding identity to agent when needed; see if needed for Heroku
-ssh() {
+# ssh-heroku for Heroku fix 
+ssh-heroku() {
   if ! ssh-add -l >/dev/null 2>&-; then
-    ssh-add ~/.ssh/id_dsa
+    ssh-add ~/.ssh/heroku-jlt_rsa
   fi
-  /usr/bin/ssh "$@"
 }
-export -f ssh
-
-git() {
-  if ! ssh-add -l >/dev/null 2>&-; then
-    ssh-add ~/.ssh/id_dsa
-  fi
-  /usr/bin/git "$@"
-}
-export -f git
+export -f ssh-heroku
 
 # Configure PATH
 #  - These are line by line so that you can kill one without affecting the others.
