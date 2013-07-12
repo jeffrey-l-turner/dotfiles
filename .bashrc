@@ -1,5 +1,6 @@
 # .bashrc file
-# By Balaji S. Srinivasan (balajis@stanford.edu)
+#  Originally By Balaji S. Srinivasan (balajis@stanford.edu)
+#  Modified for Jeff Turner
 #
 # Concepts:
 #
@@ -162,20 +163,19 @@ shopt -s histappend
 
 # Make prompt informative
 # See:  http://www.ukuug.org/events/linux2003/papers/bash_tips/
-PS1="\[\033[0;34m\][\u@\h:\w]$\[\033[0m\]"
+PS1="\[\033[0;34m\][\u@\h:\w]$\[\033[0m\] "
 
 ## -----------------------
 ## -- 2) Set up aliases --
 ## -----------------------
 
 # 2.1) Safety
-alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
 set -o noclobber
 
 # 2.2) Listing, directories, and motion
-alias ll="ls -alrtF --color"
+alias ll="ls -lrtF --color"
 alias la="ls -A"
 alias l="ls -CF"
 alias dir='ls --color=auto --format=vertical'
@@ -191,8 +191,8 @@ alias treeacl='tree -A -C -L 2'
 # 2.3) Text and editor commands
 alias em='emacs -nw'     # No X11 windows
 alias eqq='emacs -nw -Q' # No config and no X11
-export EDITOR='emacs -nw'
-export VISUAL='emacs -nw' 
+export EDITOR='vi'
+export VISUAL='vi' 
 
 # 2.4) grep options
 export GREP_OPTIONS='--color=auto'
