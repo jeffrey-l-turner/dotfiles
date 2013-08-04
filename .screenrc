@@ -85,7 +85,7 @@ sorendition "+b kG"
 hardstatus alwayslastline "%H %-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"  
 
 # 2.3) Autoload two screen tabs for emacs/bash.
-screen -t emacs 0
+screen -t vi 0
 screen -t bash 1
 
 # 2.4) Description of the keywords used in hardstatus
