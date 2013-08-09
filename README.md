@@ -1,7 +1,7 @@
 dotfiles.git
 ============
 Clone and run this on a new EC2 instance running Ubuntu 12.04.2 LTS to
-configure your `bash` and `emacs` development environment as follows:
+configure your `ssh`, `bash` and `emacs` development environment as follows:
 
 ```sh
 cd $HOME
@@ -14,6 +14,7 @@ ln -sb dotfiles/.bash_logout .
 ln -sb dotfiles/.vimrc
 mv .emacs.d .emacs.d~
 ln -s dotfiles/.emacs.d .
+ln -s dotfiles/ssh-config ~/.ssh/config
 ```
 
 See also http://github.com/startup-class/setup to install prerequisite
