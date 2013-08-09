@@ -3,3 +3,11 @@ Host github.com
 Hostname github.com
 User git
 IdentityFile "~/.ssh/<key-name>"
+
+Host heroku.com
+Hostname heroku.com 
+Port 22 
+IdentitiesOnly yes 
+IdentityFile "~/.ssh/<key-name>-heroku"
+TCPKeepAlive yes 
+User user@email.com
