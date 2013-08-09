@@ -67,7 +67,7 @@ fi
 # ssh-heroku for Heroku fix 
 ssh-heroku() {
   if ! ssh-add -l >/dev/null 2>&-; then
-    ssh-add ~/.ssh/heroku-jlt_rsa
+    ssh-add ~/.ssh/<key-name>-heroku
   fi
 }
 export -f ssh-heroku
