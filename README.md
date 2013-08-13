@@ -17,7 +17,7 @@ ln -s dotfiles/.emacs.d .
 ln -s dotfiles/ssh-config ~/.ssh/config
 ```
 
-See also http://github.com/startup-class/setup to install prerequisite
+See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite
 programs. If all goes well, in addition to a more useful prompt, now you can
 do `emacs -nw hello.js` and hitting `C-c!` to launch an interactive SSJS
 REPL, among many other features. See the
