@@ -5,7 +5,7 @@ configure your `ssh`, `bash` and `emacs` development environment as follows:
 
 ```sh
 cd $HOME
-git clone https://github.com/startup-class/dotfiles.git
+git clone https://github.com/jeffrey-l-turner/dotfiles.git
 ln -sb dotfiles/.screenrc .
 ln -sb dotfiles/.bash_profile .
 ln -sb dotfiles/.bashrc .
