@@ -73,6 +73,13 @@ ssh-heroku() {
 }
 export -f ssh-heroku
 
+# function to enable pull requests from GitHub
+pullify() {
+
+git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+
+}
+
 # Configure PATH
 #  - These are line by line so that you can kill one without affecting the others.
 #  - Lowest priority first, highest priority last.
