@@ -73,7 +73,7 @@ ssh-heroku() {
 }
 export -f ssh-heroku
 
-# function to enable pull requests from GitHub
+# function to get pull requests locally from GitHub
 pullify() {
 
 git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
