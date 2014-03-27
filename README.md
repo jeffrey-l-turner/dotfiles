@@ -1,7 +1,7 @@
 dotfiles.git
 ============
-Clone and run this on a new EC2 instance running Ubuntu 12.04.2 LTS to
-configure your `ssh`, `bash` and `emacs` development environment as follows:
+Clone and run this on a new instances or MAC OS to
+configure `ssh`, `bash`, `node`, and `emacs` development environment as follows:
 
 ```sh
 cd $HOME
@@ -20,6 +20,5 @@ ln -s dotfiles/ssh-config ~/.ssh/config
 See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite
 programs. If all goes well, in addition to a more useful prompt, now you can
 do `emacs -nw hello.js` and hitting `C-c!` to launch an interactive SSJS
-REPL, among many other features. See the
-[Startup Engineering Video Lectures 4a/4b](https://class.coursera.org/startup-001/lecture/index)
-for more details.
+REPL, among many other features. This was originally developed for
+[Startup Engineering Video Lectures 4a/4b](https://class.coursera.org/startup-001/lecture/index).
