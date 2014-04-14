@@ -14,7 +14,8 @@
 #    3) .bash_profile imports .bashrc in our script, but not vice versa.
 #
 #    4) .bashrc imports .bashrc_custom in our script, which can be used to
-#        override variables specified here.
+#        override variables specified here or for pre-configuring a customized
+#        environment prior to running this script.
 #
 # When using GNU screen:
 #
