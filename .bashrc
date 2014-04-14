@@ -222,9 +222,6 @@ export LC_ALL=POSIX
 # http://stackoverflow.com/a/677212
 command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";}
 
-# 2.7) Customization for TWC Environment
-alias rt='sudo route delete -net 24.24.120.0/24 172.19.128.121; sudo route add -net 24.24.120.0/24 172.19.128.121; sudo route delete -net 24.24.122.0/24 172.19.128.121; sudo route add -net 24.24.122.0/24 172.19.128.121'
-
 # 2.7) node.js and nvm
 # http://nodejs.org/api/repl.html#repl_repl
 alias node="env NODE_NO_READLINE=1 rlwrap node"
