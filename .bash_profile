@@ -1,5 +1,5 @@
 # .bash_profile file
-# By Balaji S. Srinivasan (balajis@stanford.edu)
+# By Balaji S. Srinivasan (balajis <at> stanford.edu)
 # Customized by Jeff Turner for his Heroku and .ssh key setup
 #
 # Concepts:
@@ -65,21 +65,20 @@ if ! env | grep -q SSH_AGENT_PID >/dev/null; then
   agent_started=1
 fi
 
-# ssh-heroku for Heroku on Mac OS fix 
-ssh-heroku() {
+# use-ssh-keys for GitHub, Heroku on Mac OS fix 
+use-ssh-keys() {
   if ! ssh-add -l >/dev/null 2>&-; then
-    ssh-add ~/.ssh/heroku-rsa
+    if [ -O ~/.ssh/heroku-rsa]; then
+        ssh-add ~/.ssh/heroku-rsa
+        echo "ssh added heroku-rsa"
+    fi
+    if [ -O ~/.ssh/github-rsa]; then
+        ssh-add ~/.ssh/github-rsa
+        echo "ssh added github-rsa"
+    fi
   fi
 }
-export -f ssh-heroku
-
-# ssh-heroku for GitHub on Mac OS fix 
-ssh-git() {
-  if ! ssh-add -l >/dev/null 2>&-; then
-    ssh-add ~/.ssh/github-rsa
-  fi
-}
-export -f ssh-git
+use-ssh-keys
 
 # function to get pull requests locally from GitHub
 pullify() {
