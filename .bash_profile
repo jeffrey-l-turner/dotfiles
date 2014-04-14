@@ -65,13 +65,21 @@ if ! env | grep -q SSH_AGENT_PID >/dev/null; then
   agent_started=1
 fi
 
-# ssh-heroku for Heroku fix 
+# ssh-heroku for Heroku on Mac OS fix 
 ssh-heroku() {
   if ! ssh-add -l >/dev/null 2>&-; then
-    ssh-add ~/.ssh/<key-name>-heroku
+    ssh-add ~/.ssh/heroku-rsa
   fi
 }
 export -f ssh-heroku
+
+# ssh-heroku for GitHub on Mac OS fix 
+ssh-git() {
+  if ! ssh-add -l >/dev/null 2>&-; then
+    ssh-add ~/.ssh/github-rsa
+  fi
+}
+export -f ssh-git
 
 # function to get pull requests locally from GitHub
 pullify() {
@@ -86,6 +94,6 @@ git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*
 export PATH=$PATH
 export PATH=$HOME/bin:$PATH
 export PATH=/usr/bin:$PATH
-export PATH=/usr/local/bin:$PATH
+export PATH=$PATH:/usr/local/bin  # improper placement for nvm on Mac OS -- others unkonw?
 export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
