@@ -75,6 +75,14 @@ else
 	umask 022
 fi
 
+#  Using the lowercase function for accurate comparisons -- the tput utility on Mac OS returns a non-printable
+#  character so the if statements below do not work
+lowercase(){
+    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+}
+OS=`lowercase \`uname\``
+
+
 # ---------------------------------------------------------
 # -- 1.2) Set up bash prompt and ~/.bash_eternal_history --
 # ---------------------------------------------------------
@@ -83,15 +91,18 @@ fi
 #  non-interactive one is the bash environment used in scripts.
 if [ "$PS1" ]; then
 
-    if [ -x /usr/bin/tput ]; then
-      if [ "x`tput kbs`" != "x" ]; then # We can't do this with "dumb" terminal
-        stty erase `tput kbs`
-      elif [ -x /usr/bin/wc ]; then
-        if [ "`tput kbs|wc -c `" -gt 0 ]; then # We can't do this with "dumb" terminal
-          stty erase `tput kbs`
-        fi
-      fi
+ if [ "${OS}" != "darwin" ]; then
+   if [ -x /usr/bin/tput ]; then
+     if [ "x`tput kbs`" != "x" ]; then # We can't do this with "dumb" terminal -- this will not work on Mac OS since tput returns 1 char
+      stty erase `tput kbs`
+      echo "!!!setting tput kbs!!!"
+     elif [ -x /usr/bin/wc ]; then
+       if [ "`tput kbs|wc -c `" -gt 0 ]; then # We can't do this with "dumb" terminal
+         stty erase `tput kbs`
+       fi
+     fi
     fi
+ fi
     case $TERM in
 	xterm*)
 		if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
@@ -175,7 +186,7 @@ alias cp="cp -i"
 set -o noclobber
 
 # 2.2) Listing, directories, and motion
-alias ll="ls -lrtF --color"
+alias ll="ls -lrtFG"
 alias la="ls -A"
 alias l="ls -CF"
 alias dir='ls --color=auto --format=vertical'
@@ -207,6 +218,9 @@ export LC_ALL=POSIX
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
 command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sudo apt-get install -y rlwrap";}
+
+# 2.7) Customization for TWC Environment
+alias rt='sudo route delete -net 24.24.120.0/24 172.19.128.121; sudo route add -net 24.24.120.0/24 172.19.128.121; sudo route delete -net 24.24.122.0/24 172.19.128.121; sudo route add -net 24.24.122.0/24 172.19.128.121'
 
 # 2.7) node.js and nvm
 # http://nodejs.org/api/repl.html#repl_repl
