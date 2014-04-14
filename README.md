@@ -14,7 +14,7 @@ ln -sb dotfiles/.bash_logout .
 ln -sb dotfiles/.vimrc
 mv .emacs.d .emacs.d~
 ln -s dotfiles/.emacs.d .
-ln -s dotfiles/ssh-config ~/.ssh/config
+cat dotfiles/ssh-config-* >> ~/.ssh/config
 ```
 
 See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite
