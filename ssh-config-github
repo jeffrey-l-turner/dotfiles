@@ -1,0 +1,6 @@
+Host github.com
+ VerifyHostKeyDNS yes
+Hostname github.com
+User git
+IdentityFile "~/.ssh/github-rsa"
+
