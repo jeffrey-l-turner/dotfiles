@@ -1,1 +1,1 @@
-alias rt='sudo route delete -net 24.24.120.0/24 172.19.128.121; sudo route add -net 24.24.120.0/24 172.19.128.121; sudo route delete -net 24.24.122.0/24 172.19.128.121; sudo route add -net 24.24.122.0/24 172.19.128.121'
+# Pre-configure or override your bashrc environment here:
