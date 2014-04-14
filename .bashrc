@@ -93,9 +93,8 @@ if [ "$PS1" ]; then
 
  if [ "${OS}" != "darwin" ]; then
    if [ -x /usr/bin/tput ]; then
-     if [ "x`tput kbs`" != "x" ]; then # We can't do this with "dumb" terminal -- this will not work on Mac OS since tput returns 1 char
+     if [ "x`tput kbs`" != "x" ]; then # We can't do this with "dumb" terminal -- this if stmt does not work on Mac OS 
       stty erase `tput kbs`
-      echo "!!!setting tput kbs!!!"
      elif [ -x /usr/bin/wc ]; then
        if [ "`tput kbs|wc -c `" -gt 0 ]; then # We can't do this with "dumb" terminal
          stty erase `tput kbs`
@@ -217,7 +216,7 @@ export LC_ALL=POSIX
 
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
-command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sudo apt-get install -y rlwrap";}
+command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";}
 
 # 2.7) Customization for TWC Environment
 alias rt='sudo route delete -net 24.24.120.0/24 172.19.128.121; sudo route add -net 24.24.120.0/24 172.19.128.121; sudo route delete -net 24.24.122.0/24 172.19.128.121; sudo route add -net 24.24.122.0/24 172.19.128.121'
