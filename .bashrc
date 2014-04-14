@@ -185,7 +185,11 @@ alias cp="cp -i"
 set -o noclobber
 
 # 2.2) Listing, directories, and motion
-alias ll="ls -lrtFG"
+if [ "${OS}" != "darwin" ]; then
+    alias ll="ls -lrtFG"
+else
+    alias ll="ls -lrtF --color"
+fi
 alias la="ls -A"
 alias l="ls -CF"
 alias dir='ls --color=auto --format=vertical'
