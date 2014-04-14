@@ -68,11 +68,11 @@ fi
 # use-ssh-keys for GitHub, Heroku on Mac OS fix 
 use-ssh-keys() {
   if ! ssh-add -l >/dev/null 2>&-; then
-    if [ -O ~/.ssh/heroku-rsa]; then
+    if [ -O ~/.ssh/heroku-rsa ]; then
         ssh-add ~/.ssh/heroku-rsa
         echo "ssh added heroku-rsa"
     fi
-    if [ -O ~/.ssh/github-rsa]; then
+    if [ -O ~/.ssh/github-rsa ]; then
         ssh-add ~/.ssh/github-rsa
         echo "ssh added github-rsa"
     fi
