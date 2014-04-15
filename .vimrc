@@ -29,6 +29,7 @@ Plugin 'git://git.wincent.com/command-t.git'
 "Plugin 'file:///home/jlt/.vim/path/to/plugin'
 " ...
 
+Bundle 'flazz/vim-colorschemes'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'scrooloose/syntastic'
 " Syntaxtic will check your file on open too, not just on save.
