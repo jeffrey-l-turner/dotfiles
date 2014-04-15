@@ -64,6 +64,3 @@ filetype plugin indent on     " required
 :syntax on
 :set t_Co=256
 :set background=dark
-:colorscheme refactor
-:colorscheme refactor
-:colorscheme refactor
