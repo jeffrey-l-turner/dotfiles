@@ -24,6 +24,7 @@ Plugin 'FuzzyFinder'
 Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 "Plugin 'file:///home/jlt/.vim/path/to/plugin'
+" ...
 Bundle 'flazz/vim-colorschemes'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'scrooloose/syntastic'
@@ -35,6 +36,7 @@ let g:syntastic_check_on_open=1
 filetype plugin indent on     " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
+"
 " Brief help
 " :PluginList          - list configured plugins
 " :PluginInstall(!)    - install (update) plugins
@@ -47,11 +49,12 @@ filetype plugin indent on     " required
 :set shiftwidth=4
 :set softtabstop=4
 :set matchtime=1
-"change below : to " or vice versa to stop autoformatting of comments when
-"copying pasting code snipppets into vim
-:autocmd FileType *.js *.json *.html *.css setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+"change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
+:autocmd FileType *.js *.css *.html *.json setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+:autocmd BufNewFile,BufRead *.json set ft=javascript
 "set no line numbers -- :set number to enable
-:set nonumber
+"set nonumber
+:autocmd BufNewFile,BufRead *.js  :set number
 :set ruler
 :syntax on
 :set t_Co=256
