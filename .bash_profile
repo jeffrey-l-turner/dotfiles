@@ -97,3 +97,5 @@ export PATH=/usr/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
 export PATH=$PATH:/usr/local/bin  # improper placement for nvm on Mac OS -- others unkonw?
+
+[ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
