@@ -68,7 +68,7 @@ fi
 
 # use-ssh-keys for GitHub, Heroku on Mac OS fix 
 use-ssh-keys() {
-  if ! ssh-add -l >/dev/null 2>&-; then
+  if [ ! ssh-add -l >/dev/null 2>&- ]; then
     if [ -O ~/.ssh/heroku-rsa ]; then
         ssh-add ~/.ssh/heroku-rsa
         echo "ssh added heroku-rsa"
@@ -80,6 +80,10 @@ use-ssh-keys() {
   fi
 }
 use-ssh-keys
+
+eternalhist() {
+    grep -i $1 ~/.bash_eternal_history | cut -f 5-
+}
 
 # function to get pull requests locally from GitHub
 pullify() {
