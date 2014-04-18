@@ -6,8 +6,3 @@ if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi
 
-# clean-up ssh-agent hack for Heroku
-if ((agent_started)); then
-  echo "Killing ssh agent"
-  ssh-agent -k
-fi
