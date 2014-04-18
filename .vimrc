@@ -55,6 +55,7 @@ filetype plugin indent on     " required
 "set no line numbers -- :set number to enable
 "set nonumber
 :autocmd BufNewFile,BufRead *.js  :set number
+:autocmd BufNewFile,BufRead *.sh  :set number
 :set ruler
 :syntax on
 :set t_Co=256
