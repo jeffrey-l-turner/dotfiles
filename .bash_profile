@@ -59,16 +59,30 @@ fi
 # Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
 # Heroku was refusing connections because ssh-agent was not started
 # start agent and set environment variables, if needed
-agent_started=0
-if ! env | grep -q SSH_AGENT_PID >/dev/null; then
-  echo "Starting ssh agent"
-  eval $(ssh-agent -s)
-  agent_started=1
-fi
+
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+ }
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || { start_agent; }
+ else
+     start_agent;
+ fi
+
 
 # use-ssh-keys for GitHub, Heroku on Mac OS fix 
 use-ssh-keys() {
-ssh-add -l >/dev/null 2>&1 
+    ssh-add -l >/dev/null 2>&1 
     if [[ $? -eq 0 ]] ; then 
         if [ -O ~/.ssh/heroku-rsa ]; then
             ssh-add ~/.ssh/heroku-rsa
