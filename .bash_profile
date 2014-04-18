@@ -56,7 +56,7 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
-# Added check and start ssh-agent because of problems with Heroku authtentication
+# Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
 # Heroku was refusing connections because ssh-agent was not started
 # start agent and set environment variables, if needed
 agent_started=0
@@ -68,17 +68,26 @@ fi
 
 # use-ssh-keys for GitHub, Heroku on Mac OS fix 
 use-ssh-keys() {
-  if [ ! ssh-add -l >/dev/null 2>&- ]; then
-    if [ -O ~/.ssh/heroku-rsa ]; then
-        ssh-add ~/.ssh/heroku-rsa
-        echo "ssh added heroku-rsa"
+ssh-add -l >/dev/null 2>&1 
+    if [[ $? -eq 0 ]] ; then 
+        if [ -O ~/.ssh/heroku-rsa ]; then
+            ssh-add ~/.ssh/heroku-rsa
+            echo "ssh added heroku-rsa"
+        fi
+        if [ -O ~/.ssh/github-rsa ]; then
+            ssh-add ~/.ssh/github-rsa
+            echo "ssh added github-rsa"
+        fi
+    else
+        if [[ "${agent_started}" -eq 1 ]]; then
+            echo -e "ssh-agent failed to start..."
+            echo -e "attempting to restart agent"
+            eval $(ssh-agent -s)
+            agent_started=1
+        fi
     fi
-    if [ -O ~/.ssh/github-rsa ]; then
-        ssh-add ~/.ssh/github-rsa
-        echo "ssh added github-rsa"
-    fi
-  fi
 }
+
 use-ssh-keys
 
 eternalhist() {
