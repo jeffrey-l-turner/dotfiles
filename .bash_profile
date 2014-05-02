@@ -85,6 +85,7 @@ SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
      echo "Initialising new SSH agent..."
+     rm -f "${SSH_ENV}"
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
      echo succeeded
      chmod 600 "${SSH_ENV}"
@@ -123,6 +124,6 @@ export PATH=/usr/local/sbin:$PATH
 if [ -O ~/.ssh/heroku-rsa ]; then
     export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
 fi
-export PATH=$PATH:/usr/local/bin  # improper placement for nvm on Mac OS -- others unkonw?
+export PATH=/usr/local/bin:$PATH  # testing placement for nvm on Mac OS -- still checking other OSes
 
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
