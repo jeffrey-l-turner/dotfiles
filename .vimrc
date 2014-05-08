@@ -45,6 +45,12 @@ filetype plugin indent on     " required
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Plugin commands are not allowed.
 " Put your stuff after this line:set expandtab
+" Cold Folding settings
+" za to toggle; fold everything = zM; unfold everything = zR; zr/zm do local unfold/fold 
+:set foldmethod=indent   "fold based on indent
+:set foldnestmax=10      "deepest fold is 10 levels
+:set nofoldenable        "dont fold by default
+:set foldlevel=1         
 :set expandtab
 :set shiftwidth=4
 :set softtabstop=4
