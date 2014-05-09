@@ -45,19 +45,39 @@ filetype plugin indent on     " required
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Plugin commands are not allowed.
 " Put your stuff after this line:set expandtab
-" Cold Folding settings
-" za to toggle; fold everything = zM; unfold everything = zR; zr/zm do local unfold/fold 
-:set foldmethod=indent   "fold based on indent
+"Vim folding commands:
+"  zf#j creates a fold from the cursor down # lines.
+"  zf/string creates a fold from the cursor to string .
+"  zj moves the cursor to the next fold.
+"  zk moves the cursor to the previous fold.
+"  zo opens a fold at the cursor.
+"  zO opens all folds at the cursor.
+"  zm increases the foldlevel by one.
+"  zM closes all open folds.
+"  zr decreases the foldlevel by one.
+"  zR decreases the foldlevel to zero -- all folds will be open.
+"  zd deletes the fold at the cursor.
+"  zE deletes all folds.
+"  [z move to start of open fold.
+"  ]z move to end of open fold.
+"set foldmethod=indent   "fold based on indent
+:set foldmethod=syntax
+syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
 :set nofoldenable        "dont fold by default
-:set foldlevel=1         
+":set foldlevel=1        "use if indent based
+:let javaScript_fold=1 
 :set expandtab
 :set shiftwidth=4
 :set softtabstop=4
 :set matchtime=1
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
-:autocmd FileType *.js *.css *.html *.json setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+:autocmd FileType *.js *.css *.html *.json setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
+:autocmd FileType *.js *.json  setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
 :autocmd BufNewFile,BufRead *.json set ft=javascript
+" make and restore views automatically
+:autocmd BufWinLeave *.* mkview
+:autocmd BufWinEnter *.* silent loadview 
 "set no line numbers -- :set number to enable
 "set nonumber
 :autocmd BufNewFile,BufRead *.js  :set number
@@ -66,3 +86,4 @@ filetype plugin indent on     " required
 :syntax on
 :set t_Co=256
 :set background=dark
+:colorscheme refactor
