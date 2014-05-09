@@ -60,8 +60,7 @@ filetype plugin indent on     " required
 "  zE deletes all folds.
 "  [z move to start of open fold.
 "  ]z move to end of open fold.
-"set foldmethod=indent   "fold based on indent
-:set foldmethod=syntax
+:set foldmethod=indent   "fold based on indent
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
 :set nofoldenable        "dont fold by default
