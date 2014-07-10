@@ -28,6 +28,7 @@ Plugin 'git://git.wincent.com/command-t.git'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'scrooloose/syntastic'
+Bundle 'groenewege/vim-less'
 " Syntaxtic will check your file on open too, not just on save.
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
 let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
@@ -72,7 +73,7 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set matchtime=1
 :set cursorline
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
-:autocmd FileType *.js *.css *.html *.json setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
+:autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
 :autocmd FileType *.js *.json  setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
 :autocmd BufNewFile,BufRead *.json set ft=javascript
 " make and restore views automatically
