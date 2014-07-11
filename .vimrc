@@ -29,6 +29,7 @@ Bundle 'flazz/vim-colorschemes'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
+Bundle "burnettk/vim-angular"
 " Syntaxtic will check your file on open too, not just on save.
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
 let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
@@ -61,6 +62,7 @@ filetype plugin indent on     " required
 "  zE deletes all folds.
 "  [z move to start of open fold.
 "  ]z move to end of open fold.
+set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
 :set foldmethod=indent   "fold based on indent
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
