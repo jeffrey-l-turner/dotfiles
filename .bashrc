@@ -201,6 +201,7 @@ alias md='mkdir'
 alias cl='clear'
 alias du='du -ch --max-depth=1'
 alias treeacl='tree -A -C -L 2'
+alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim' # using to support vim 7.4 downloaded from google build
 
 # 2.3) Text and editor commands
 alias em='emacs -nw'     # No X11 windows
