@@ -92,4 +92,4 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :syntax on
 :set t_Co=256
 :set background=dark
-:colorscheme refactor
+
