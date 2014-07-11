@@ -1,1 +1,3 @@
 # Pre-configure or override your bashrc environment here:
+# the following alias is for mac environment when version 7.4 has been downloaded:
+# alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim' # using to support vim 7.4 downloaded from google build
