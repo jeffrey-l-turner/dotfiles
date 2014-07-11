@@ -119,11 +119,11 @@ git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*
 #  - Lowest priority first, highest priority last.
 export PATH=$PATH
 export PATH=$HOME/bin:$PATH
-export PATH=/usr/bin:$PATH
-export PATH=/usr/local/sbin:$PATH
+# export PATH=/usr/bin:$PATH
+# export PATH=/usr/sbin:$PATH
 if [ -O ~/.ssh/heroku-rsa ]; then
     export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
 fi
-export PATH=/usr/local/bin:$PATH  # testing placement for nvm on Mac OS -- still checking other OSes
+export PATH=$PATH:/usr/local/bin  # testing placement for nvm on Mac OS -- still checking other OSes
 
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
