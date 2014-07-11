@@ -26,7 +26,9 @@ Plugin 'git://git.wincent.com/command-t.git'
 "Plugin 'file:///home/jlt/.vim/path/to/plugin'
 " ...
 Bundle 'flazz/vim-colorschemes'
-Bundle 'jelera/vim-javascript-syntax'
+" trying pangloss instead:
+"Bundle 'jelera/vim-javascript-syntax'
+Bundle "pangloss/vim-javascript"
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
@@ -62,7 +64,7 @@ filetype plugin indent on     " required
 "  zE deletes all folds.
 "  [z move to start of open fold.
 "  ]z move to end of open fold.
-set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
+:set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
 :set foldmethod=indent   "fold based on indent
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
@@ -74,6 +76,7 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set softtabstop=4
 :set matchtime=1
 :set cursorline
+:let javascript_enable_domhtmlcss=1
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
 :autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
 :autocmd FileType *.js *.json  setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
