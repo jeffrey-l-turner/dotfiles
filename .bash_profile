@@ -121,6 +121,7 @@ export PATH=$PATH
 export PATH=$HOME/bin:$PATH
 # export PATH=/usr/bin:$PATH
 # export PATH=/usr/sbin:$PATH
+export HISTFILESIZE=2500 # Set the bash history to 2500 entries
 if [ -O ~/.ssh/heroku-rsa ]; then
     export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
 fi
