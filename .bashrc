@@ -236,6 +236,8 @@ fi
 ## ------------------------------
 ## -- 3) User-customized code  --
 ## ------------------------------
+# Setting up tidy for editing angular html fragments
+export HTML_TIDY=~/.tidy
 
 ## Define any user-specific variables you want here.
 source ~/.bashrc_custom

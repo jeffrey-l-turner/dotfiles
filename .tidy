@@ -1,0 +1,2 @@
+// Set error level to 0 if too many errors from tidy for AngularJS html fragments
+show-errors: 4
