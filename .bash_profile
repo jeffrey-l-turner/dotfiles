@@ -97,6 +97,14 @@ function start_agent {
 if [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" > /dev/null
     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || { start_agent; }
+    SPROCS=`pgrep -lu $USER | fgrep ssh-agent | sed s/ssh-agent//`
+    echo 'ssh-agent process(es): ' "${SPROCS}"
+    if [[ `echo "${SPROCS}" | wc -w ` -gt 1 ]] ; then 
+        echo "Too many ssh-agent processes already started; killing processes and removing existing environment file..."
+        echo "Please start another shell to correct."
+        pkill -9 -u $USER ssh-agent 
+        rm -f "${SSH_ENV}"
+    fi
  else
      start_agent;
  fi
