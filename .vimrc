@@ -34,7 +34,8 @@ Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
 " Syntaxtic will check your file on open too, not just on save.
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
-let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
+"let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
+let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 " let g:syntastic_javascript_checkers = ['jslint'] "if you want only jslint instead
 let g:syntastic_check_on_open=1
 filetype plugin indent on     " required
