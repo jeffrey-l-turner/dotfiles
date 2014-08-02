@@ -1,6 +1,6 @@
 dotfiles.git
 ============
-Clone and run this on  new instances for headless setup use on MAC OS to
+Clone and run this on  new instances for headless setup or use on MAC OS to
 configure `ssh`, `bash`, `node`, `vim`, and `emacs` development environment as follows:
 
 ```sh
@@ -16,8 +16,8 @@ ln -sb dotfiles/.eslintrc  ~
 ln -sb dotfiles/.ctags  ~
 ln -sb dotfiles/.tidy  ~
 ln -sb dotfiles/.git_template  ~
-mv .emacs.d .emacs.d~
-ln -s dotfiles/.emacs.d .
+mv dotfiles/.emacs.d ~/.emacs.d~
+ln -s dotfiles/.emacs.d ~
 cat dotfiles/ssh-config-* >> ~/.ssh/config
 dotfiles/.git_template/config.sh # to set git hooks for tagging, etc.
 ```
