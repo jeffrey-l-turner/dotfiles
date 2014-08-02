@@ -4,14 +4,18 @@ Clone and run this on a new instances or MAC OS to
 configure `ssh`, `bash`, `node`, and `emacs` development environment as follows:
 
 ```sh
-cd $HOME
 git clone https://github.com/jeffrey-l-turner/dotfiles.git
-ln -sb dotfiles/.screenrc .
-ln -sb dotfiles/.bash_profile .
-ln -sb dotfiles/.bashrc .
-ln -sb dotfiles/.bashrc_custom .
-ln -sb dotfiles/.bash_logout .
-ln -sb dotfiles/.vimrc
+ln -sb dotfiles/.screenrc ~
+ln -sb dotfiles/.bash_profile ~
+ln -sb dotfiles/.bashrc ~
+ln -sb dotfiles/.bashrc_custom ~
+ln -sb dotfiles/.bash_logout  ~
+ln -sb dotfiles/.vimrc  ~
+ln -sb dotfiles/.jshintrc  ~
+ln -sb dotfiles/.eslintrc  ~
+ln -sb dotfiles/.ctags  ~
+ln -sb dotfiles/.tidy  ~
+ln -sb dotfiles/.git_template  ~
 mv .emacs.d .emacs.d~
 ln -s dotfiles/.emacs.d .
 cat dotfiles/ssh-config-* >> ~/.ssh/config
