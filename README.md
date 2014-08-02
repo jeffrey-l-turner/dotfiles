@@ -1,7 +1,7 @@
 dotfiles.git
 ============
-Clone and run this on a new instances or MAC OS to
-configure `ssh`, `bash`, `node`, and `emacs` development environment as follows:
+Clone and run this on  new instances for headless setup use on MAC OS to
+configure `ssh`, `bash`, `node`, `vim`, and `emacs` development environment as follows:
 
 ```sh
 git clone https://github.com/jeffrey-l-turner/dotfiles.git
@@ -19,6 +19,7 @@ ln -sb dotfiles/.git_template  ~
 mv .emacs.d .emacs.d~
 ln -s dotfiles/.emacs.d .
 cat dotfiles/ssh-config-* >> ~/.ssh/config
+dotfiles/.git_template/config.sh # to set git hooks for tagging, etc.
 ```
 
 See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite
