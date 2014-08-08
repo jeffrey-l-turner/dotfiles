@@ -13,6 +13,7 @@ Plugin 'gmarik/vundle'
 " scripts on GitHub repos
 Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-surround'
 "Plugin 'tpope/vim-rails.git'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
@@ -66,7 +67,8 @@ filetype plugin indent on     " required
 "  [z move to start of open fold.
 "  ]z move to end of open fold.
 :set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
-:set foldmethod=indent   "fold based on indent
+":set foldmethod=indent   "fold based on indent
+:set foldmethod=syntax   "fold based on indent
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
 :set nofoldenable        "dont fold by default
@@ -78,6 +80,9 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set matchtime=1
 :set cursorline
 :let javascript_enable_domhtmlcss=1
+" setup commenting of html with surround.vim -- 
+" vat,c on head of item to be  commented out
+:vmap ,c <esc>a--><esc>'<i<!--<esc>'>$
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
 :autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
 :autocmd FileType *.js *.json  setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
