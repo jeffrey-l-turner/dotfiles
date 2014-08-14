@@ -59,8 +59,11 @@ fi
 # Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
 # start agent and set environment variables, if needed
 
-# use-ssh-keys for GitHub, Heroku on Mac OS fix 
-use-ssh-keys() {
+SSH_ENV="$HOME/.ssh/environment"
+
+# use-ssh-keys for GitHub, & Heroku
+# on Mac OS fixed to detect multiple processes and ask for manual restart 
+function use-ssh-keys() {
     ssh-add -l >/dev/null 2>&1 
     if [[ $? -eq 0 ]] ; then 
         if [ -O ~/.ssh/heroku-rsa ]; then
@@ -81,8 +84,6 @@ use-ssh-keys() {
     fi
 }
 
-SSH_ENV="$HOME/.ssh/environment"
-
 function start_agent {
      echo "Initialising new SSH agent..."
      rm -f "${SSH_ENV}"
@@ -90,13 +91,13 @@ function start_agent {
      echo succeeded
      chmod 600 "${SSH_ENV}"
      . "${SSH_ENV}" > /dev/null
-     use-ssh-keys
+     agent_started=1
  }
 
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" > /dev/null
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || { start_agent; }
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null  || { start_agent; }
     SPROCS=`pgrep -lu $USER | fgrep ssh-agent | sed s/ssh-agent//`
     echo 'ssh-agent process(es): ' "${SPROCS}"
     if [[ `echo "${SPROCS}" | wc -w ` -gt 1 ]] ; then 
@@ -104,14 +105,17 @@ if [ -f "${SSH_ENV}" ]; then
         echo "Please start another shell to correct."
         pkill -9 -u $USER ssh-agent 
         rm -f "${SSH_ENV}"
+    else
+        agent_started=1
+        use-ssh-keys
     fi
  else
      start_agent;
+     use-ssh-keys
  fi
 
-use-ssh-keys
 
-eternalhist() {
+function eternalhist() {
     grep -i $1 ~/.bash_eternal_history | cut -f 5-
 }
 
