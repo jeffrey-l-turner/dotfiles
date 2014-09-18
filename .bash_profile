@@ -65,22 +65,30 @@ SSH_ENV="$HOME/.ssh/environment"
 # on Mac OS fixed to detect multiple processes and ask for manual restart 
 function use-ssh-keys() {
     ssh-add -l >/dev/null 2>&1 
-    if [[ $? -eq 0 ]] ; then 
+    status=$?
+    if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
         if [ -O ~/.ssh/heroku-rsa ]; then
-            ssh-add ~/.ssh/heroku-rsa
+            ssh-add -K ~/.ssh/heroku-rsa
             echo "ssh added heroku-rsa"
         fi
         if [ -O ~/.ssh/github-rsa ]; then
-            ssh-add ~/.ssh/github-rsa
+            ssh-add -K ~/.ssh/github-rsa
             echo "ssh added github-rsa"
         fi
     else
-        if [[ "${agent_started}" -eq 1 ]]; then
+        if [[ $status -eq 2 && "${agent_started}" -eq 1 ]]; then
             echo -e "ssh-agent failed to start..."
             echo -e "attempting to restart agent"
             eval $(ssh-agent -s)
-            agent_started=1
+            # this is a fix for Mac OS but will skip rest of shell config
+            #ssh-agent bash
+            agent_started=1 
         fi
+        # agent started but no keys associated
+        # This code may only work on MAC OS -- have not had a chance to check out other instances
+        # if [[ $status -eq 1 ]]; then
+        #       echo -e "ssh-agent started but no keys associated..."
+        #fi
     fi
 }
 
