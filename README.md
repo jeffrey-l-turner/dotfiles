@@ -1,6 +1,6 @@
 dotfiles.git
 ============
-Clone and run this on  new instances for headless setup or use on MAC OS to
+Clone and run this on  new instances for headless setup, Cygwin or MAC OS to
 configure `ssh`, `bash`, `node`, `vim`, and `emacs` development environment as follows:
 
 ```sh
