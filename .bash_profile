@@ -56,6 +56,20 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
+## ----------------------------------------------------------------
+## -- determine if on Cygwin, then use other options on ssh-keys --
+## ----------------------------------------------------------------
+   
+OS=`uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6`
+if [ ${OS} == "cygwin" ]; then
+    pgrep(){
+        ps aux | fgrep $1 | cut -d ' ' -f 6- | cut -d ' ' -f 1
+    }
+    SSHopts=""
+else
+    SSHopts="-K"
+fi
+
 # Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
 # start agent and set environment variables, if needed
 
@@ -68,11 +82,11 @@ function use-ssh-keys() {
     status=$?
     if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
         if [ -O ~/.ssh/heroku-rsa ]; then
-            ssh-add -K ~/.ssh/heroku-rsa
+            ssh-add ${SSHopts} ~/.ssh/heroku-rsa
             echo "ssh added heroku-rsa"
         fi
         if [ -O ~/.ssh/github-rsa ]; then
-            ssh-add -K ~/.ssh/github-rsa
+            ssh-add ${SSHopts} ~/.ssh/github-rsa
             echo "ssh added github-rsa"
         fi
     else
