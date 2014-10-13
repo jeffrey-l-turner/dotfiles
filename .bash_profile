@@ -63,7 +63,6 @@ fi
 OS=`uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6`
 if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     pgrep(){
-#        echo " param 1: $1"
         ps aux | fgrep $1 | cut -d ' ' -f 6- | cut -d ' ' -f 1
     }
     PGopts=""
