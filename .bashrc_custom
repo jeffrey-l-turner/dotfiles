@@ -3,7 +3,4 @@
 alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim' # using to support vim 7.4 downloaded from google build
 alias jsb='js-beautify -w 120 -pc " " -s 2 -r' # alias to beautify using .eslintrc defaults
 
-export CHROME_BIN=/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary
-export DebugBrowser="${CHROME_BIN}"
-
 # export HTML_TIDY=~/.tidy # setting up for editing angular html fragments
