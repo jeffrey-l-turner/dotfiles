@@ -24,7 +24,7 @@ Plugin 'FuzzyFinder'
 " plugins not on GitHub
 " \ is leader key
 " command-t uses \t for file interface;
-Plugin 'git://git.wincent.com/command-t.git'
+" Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 "Plugin 'file:///home/jlt/.vim/path/to/plugin'
 " ...
