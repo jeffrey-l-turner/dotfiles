@@ -21,7 +21,9 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " scripts from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
 Plugin 'FuzzyFinder'
-" scripts not on GitHub
+" plugins not on GitHub
+" \ is leader key
+" command-t uses \t for file interface;
 Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 "Plugin 'file:///home/jlt/.vim/path/to/plugin'
@@ -45,12 +47,13 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 " Syntaxtic will check your file on open too, not just on save.
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
 "let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
-let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 " let g:syntastic_javascript_checkers = ['jslint'] "if you want only jslint instead
+let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 let g:syntastic_check_on_open=1
 filetype plugin indent on     " required
 " setup use for libraries-syntax:
 let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
+" other lib options are: jquery, backbone, prelude, sugar, jasmine
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
