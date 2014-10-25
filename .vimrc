@@ -33,6 +33,8 @@ Bundle "pangloss/vim-javascript"
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
+" support for SyntaxComplete
+Bundle "othree/javascript-libraries-syntax"
 " Syntaxtic will check your file on open too, not just on save.
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
 "let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
@@ -40,6 +42,8 @@ let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 " let g:syntastic_javascript_checkers = ['jslint'] "if you want only jslint instead
 let g:syntastic_check_on_open=1
 filetype plugin indent on     " required
+" setup use for libraries-syntax:
+let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -99,3 +103,4 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set t_Co=256
 :set background=dark
 
+:colorscheme refactor
