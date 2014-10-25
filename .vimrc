@@ -33,8 +33,15 @@ Bundle "pangloss/vim-javascript"
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
-" support for SyntaxComplete
+" supported using SyntaxComplete
 Bundle "othree/javascript-libraries-syntax"
+" Omni-competion for environments I typically use:
+set ofu=syntaxcomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+" autocmd FileType c set omnifunc=ccomplete#Complete
 " Syntaxtic will check your file on open too, not just on save.
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
 "let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
