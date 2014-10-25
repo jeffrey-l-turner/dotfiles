@@ -62,6 +62,9 @@ let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Plugin commands are not allowed.
 " Put your stuff after this line:set expandtab
+" turn on incremental search highlighting
+:set incsearch
+:set hlsearch 
 "Vim folding commands:
 "  zf#j creates a fold from the cursor down # lines.
 "  zf/string creates a fold from the cursor to string .
