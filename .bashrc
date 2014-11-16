@@ -39,7 +39,8 @@
 #      --norc option. The --rcfile file option will force Bash to read and
 #      execute commands from file instead of ~/.bashrc.
 
-
+# Source Useful Colors:
+source ~/dotfiles/colordefs.sh
 
 # -----------------------------------
 # -- 1.1) Set up umask permissions --
@@ -173,20 +174,79 @@ shopt -s histappend
 
 # setup current branch name if in git repo
 function git-branch-name {
-  git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3
+  local head=`git symbolic-ref HEAD 2> /dev/null`
+  git symbolic-ref HEAD > /dev/null 2>&1 # redoing since local variable changes return status (on Mac OS)
+  if [ "$?" -eq 0 ]; then
+      echo $head | cut -d"/" -f3
+  else
+      #head=abcde
+      #echo "$Color_Off$Cyan $head"
+      git branch 2> /dev/null | awk '/$* \(/ { print $4 $2 }' | sed -e 's/)(/ /'
+      #echo git branch 2> /dev/null | head -1 
+      #git branch 2> /dev/null | head -1
+      #git branch > /dev/null 2>&1
+      #if [ "$?" -eq 0 ]; then # on a git directory but not @ HEAD
+      #    echo `git branch 2> /dev/null | grep detach`
+      #else # not in git directory
+      #    echo ""
+      #fi
+  fi
+  #git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3
 }
+
+#function git-status {
+#    echo `git status 2>/dev/null` | grep "nothing to commit" > /dev/null 2>&1; 
+#}
+#
+#function git-clean {
+#    git status -s > /dev/null 2>&1; 
+#    if ["$?" -eq 0 ]; then
+#        echo "- clean -" # if return status zero, then in git directory
+#    else
+#        echo "- not clean -"
+#    fi
+#}
+#
+# export PS1=$IBlack$Time12h$Color_Off
+# '$(git branch &>/dev/null;
+#  if [ $? -eq 0 ]; then  
+#       echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; 
+#       if [ "$?" -eq "0" ]; then  # @4 - Clean repository - nothing to commit echo "'
+#           $Green'"$(__git_ps1 " (%s)");
+#       else 
+#           echo "'IRed'"$(__git_ps1 " {%s}"); fi)
+#                 '$BYellow$PathShort$Color_Off'\$ ";  
+#  else 
+#    echo "'$Yellow$PathShort$Color_Off'\$ "; 
+#  fi)'
 
 function git-branch-prompt {
     local branch=`git-branch-name`
-      if [ $branch ]; then printf "%s " $branch; fi
+    if [ 1 -eq 1 ]; then
+        printf $Cyan"%s ";
+    else
+        printf $IGreen "%s "; 
+    fi
+    #local status=`git-status`
+    #local clean=`git-clean`
+#    if [ $branch ]; then 
+#        if [ $clean ]; then
+#            printf $IRed$branch"%s "; 
+#        else
+#            printf $IBGreen$branch"%s "; 
+#        fi
+#    fi
 }
+
+# original git branch prompt
 # PS1="\u@\h \[\033[0;36m\]\W\[\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\[\033[0m\] \$ "
 
 # Make prompt informative
 # See:  http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # adding current branch name to beginning of prompt per: 
 #    http://thelucid.com/2008/12/02/git-setting-up-a-remote-repository-and-doing-an-initial-push/ 
-PS1="\033[0;36m\]\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\033[0;34m\]\u@\h:\w $\[\033[0m\] "
+#PS1="\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\033[0;34m\]\u@\h:\w $\[\033[0m\]$color_Off "
+PS1="$(git-branch-prompt)$Cyan\w$Color_Off \$ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
