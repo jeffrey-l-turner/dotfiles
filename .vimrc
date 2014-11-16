@@ -1,13 +1,20 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
+" let Vundle manage Vundle, required
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+call vundle#begin('~/.vim/bundle')
+" Convention: Plugin '~/.vim/path/to/plugin'
+Plugin 'gmarik/vundle'
+" Plugins that have been cloned separately
+" Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'file:///users/jeffturner~/.vim/bundle/command-t'
+" supported using SyntaxComplete
+Plugin 'file:///users/jeffturner~/.vim/bundle/libraries-syntax'
 " alternatively, pass a path where Vundle should install plugins
 "let path = '~/some/path/here'
 "call vundle#rc(path)
-" let Vundle manage Vundle, required
-Plugin 'gmarik/vundle'
 " The following are examples of different formats supported.
 " Keep Plugin commands between here and filetype plugin indent on.
 " scripts on GitHub repos
@@ -24,19 +31,16 @@ Plugin 'FuzzyFinder'
 " plugins not on GitHub
 " \ is leader key
 " command-t uses \t for file interface;
-" Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/jlt/.vim/path/to/plugin'
+call vundle#end()
 " ...
 Bundle 'flazz/vim-colorschemes'
-" trying pangloss instead:
+" trying pangloss instead of:
 "Bundle 'jelera/vim-javascript-syntax'
 Bundle "pangloss/vim-javascript"
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
-" supported using SyntaxComplete
-Bundle "othree/javascript-libraries-syntax"
 " Omni-competion for environments I typically use:
 set ofu=syntaxcomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
