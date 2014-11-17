@@ -172,21 +172,6 @@ fi
 # See: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
 shopt -s histappend
 
-# setup current branch name if in git repo
-function git-branch-name {
-    #local head=`git symbolic-ref HEAD 2>/dev/null`
-    #git symbolic-ref HEAD /dev/null 2>&1
-    #if [ "$?" -eq 0 ]; then
-        git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3 
-    #else
-    #    echo ABCDE
-    #fi
-}
-
-function git-changes {
-    echo ""
-}
-
 function git-branch-prompt {
     git symbolic-ref HEAD > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
@@ -212,7 +197,6 @@ function git-commits {
 }
 
 PS1="$IGreen\$(git-branch-prompt)$IRed\$(git-commits)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
-#PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
