@@ -177,7 +177,7 @@ function git-branch-prompt {
     if [ "$?" -eq 0  ]; then
         echo `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
     else
-        git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s -", substr($4, 0, length($4)-1) }'
+        git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s ", substr($4, 0, length($4)-1) }'
     fi
 }
 
