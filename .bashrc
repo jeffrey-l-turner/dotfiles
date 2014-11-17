@@ -195,7 +195,7 @@ function git-commits {
     fi
 }
 
-PS1="$IGreen\$(git-branch-prompt)$IRed\$(git-commits)$Cyan\u$Color_Off@$Purple\h:$BICyan\W$Color_Off $ "
+PS1="$IGreen\$(git-branch-prompt)$BRed\$(git-commits)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
