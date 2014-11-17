@@ -192,12 +192,12 @@ function git-branch-prompt {
     if [ "$?" -eq 0  ]; then
         echo `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
     else
-        local t=`git branch 2> /dev/null | awk '/$* \(/ { printf "not on HEAD %s -", substr($4, 0, length($4)-1) }'`
-        echo $t
+        local t=`git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s -", substr($4, 0, length($4)-1) }'`
+        echo "$t"
     fi
 }
 
-PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$BIYellow\W$Color_Off $ "
+PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
