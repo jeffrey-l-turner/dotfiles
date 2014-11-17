@@ -200,7 +200,12 @@ function git-branch-prompt {
 function git-commits {
     git status -s > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
-        git status -s 2> /dev/null | grep '^[ mMdD?][ mMdD?]' | sed -e 's/^[\t ]*//'| wc -l | sed -e 's/ */ /'
+        local num=`git status -s | wc -l | sed -e 's/^ *//'`
+        if [ "$num" -gt 0  ]; then
+            echo "$num "
+        else
+            echo ""
+        fi
     else
         echo ""
     fi
