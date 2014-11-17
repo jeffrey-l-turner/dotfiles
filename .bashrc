@@ -201,7 +201,7 @@ function git-branch-prompt {
 # See:  http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # adding current branch name to beginning of prompt per: 
 #    http://thelucid.com/2008/12/02/git-setting-up-a-remote-repository-and-doing-an-initial-push/ 
-PS1="\033[0;36m\]\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)$Cyan\u@\h:$Color_Off\W $\[\033[0m\] "
+PS1="\033[0;36m\]\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)$Cyan\u@\h:$Color_Off\W $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
