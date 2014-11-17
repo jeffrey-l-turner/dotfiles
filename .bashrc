@@ -39,7 +39,8 @@
 #      --norc option. The --rcfile file option will force Bash to read and
 #      execute commands from file instead of ~/.bashrc.
 
-
+# source some useful colors and definitions:
+source ~/dotfiles/colordefs.sh
 
 # -----------------------------------
 # -- 1.1) Set up umask permissions --
@@ -171,22 +172,30 @@ fi
 # See: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
 shopt -s histappend
 
-# setup current branch name if in git repo
-function git-branch-name {
-  git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3
-}
-
 function git-branch-prompt {
-    local branch=`git-branch-name`
-      if [ $branch ]; then printf "%s " $branch; fi
+    git symbolic-ref HEAD > /dev/null 2>&1
+    if [ "$?" -eq 0  ]; then
+        echo `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
+    else
+        git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s ", substr($4, 0, length($4)-1) }'
+    fi
 }
-# PS1="\u@\h \[\033[0;36m\]\W\[\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\[\033[0m\] \$ "
 
-# Make prompt informative
-# See:  http://www.ukuug.org/events/linux2003/papers/bash_tips/
-# adding current branch name to beginning of prompt per: 
-#    http://thelucid.com/2008/12/02/git-setting-up-a-remote-repository-and-doing-an-initial-push/ 
-PS1="\033[0;36m\]\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\033[0;34m\]\u@\h:\w $\[\033[0m\] "
+function git-commits {
+    git status -s > /dev/null 2>&1
+    if [ "$?" -eq 0  ]; then
+        local num=`git status -s | wc -l | sed -e 's/^ *//'`
+        if [ "$num" -gt 0  ]; then
+            echo "$num "
+        else
+            echo ""
+        fi
+    else
+        echo ""
+    fi
+}
+
+PS1="$IGreen\$(git-branch-prompt)$BRed\$(git-commits)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
