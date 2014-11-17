@@ -39,7 +39,8 @@
 #      --norc option. The --rcfile file option will force Bash to read and
 #      execute commands from file instead of ~/.bashrc.
 
-
+# source some useful colors and definitions:
+source ~/dotfiles/colordefs.sh
 
 # -----------------------------------
 # -- 1.1) Set up umask permissions --
