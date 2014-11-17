@@ -197,7 +197,17 @@ function git-branch-prompt {
     fi
 }
 
-PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
+function git-commits {
+    git status -s > /dev/null 2>&1
+    if [ "$?" -eq 0  ]; then
+        git status -s 2> /dev/null | grep '^[ mMdD?][ mMdD?]' | sed -e 's/^[\t ]*//'| wc -l | sed -e 's/ */ /'
+    else
+        echo ""
+    fi
+}
+
+PS1="$IGreen\$(git-branch-prompt)$IRed\$(git-commits)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
+#PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
