@@ -174,16 +174,21 @@ shopt -s histappend
 
 # setup current branch name if in git repo
 function git-branch-name {
-    local head=`git symbolic-ref HEAD 2>/dev/null`
-    if [ "$?" -eq 0 ]; then
-        git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3
-    fi
+    #local head=`git symbolic-ref HEAD 2>/dev/null`
+    #git symbolic-ref HEAD /dev/null 2>&1
+    #if [ "$?" -eq 0 ]; then
+        git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3 
+    #else
+    #    echo ABCDE
+    #fi
 }
 
 function git-branch-prompt {
-    local branch=`git-branch-name`
-    if [ $branch ]; then 
-        printf "%s " $branch; 
+    git symbolic-ref HEAD > /dev/null 2>&1
+    if [ "$?" -eq 0  ]; then
+        git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3 
+    else
+         echo ABCDE
     fi
 }
 # PS1="\u@\h \[\033[0;36m\]\W\[\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\[\033[0m\] \$ "
@@ -192,7 +197,7 @@ function git-branch-prompt {
 # See:  http://www.ukuug.org/events/linux2003/papers/bash_tips/
 # adding current branch name to beginning of prompt per: 
 #    http://thelucid.com/2008/12/02/git-setting-up-a-remote-repository-and-doing-an-initial-push/ 
-PS1="\033[0;36m\]\033[0m\]\[\033[0;32m\]\$(git-branch-prompt)\033[0;34m\]\u@\h:\w $\[\033[0m\] "
+PS1="\033[0;36m\]\033[0m\]\[\033[0;32m\]\$(git-branch-prompt) \033[0;34m\]\u@\h:\w $\[\033[0m\] "
 
 ## -----------------------
 ## -- 2) Set up aliases --
