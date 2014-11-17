@@ -197,7 +197,7 @@ function git-branch-prompt {
     fi
 }
 
-PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$UYellow\W$Color_Off $ "
+PS1="$IGreen\$(git-branch-prompt)$Cyan\u$IPurple@\h:$BIYellow\W$Color_Off $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
