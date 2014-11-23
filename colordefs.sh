@@ -6,7 +6,7 @@
     # Reset
 
 
-function colors () {
+function color () {
     arg1=$1
 
     declare Color_Off="\[\033[0m\]"       # Text Reset
@@ -89,9 +89,12 @@ function colors () {
     declare NewLine="\n"
     declare Jobs="\j"
 
-#    echo $1
-    echo "${!arg1} test"
+    if [ $# -eq 1 ]; then
+        echo -n "${!arg1}"
+    else 
+        echo -n ${!arg1} | sed -e 's/\\\[//' -e 's/\\\]//' | tr -d '\n'
+    fi
 }
 
-colors  $*
+color  $*
 
