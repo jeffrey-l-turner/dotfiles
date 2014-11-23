@@ -172,12 +172,16 @@ fi
 # See: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
 shopt -s histappend
 
-function git-branch-prompt {
+function git-branch-prompt { 
+    local declare HC=$(color UYellow esc)
+    local declare TC=$(color IRed esc)
     git symbolic-ref HEAD > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
         echo `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
     else
-        git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s ", substr($4, 0, length($4)-1) }'
+        #git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s ", substr($4, 0, length($4)-1) }'
+        echo -ne $ "${HC}not on HEAD${TC}"
+        git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)-1) }'
     fi
 }
 
@@ -195,7 +199,7 @@ function git-commits {
     fi
 }
 
-PS1="$IGreen\$(git-branch-prompt)$BRed\$(git-commits)$Cyan\u$IPurple@\h:$BICyan\W$Color_Off $ "
+PS1="$(color Igreen esc)\$(git-branch-prompt)$(color BRed)\$(git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
