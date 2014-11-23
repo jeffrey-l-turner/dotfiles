@@ -98,7 +98,12 @@ function Prompt () {
     local declare PathFull="\W"
     local declare NewLine="\n"
     local declare Jobs="\j"
+
+    if [ $arg1 ]; then 
+            echo -n "${!arg1}"
+    fi
 }
 
 color  $*
+Prompt  $*
 
