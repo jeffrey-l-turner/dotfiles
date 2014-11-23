@@ -104,6 +104,6 @@ function Prompt () {
     fi
 }
 
-color  $*
-Prompt  $*
+#color  $*
+#Prompt  $*
 
