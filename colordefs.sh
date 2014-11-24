@@ -3,9 +3,6 @@
 #  SETUP CONSTANTS
 #  Bunch-o-predefined colors.  Makes reading code easier than escape sequences.
 
-    # Reset
-
-
 function color () {
     arg1=$1
 
@@ -103,7 +100,3 @@ function Prompt () {
             echo -n "${!arg1}"
     fi
 }
-
-#color  $*
-#Prompt  $*
-
