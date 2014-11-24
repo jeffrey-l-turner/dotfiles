@@ -173,19 +173,20 @@ fi
 shopt -s histappend
 
 function git-branch-prompt { 
-    local declare HC=$(color UYellow esc)
+    local declare HC=$(color URed esc)
     local declare TC=$(color IRed esc)
     git symbolic-ref HEAD > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
-        echo `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
-       # HColor=$(color IGreen)
+        HColor=$(color UGreen)
+        echo -ne `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
     else
-        #git branch 2> /dev/null | awk '/$* \(/ { printf "\033[0;31mnot on HEAD \033[0;93m%s ", substr($4, 0, length($4)-1) }' 
+        HColor=$(color URed)
         local declare br=`git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)-1) }'`
         if [ $br ]; then
-            echo -ne $ "${HC}not on HEAD${TC}"
+            echo -ne "${HC}not on HEAD${TC} ${br}"
+        else
+            HColor=$(color IGreen)
         fi
-       # HColor=$(color IYellow)
     fi
 }
 
