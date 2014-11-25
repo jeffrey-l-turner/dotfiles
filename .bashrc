@@ -39,9 +39,6 @@
 #      --norc option. The --rcfile file option will force Bash to read and
 #      execute commands from file instead of ~/.bashrc.
 
-# source some useful colors and definitions:
-source ~/dotfiles/colordefs.sh
-
 # -----------------------------------
 # -- 1.1) Set up umask permissions --
 # -----------------------------------
@@ -70,6 +67,7 @@ source ~/dotfiles/colordefs.sh
 #  Conversely, if the default group name is *different* from the username
 #  AND the user id is greater than 99, we're on the server, and set umask
 #  022 for easy collaborative editing.
+
 if [ "`id -gn`" == "`id -un`" -a `id -u` -gt 99 ]; then
 	umask 002
 else
@@ -83,6 +81,8 @@ lowercase(){
 }
 OS=`lowercase \`uname\``
 
+# source some useful colors and definitions:
+source ~/dotfiles/colordefs.sh
 
 # ---------------------------------------------------------
 # -- 1.2) Set up bash prompt and ~/.bash_eternal_history --
