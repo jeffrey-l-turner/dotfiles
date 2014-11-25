@@ -172,6 +172,8 @@ fi
 # See: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
 shopt -s histappend
 
+# Create some useful functions for the prompt if in a Git directory
+
 function git-branch-prompt { 
     local declare HC=$(color URed esc)
     local declare TC=$(color IRed esc)
@@ -195,7 +197,8 @@ function git-commits {
     if [ "$?" -eq 0  ]; then
         local num=`git status -s | wc -l | sed -e 's/^ *//'`
         if [ "$num" -gt 0  ]; then
-            echo "$num "
+            HColor=$(color URed)
+            echo "${num} "
         else
             echo ""
         fi
@@ -204,9 +207,8 @@ function git-commits {
     fi
 }
 
-
 HColor=$(color IGreen)
-PS1="$HColor\$(git-branch-prompt)$(color BRed)\$(git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+PS1="${HColor}\$(git-branch-prompt)$(color BRed)\$(git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
