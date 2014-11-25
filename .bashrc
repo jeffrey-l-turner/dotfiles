@@ -268,6 +268,9 @@ if [ -s ~/.nvm/nvm.sh ]; then
     # nvm use v0.10.19 &> /dev/null # silence nvm use; needed for rsync
 fi
 
+# 2.8) Pretty Git log graph
+alias gitgraph="git log --decorate=full --graph"
+
 ## ------------------------------
 ## -- 3) User-customized code  --
 ## ------------------------------
