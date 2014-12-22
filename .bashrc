@@ -180,7 +180,7 @@ function git-branch-prompt {
     git symbolic-ref HEAD > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
         HColor=$(color UGreen)
-        echo -ne `git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3`" "
+        echo -ne `git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}'`" "
     else
         HColor=$(color URed)
         local declare br=`git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)-1) }'`
