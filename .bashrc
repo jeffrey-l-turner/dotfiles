@@ -81,7 +81,7 @@ lowercase(){
 }
 OS=`lowercase \`uname\``
 
-# source some useful colors and definitions:
+# source some useful color definitions:
 source ~/dotfiles/colordefs.sh
 
 # ---------------------------------------------------------
@@ -227,8 +227,8 @@ else
 fi
 alias la="ls -A"
 alias l="ls -CF"
-alias dir='ls --color=auto --format=vertical'
-alias vdir='ls --color=auto --format=long'
+#alias dir='ls --color=auto --format=vertical'
+#alias vdir='ls --color=auto --format=long'
 alias m='less'
 alias ..='cd ..'
 alias ...='cd ..;cd ..'
