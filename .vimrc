@@ -8,10 +8,13 @@ call vundle#begin('~/.vim/bundle')
 " Convention: Plugin '~/.vim/path/to/plugin'
 Plugin 'gmarik/vundle'
 " Plugins that have been cloned separately
+" The following two plugins have taken a great deal of experimentation to find the right path...
 " Plugin 'git://git.wincent.com/command-t.git'
 "Plugin 'file:///users/jeffturner~/.vim/bundle/command-t'
+Plugin 'git@github.com:wincent/command-t.git'
 " supported using SyntaxComplete
 "Plugin 'file:///users/jeffturner~/.vim/bundle/libraries-syntax'
+Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
 " alternatively, pass a path where Vundle should install plugins
 "let path = '~/some/path/here'
 "call vundle#rc(path)
