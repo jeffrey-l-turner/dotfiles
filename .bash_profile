@@ -61,6 +61,7 @@ fi
 ## ----------------------------------------------------------------
    
 OS=`uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6`
+Release=``
 if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     pgrep(){
         ps aux | fgrep $1 | cut -d ' ' -f 6- | cut -d ' ' -f 1
@@ -68,8 +69,13 @@ if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     PGopts=""
     SSHopts=""
 else
+    if [[ -f /etc/centos-release || -f /etc/redhat-release ]]; then
+        SSHopts=""
+    else
+        SSHopts="-K"
+    fi
+
     PGopts="-lu"
-    SSHopts="-K"
 fi
 
 # Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
