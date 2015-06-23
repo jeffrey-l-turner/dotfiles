@@ -13,7 +13,7 @@ Plugin 'gmarik/vundle'
 "Plugin 'file:///users/jeffturner~/.vim/bundle/command-t'
 Plugin 'git@github.com:wincent/command-t.git'
 " supported using SyntaxComplete
-"Plugin 'file:///users/jeffturner~/.vim/bundle/libraries-syntax'
+Plugin 'othree/javascript-libraries-syntax.vim.git'
 Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
 " alternatively, pass a path where Vundle should install plugins
 "let path = '~/some/path/here'
