@@ -83,20 +83,20 @@ fi
 
 SSH_ENV="$HOME/.ssh/environment"
 
-# use-ssh-keys for GitHub, & Heroku
+# use-ssh-keys from ~/.ssh directory
 # on Mac OS fixed to detect multiple processes and ask for manual restart 
 function use-ssh-keys() {
     ssh-add -l >/dev/null 2>&1 
     status=$?
     if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
-        if [ -O ~/.ssh/heroku-rsa ]; then
-            ssh-add ${SSHopts} ~/.ssh/heroku-rsa
-            echo "ssh added heroku-rsa"
-        fi
-        if [ -O ~/.ssh/github-rsa ]; then
-            ssh-add ${SSHopts} ~/.ssh/github-rsa
-            echo "ssh added github-rsa"
-        fi
+        ls ~/.ssh/*.pub | while read PUB; do 
+            KEY=`echo $PUB | sed 's/\.pub$//'`
+            if [ -O $KEY ]; then
+                echo $KEY
+                ssh-add ${SSHopts} "$KEY"
+            fi
+        done
+        ssh-add -l
     else
         if [[ $status -eq 2 && "${agent_started}" -eq 1 ]]; then
             echo -e "ssh-agent failed to start..."
@@ -106,11 +106,6 @@ function use-ssh-keys() {
             #ssh-agent bash
             agent_started=1 
         fi
-        # agent started but no keys associated
-        # This code may only work on MAC OS -- have not had a chance to check out other instances
-        # if [[ $status -eq 1 ]]; then
-        #       echo -e "ssh-agent started but no keys associated..."
-        #fi
     fi
 }
 
