@@ -61,7 +61,6 @@ fi
 ## ----------------------------------------------------------------
    
 OS=`uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6`
-Release=``
 if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     pgrep(){
         ps aux | fgrep $1 | cut -d ' ' -f 6- | cut -d ' ' -f 1
@@ -69,13 +68,8 @@ if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     PGopts=""
     SSHopts=""
 else
-    if [[ -f /etc/centos-release || -f /etc/redhat-release ]]; then
-        SSHopts=""
-    else
-        SSHopts="-K"
-    fi
-
     PGopts="-lu"
+    SSHopts="-K"
 fi
 
 # Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
@@ -83,29 +77,30 @@ fi
 
 SSH_ENV="$HOME/.ssh/environment"
 
-# use-ssh-keys from ~/.ssh directory
+# use-ssh-keys(), start_agent() for starting ssh-agent with appropriate rsa keys (for Heroku, GitHub, etc.)
 # on Mac OS fixed to detect multiple processes and ask for manual restart 
+
 function use-ssh-keys() {
-    ssh-add -l >/dev/null 2>&1 
-    status=$?
+    ssh-add -l >/dev/null 2>&1
+    status=$?  
     if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
-        ls ~/.ssh/*.pub | while read PUB; do 
+        ls ~/.ssh/*.pub | while read PUB; do
             KEY=`echo $PUB | sed 's/\.pub$//'`
-            if [ -O $KEY ]; then
-                echo $KEY
-                ssh-add ${SSHopts} "$KEY"
-            fi
+           if [ -O $KEY ]; then
+               echo $KEY
+               ssh-add ${SSHopts} "$KEY"
+           fi
         done
         ssh-add -l
     else
-        if [[ $status -eq 2 && "${agent_started}" -eq 1 ]]; then
-            echo -e "ssh-agent failed to start..."
-            echo -e "attempting to restart agent"
-            eval $(ssh-agent -s)
-            # this is a fix for Mac OS but will skip rest of shell config
-            #ssh-agent bash
-            agent_started=1 
-        fi
+       if [[ $status -eq 2 && "${agent_started}" -eq 1 ]]; then
+           echo -e "ssh-agent failed to start..."
+           echo -e "attempting to restart agent"
+           eval $(ssh-agent -s)
+           # this is a fix for Mac OS but will skip rest of shell config
+           #ssh-agent bash
+           agent_started=1 
+       fi
     fi
 }
 
@@ -151,38 +146,37 @@ git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*
 
 }
 
-# function to update all local branches from remote repo
+# function to update all local branches from remote repo 
 git-pull-all() { 
     REMOTES="$@"; 
     if [ -z "$REMOTES" ]; then 
         REMOTES=$(git remote); 
-    fi  
+    fi 
     REMOTES=$(echo "$REMOTES" | xargs -n1 echo) 
     CLB=$(git branch -l | awk '/^\*/{print $2}'); 
     echo "$REMOTES" | while read REMOTE; do 
-             git remote update $REMOTE 
-             git remote show $REMOTE -n \
-                 | awk '/merges with remote/{print $5" "$1}' \
-                 | while read line; do 
-                     RB=$(echo "$line"|cut -f1 -d" "); 
-                     ARB="refs/remotes/$REMOTE/$RB"; 
-                     LB=$(echo "$line"|cut -f2 -d" "); 
-                     ALB="refs/heads/$LB"; 
-                     NBEHIND=$(( $(git rev-list --count $ALB..$ARB 2>/dev/null) +0)); 
-                     NAHEAD=$(( $(git rev-list --count $ARB..$ALB 2>/dev/null) +0)); 
-                     if [ "$NBEHIND" -gt 0 ]; then 
-                         if [ "$NAHEAD" -gt 0 ]; then 
-                            echo " branch $LB is $NBEHIND commit(s) behind and $NAHEAD commit(s) ahead of $REMOTE/$RB. could not be fast-forwarded";
-                         elif [ "$LB" = "$CLB" ]; then 
-                            echo " branch $LB was $NBEHIND commit(s) behind of $REMOTE/$RB. fast-forward merge"; 
-                            git merge -q $ARB; 
-                         else 
-                          echo " branch $LB was $NBEHIND commit(s) behind of $REMOTE/$RB. reseting local branch to remote"; 
-                          git branch -l -f $LB -t $ARB >/dev/null; 
-                         fi  
-                    fi  
-              done 
-          done 
+        git remote update $REMOTE 
+        git remote show $REMOTE -n | awk '/rebases onto remote/{print $5" "$1}' | while read line; do 
+           RB=$(echo "$line" | cut -f1 -d" "); 
+           ARB="refs/remotes/$REMOTE/$RB"; 
+           LB=$(echo "$line" | cut -f2 -d" "); 
+           ALB="refs/heads/$LB"; 
+           echo  RB = ${RB} / ARB = ${ARB}
+           NBEHIND=$(( $(git rev-list --count $ALB..$ARB 2>/dev/null) +0)); 
+           NAHEAD=$(( $(git rev-list --count $ARB..$ALB 2>/dev/null) +0)); 
+           if [ "$NBEHIND" -gt 0 ]; then 
+                if [ "$NAHEAD" -gt 0 ]; then 
+                   echo " branch $LB is $NBEHIND commit(s) behind and $NAHEAD commit(s) ahead of $REMOTE/$RB. could not be fast-forwarded";
+                elif [ "$LB" = "$CLB" ]; then 
+                   echo " branch $LB was $NBEHIND commit(s) behind of $REMOTE/$RB. fast-forward merge"; 
+                   git merge -q $ARB; 
+           else 
+                   echo " branch $LB was $NBEHIND commit(s) behind of $REMOTE/$RB. reseting local branch to remote"; 
+                   git branch -l -f $LB -t $ARB >/dev/null; 
+                fi 
+           fi 
+        done 
+    done 
 }
 
 # Configure PATH
@@ -191,7 +185,7 @@ git-pull-all() {
 export PATH=$PATH
 export PATH=$HOME/bin:$PATH
 # export PATH=/usr/bin:$PATH
-# export PATH=/usr/sbin:$PATH
+export PATH=/usr/local/sbin:$PATH
 export HISTFILESIZE=2500 # Set the bash history to 2500 entries
 if [ -O ~/.ssh/heroku-rsa ]; then
     export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
