@@ -67,9 +67,12 @@ if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     }
     PGopts=""
     SSHopts=""
-else
+elif [ "${OS}" == "darwin" ]; then # if on Mac OS then store passphrase in keychain
     PGopts="-lu"
     SSHopts="-K"
+else
+    PGopts="-lu"
+    SSHopts=""
 fi
 
 # Added check and start ssh-agent because of problems with Heroku and GitHub authtentication
