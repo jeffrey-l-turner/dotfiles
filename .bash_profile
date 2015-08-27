@@ -139,7 +139,12 @@ if [ -f "${SSH_ENV}" ]; then
 
 
 function eternalhist() {
-    grep -i $1 ~/.bash_eternal_history | cut -f 5-
+    QU="cat ~/.bash_eternal_history |"
+    for GR in $@
+    do
+        QU="${QU} grep -i ${GR} | " 
+    done
+    eval "${QU} cut -f 5-"
 }
 
 # function to get pull requests locally from GitHub
