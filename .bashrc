@@ -183,7 +183,7 @@ function git-branch-prompt {
         echo -ne `git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}'`" "
     else
         HColor=$(color URed)
-        local declare br=`git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)-1) }'`
+        local declare br=`git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)) }'`
         if [ $br ]; then
             echo -ne "${HC}not on HEAD${TC} ${br}"
         else
