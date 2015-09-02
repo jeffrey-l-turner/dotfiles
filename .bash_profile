@@ -138,6 +138,7 @@ if [ -f "${SSH_ENV}" ]; then
  fi
 
 
+# Simple functions to use a piped grep and to search through eternal and regular history
 function eternalhist() {
     QU="cat ~/.bash_eternal_history |"
     for GR in $@
@@ -145,6 +146,15 @@ function eternalhist() {
         QU="${QU} grep -i ${GR} | " 
     done
     eval "${QU} cut -f 5-"
+}
+
+function ht() {
+    QU="history "
+    for GR in $@
+    do
+        QU="${QU} | grep -i ${GR} " 
+    done
+    eval "${QU}"
 }
 
 # function to get pull requests locally from GitHub
