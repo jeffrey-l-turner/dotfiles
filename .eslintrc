@@ -23,6 +23,7 @@
         "no-else-return": 2,
         "no-floating-decimal": 2,
         "wrap-iife": [2, "any"],
+        "curly": 2,
 
         // Variables
         "no-use-before-define": 0,
