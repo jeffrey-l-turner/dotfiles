@@ -1,12 +1,13 @@
 {
     "env": {
-        "node": true
-    },
-
-    "env": {
           "browser": true,
+          "angular": true,
           "node": true
     },
+
+    "plugins": [
+        "eslint-json"
+    ],
 
     "rules": {
         // Rules are divided into sections from http://eslint.org/docs/rules/
@@ -53,8 +54,6 @@
       "document": true, 
       "_": true,
       "$": true,
-      "xtag": true,
-      "otui": true,
       "window": true 
     }
 }

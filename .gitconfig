@@ -1,0 +1,34 @@
+[core]
+	autocrlf = input
+	safecrlf = false
+	editor = /usr/bin/vim
+	pager = less -R
+[alias]
+	lg1 = log --graph --abbrev-commit --decorate --first-parent --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+[push]
+	default = tracking
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustexitcode = true
+[merge]
+	tool = Kaleidoscope
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[difftool]
+	prompt = false
+[mergetool]
+	prompt = false
+[diff]
+	tool = Kaleidoscope
+[branch]
+	autosetuprebase = always
+[color]
+	ui = true
+[credential]
+	helper = osxkeychain
+[git-up "bundler"]
+	check = true
+[init]
+	templatedir = ~/dotfiles/.git_template
+[rerere]
+	enabled = true
