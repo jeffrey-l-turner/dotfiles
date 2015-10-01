@@ -245,6 +245,9 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 # Don't allow websites to ask to not use autocompletion
 defaults write com.apple.Safari AllowBypassOfAutocompleteOff -bool true
 
+# Enable autofilling of passwords
+defaults write com.apple.Safari AutoFillPasswords -bool true
+
 ###############################################################################
 # Address Book, Dashboard, iCal, iTunes, Mail, and Disk Utility               #
 ###############################################################################
