@@ -279,4 +279,6 @@ alias gitgraph1stP="git log  --graph --abbrev-commit --decorate --format=format:
 export HTML_TIDY=~/.tidy
 
 ## Define any user-specific variables you want here.
-source ~/.bashrc_custom
+if [ -f .bashrc_custom ]; then
+    source ~/.bashrc_custom
+fi
