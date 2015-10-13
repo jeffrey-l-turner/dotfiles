@@ -212,3 +212,8 @@ fi
 export PATH=$PATH:/usr/local/bin  # testing placement for nvm on Mac OS -- still checking other OSes
 
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
+# add docker completion from https://github.com/nicferrier/docker-bash-completion
+if [ -f ${HOME}/bin/docker-complete ]; then
+    source ${HOME}/bin/docker-complete
+    alias DockStart="bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'"
+fi

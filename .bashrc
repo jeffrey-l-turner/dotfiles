@@ -207,8 +207,17 @@ function git-commits {
     fi
 }
 
+function docker-prompt { 
+    local declare DC=$(color UBlue esc)
+    if [ `echo ${DOCKER_HOST} ${DOCKER_MACHINE_NAME} ${DOCKER_TLS_VERIFY}  | wc -w` -gt 2 ]; then
+        echo "${DC}DockerVM:$(color Color_Off) "
+    else
+        echo "$(color Color_Off)"
+    fi
+}
+
 HColor=$(color IGreen)
-PS1="${HColor}\$(git-branch-prompt)$(color BRed)\$(git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+PS1="$(docker-prompt)${HColor}\$(git-branch-prompt)$(color BRed)\$(git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
@@ -277,6 +286,11 @@ alias gitgraph1stP="git log  --graph --abbrev-commit --decorate --format=format:
 ## ------------------------------
 # Setting up tidy for editing angular html fragments
 export HTML_TIDY=~/.tidy
+
+# Load bash completion here:
+if [ -e /usr/local/etc/bash_completion ]; then
+    source /usr/local/etc/bash_completion
+fi
 
 ## Define any user-specific variables you want here.
 if [ -f .bashrc_custom ]; then
