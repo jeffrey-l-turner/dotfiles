@@ -208,9 +208,11 @@ function _git-commits {
 }
 
 function _docker-prompt { 
-    local declare DC=$(color UBlue esc)
+    local declare DC=$(color Blue esc)
+    local declare off=$(color Color_Off)
+    local declare whale="\xF0\x9F\x90\xB3"
     if [ -e `which docker` ] && [ `docker info 2>/dev/null | wc -l` -gt 0 ]; then
-        echo "${DC}DckrVM:$(color Color_Off) "
+        echo -e "${DC}-${off}${whale} ${DC}-${off} "
     else
         echo "$(color Color_Off)"
     fi
