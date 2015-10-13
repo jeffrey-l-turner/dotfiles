@@ -174,7 +174,7 @@ shopt -s histappend
 
 # Create some useful functions for the prompt if in a Git directory
 
-function git-branch-prompt { 
+function _git-branch-prompt { 
     local declare HC=$(color URed esc)
     local declare TC=$(color IRed esc)
     git symbolic-ref HEAD > /dev/null 2>&1
@@ -192,7 +192,7 @@ function git-branch-prompt {
     fi
 }
 
-function git-commits {
+function _git-commits {
     git status -s > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
         local num=`git status -s | wc -l | sed -e 's/^ *//'`
@@ -207,17 +207,17 @@ function git-commits {
     fi
 }
 
-function docker-prompt { 
+function _docker-prompt { 
     local declare DC=$(color UBlue esc)
-    if [ `echo ${DOCKER_HOST} ${DOCKER_MACHINE_NAME} ${DOCKER_TLS_VERIFY}  | wc -w` -gt 2 ]; then
-        echo "${DC}DockerVM:$(color Color_Off) "
+    if [ -e `which docker` ] && [ `docker info 2>/dev/null | wc -l` -gt 0 ]; then
+        echo "${DC}DckrVM:$(color Color_Off) "
     else
         echo "$(color Color_Off)"
     fi
 }
 
 HColor=$(color IGreen)
-PS1="$(docker-prompt)${HColor}\$(git-branch-prompt)$(color BRed)\$(git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
