@@ -212,7 +212,7 @@ function _docker-prompt {
     local declare off=$(color Color_Off)
     local declare whale="\xF0\x9F\x90\xB3"
     if [ -e `which docker` ] && [ `docker info 2>/dev/null | wc -l` -gt 0 ]; then
-        echo -e "${DC} ${whale} ${off} "
+        echo -e "${DC}${whale} ${off} "
     else
         echo "$(color Color_Off)"
     fi
