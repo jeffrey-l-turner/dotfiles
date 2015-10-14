@@ -4,5 +4,7 @@
 
 if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+    if [ "${OS}" = "darwin" ]; then
+        clear && printf '\e[3J' 
+    fi
 fi
-
