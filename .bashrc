@@ -251,7 +251,11 @@ alias m='less'
 alias ..='cd ..'
 alias ...='cd ..;cd ..'
 alias md='mkdir'
-alias cl='clear'
+if [ "${OS}" = "darwin" ]; then
+    alias cl='clear; printf "\e[3J"'
+else
+    alias cl='clear'
+fi
 #alias du='du -ch --max-depth=1'
 alias treeacl='tree -A -C -L 2'
 
