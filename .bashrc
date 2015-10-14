@@ -207,16 +207,23 @@ function _git-commits {
     fi
 }
 
-function _docker-prompt { 
-    local declare DC=$(color On_ICyan esc)
-    local declare off=$(color Color_Off)
-    local declare whale="\xF0\x9F\x90\xB3"
-    if [ -e `which docker` ] && [ `docker info 2>/dev/null | wc -l` -gt 0 ]; then
-        echo -e "${DC}${whale} ${off} "
-    else
-        echo "$(color Color_Off)"
-    fi
+which docker
+if [ $? -eq 0 ]; then
+    function _docker-prompt { 
+        local declare DC=$(color On_ICyan esc)
+        local declare off=$(color Color_Off)
+        local declare whale="\xF0\x9F\x90\xB3"
+        if [ `docker info 2>/dev/null | wc -l` -gt 0 ]; then
+            echo -e "${DC}${whale} ${off} "
+        else
+            echo "$(color Color_Off)"
+        fi
 }
+else
+    function _docker-prompt { 
+            echo "$(color Color_Off)"
+    }
+fi
 
 HColor=$(color IGreen)
 PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
