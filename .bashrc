@@ -207,7 +207,7 @@ function _git-commits {
     fi
 }
 
-which docker
+which docker 2>&1 >/dev/null
 if [ $? -eq 0 ]; then
     function _docker-prompt { 
         local declare DC=$(color On_ICyan esc)
