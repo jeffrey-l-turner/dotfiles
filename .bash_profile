@@ -87,7 +87,7 @@ function use-ssh-keys() {
     ssh-add -l >/dev/null 2>&1
     status=$?  
     if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
-        ls ~/.ssh/*.pub | while read PUB; do
+        [ -x .ssh/*.pub ] && ls .ssh/*.pub | while read PUB; do
             KEY=`echo $PUB | sed 's/\.pub$//'`
            if [ -O $KEY ]; then
                echo $KEY
