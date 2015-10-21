@@ -45,6 +45,9 @@ Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
 " Omni-competion for environments I typically use:
+" To use, type <C-X><C-O> while open in Insert mode. If
+" matching names are found, a pop-up menu opens which can be navigated using
+" the <C-N> and <C-P> keys.
 set ofu=syntaxcomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
