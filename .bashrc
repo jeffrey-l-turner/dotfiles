@@ -306,6 +306,6 @@ if [ -e /usr/local/etc/bash_completion ]; then
 fi
 
 ## Define any user-specific variables you want here.
-if [ -f .bashrc_custom ]; then
+if [ -f "${HOME}/.bashrc_custom" ]; then
     source ~/.bashrc_custom
 fi
