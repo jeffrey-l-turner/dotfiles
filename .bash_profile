@@ -1,7 +1,5 @@
-# .bash_profile file
-# By Balaji S. Srinivasan (balajis <at> stanford.edu)
-# Customized by Jeff Turner for his Heroku and .ssh key setup
-#
+# .bash_profile file -- executed once per login shell
+
 # Concepts:
 # http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html
 #
@@ -87,22 +85,21 @@ function use-ssh-keys() {
     ssh-add -l >/dev/null 2>&1
     status=$?  
     if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
-        [ -x .ssh/*.pub ] && ls .ssh/*.pub | while read PUB; do
-            KEY=`echo $PUB | sed 's/\.pub$//'`
-           if [ -O $KEY ]; then
-               echo $KEY
-               ssh-add ${SSHopts} "$KEY"
-           fi
-        done
+        if [ -x .ssh/*.pub ]; then  
+           ssh-add "${SSHopts}" `ls ~/.ssh/*.pub | sed 's/\.pub//'`
+        fi
         ssh-add -l
     else
-       if [[ $status -eq 2 && "${agent_started}" -eq 1 ]]; then
+       if [[ "${status}" -eq 2 && "${agent_started}" -eq 1 ]]; then
            echo -e "ssh-agent failed to start..."
            echo -e "attempting to restart agent"
            eval $(ssh-agent -s)
            # this is a fix for Mac OS but will skip rest of shell config
            #ssh-agent bash
            agent_started=1 
+           if [ -x .ssh/*.pub ]; then  
+               ssh-add "${SSHopts}" `ls ~/.ssh/*.pub | sed 's/\.pub//'`
+           fi
        fi
     fi
 }
@@ -132,10 +129,10 @@ if [ -f "${SSH_ENV}" ]; then
         agent_started=1
         use-ssh-keys
     fi
- else
-     start_agent;
-     use-ssh-keys
- fi
+else
+    start_agent;
+    use-ssh-keys
+fi
 
 
 # Simple functions to use a piped grep and to search through eternal and regular history
