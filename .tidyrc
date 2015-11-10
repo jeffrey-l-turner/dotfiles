@@ -1,0 +1,6 @@
+input-xml: yes
+indent: yes
+indent-attributes: yes
+indent-spaces: 4
+char-encoding: utf8
+new-empty-tags: template
