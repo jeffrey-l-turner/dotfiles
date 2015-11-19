@@ -117,6 +117,9 @@ defaults write com.apple.finder DisableAllAnimations -bool true
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
+# Finder: show hidden files
+defaults write com.apple.finder AppleShowAllFiles TRUE;killall Finder
+
 # Finder: show status bar
 defaults write com.apple.finder ShowStatusBar -bool true
 

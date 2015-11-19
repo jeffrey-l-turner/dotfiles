@@ -78,33 +78,35 @@ fi
 
 SSH_ENV="$HOME/.ssh/environment"
 
-# use-ssh-keys(), start_agent() for starting ssh-agent with appropriate rsa keys (for Heroku, GitHub, etc.)
+# _use-ssh-keys(), _start_agent() for starting ssh-agent with appropriate rsa keys (for Heroku, GitHub, etc.)
 # on Mac OS fixed to detect multiple processes and ask for manual restart 
 
-function use-ssh-keys() {
+function _use-ssh-keys() {
     ssh-add -l >/dev/null 2>&1
     status=$?  
     if [[ $status -eq 1 ]] ; then # agent is started but no identities associated 
-        if [ -x .ssh/*.pub ]; then  
-           ssh-add "${SSHopts}" `ls ~/.ssh/*.pub | sed 's/\.pub//'`
-        fi
-        ssh-add -l
-    else
-       if [[ "${status}" -eq 2 && "${agent_started}" -eq 1 ]]; then
+        _add_ssh_keys
+    elif [[ "${status}" -eq 2 && "${agent_started}" -eq 1 ]]; then
            echo -e "ssh-agent failed to start..."
            echo -e "attempting to restart agent"
            eval $(ssh-agent -s)
+           _add_ssh_keys
            # this is a fix for Mac OS but will skip rest of shell config
            #ssh-agent bash
            agent_started=1 
-           if [ -x .ssh/*.pub ]; then  
-               ssh-add "${SSHopts}" `ls ~/.ssh/*.pub | sed 's/\.pub//'`
-           fi
-       fi
+    else
+       _add_ssh_keys
     fi
 }
 
-function start_agent {
+function _add_ssh_keys {
+    if [ `ls "${HOME}"/.ssh/*.pub | wc -l ` -gt 0 ]; then  
+       ssh-add "${SSHopts}" `ls ~/.ssh/*.pub | sed 's/\.pub//g'`
+       ssh-add -l
+    fi
+}
+
+function _start_agent {
      echo "Initialising new SSH agent..."
      rm -f "${SSH_ENV}"
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
@@ -115,23 +117,27 @@ function start_agent {
  }
 
 # Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null  || { start_agent; }
-    SPROCS=`pgrep $PGopts $USER | fgrep ssh-agent | sed s/ssh-agent//`
-    echo 'ssh-agent process(es): ' "${SPROCS}"
-    if [[ `echo "${SPROCS}" | wc -w ` -gt 1 ]] ; then 
-        echo "Too many ssh-agent processes already started; killing processes and removing existing environment file..."
-        echo "Please start another shell to correct."
-        pkill -9 -u $USER ssh-agent 
-        rm -f "${SSH_ENV}"
-    else
-        agent_started=1
-        use-ssh-keys
-    fi
+if [ "${OS}" == "darwin" ]; then # if on Mac OS then add ids from Keychain
+       ssh-add -A
 else
-    start_agent;
-    use-ssh-keys
+    if [ -f "${SSH_ENV}" ]; then
+        . "${SSH_ENV}" > /dev/null
+        ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null  || { _start_agent; }
+        SPROCS=`pgrep $PGopts $USER | fgrep ssh-agent | sed s/ssh-agent//`
+        echo 'ssh-agent process(es): ' "${SPROCS}"
+        if [[ `echo "${SPROCS}" | wc -w ` -gt 1 ]] ; then 
+            echo "Too many ssh-agent processes already started; killing processes and removing existing environment file..."
+            echo "Please start another shell to correct."
+            pkill -9 -u $USER ssh-agent 
+            rm -f "${SSH_ENV}"
+        else
+            agent_started=1
+            _use-ssh-keys
+        fi
+    else
+        _start_agent;
+        _use-ssh-keys
+    fi
 fi
 
 
