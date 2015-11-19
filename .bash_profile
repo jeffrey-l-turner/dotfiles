@@ -118,6 +118,7 @@ function _start_agent {
 
 # Source SSH settings, if applicable
 if [ "${OS}" == "darwin" ]; then # if on Mac OS then add ids from Keychain
+       # Be certain to use ssh-add -K on each of the keys the first time
        ssh-add -A
 else
     if [ -f "${SSH_ENV}" ]; then
