@@ -14,6 +14,7 @@ Plugin 'gmarik/vundle'
 Plugin 'git@github.com:wincent/command-t.git'
 " supported using SyntaxComplete
 Plugin 'othree/javascript-libraries-syntax.vim.git'
+Plugin 'othree/html5.vim'
 Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
 " alternatively, pass a path where Vundle should install plugins
 "let path = '~/some/path/here'
@@ -60,6 +61,8 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 " let g:syntastic_javascript_checkers = ['jslint'] "if you want only jslint instead
 let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 let g:syntastic_check_on_open=1
+" Setup tidy rules for Polymer:
+let g:syntastic_html_tidy_ignore_errors = [ '<dom-module>' ]
 filetype plugin indent on     " required
 " setup use for libraries-syntax:
 let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
@@ -112,7 +115,7 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :vmap ,c <esc>a--><esc>'<i<!--<esc>'>$
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
 :autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
-:autocmd FileType *.js *.json  setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
+:autocmd FileType *.js *.json *.html setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
 :autocmd BufNewFile,BufRead *.json set ft=javascript
 " make and restore views automatically
 :autocmd BufWinLeave *.* mkview
