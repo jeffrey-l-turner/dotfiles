@@ -45,6 +45,10 @@ Bundle "pangloss/vim-javascript"
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
+" Lines of history to remember
+set history=1000
+" turn on autoread in case file modified externally
+set autoread
 " Omni-competion for environments I typically use:
 " To use, type <C-X><C-O> while open in Insert mode. If
 " matching names are found, a pop-up menu opens which can be navigated using
@@ -61,7 +65,7 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 " let g:syntastic_javascript_checkers = ['jslint'] "if you want only jslint instead
 let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 let g:syntastic_check_on_open=1
-" Setup tidy rules for Polymer:
+" Setup tidy rules:
 let g:syntastic_html_tidy_ignore_errors = [ '<dom-module>' ]
 filetype plugin indent on     " required
 " setup use for libraries-syntax:
@@ -98,10 +102,11 @@ let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 "  ]z move to end of open fold.
 :set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
 ":set foldmethod=indent   "fold based on indent
-:set foldmethod=syntax   "fold based on indent
+:set foldmethod=syntax   "fold based on syntax
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
 :set nofoldenable        "dont fold by default
+:set foldcolumn=4
 ":set foldlevel=1        "use if indent based
 :let javaScript_fold=1 
 :set expandtab
@@ -110,6 +115,8 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set matchtime=1
 :set cursorline
 :let javascript_enable_domhtmlcss=1
+" Setup custom folding of HTML Tags with `F` key map
+:map F :source ~/.vim/html.vim<CR> 
 " setup commenting of html with surround.vim -- 
 " vat,c on head of item to be  commented out
 :vmap ,c <esc>a--><esc>'<i<!--<esc>'>$
