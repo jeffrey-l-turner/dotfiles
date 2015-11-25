@@ -303,6 +303,10 @@ export HTML_TIDY=~/.tidy
 # Load bash completion here:
 if [ -e /usr/local/etc/bash_completion ]; then
     source /usr/local/etc/bash_completion
+    which aws > /dev/null
+    if [ $? -eq 0 ]; then
+        complete -C aws_completer aws
+    fi
 fi
 
 ## Define any user-specific variables you want here.
