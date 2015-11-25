@@ -161,12 +161,21 @@ function ht() {
     eval "${QU}"
 }
 
-# function to get pull requests locally from GitHub
+# function to get pull requests locally from remote
 pullify() {
-
-git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
-
+     git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
 }
+
+if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
+    cdf() {
+        target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
+        if [ "$target" != "" ]; then
+             cd "$target"; pwd
+        else
+             echo 'No Finder window found' >&2
+        fi
+    }
+fi
 
 # function to update all local branches from remote repo 
 ## works only with merge approach -- needs to be refactored to use rebase
