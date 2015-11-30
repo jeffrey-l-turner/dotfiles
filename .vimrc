@@ -45,6 +45,7 @@ Bundle "pangloss/vim-javascript"
 Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
+Bundle "moll/vim-node"
 " Lines of history to remember
 set history=1000
 " turn on autoread in case file modified externally
@@ -63,8 +64,14 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 "let g:syntastic_javascript_checkers = ['jshint', 'jslint'] " if you want both jshint and jslint
 "let g:syntastic_javascript_checkers = ['jshint'] " if you want only jshint
 " let g:syntastic_javascript_checkers = ['jslint'] "if you want only jslint instead
+
 let g:syntastic_javascript_checkers = ['eslint'] " if you want only eslint
 let g:syntastic_check_on_open=1
+
+"*css lint checkers
+" to use scss-lint, ruby and its gem must be installed: `ruby install scss_lint`
+"let g:syntastic_scss_checkers = ['scss_lint']
+let g:CSSLint_FileTypeList = ['css', 'less', 'sess']
 " Setup tidy rules:
 let g:syntastic_html_tidy_ignore_errors = [ '<dom-module>' ]
 filetype plugin indent on     " required
@@ -106,7 +113,7 @@ let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 :set foldnestmax=10      "deepest fold is 10 levels
 :set nofoldenable        "dont fold by default
-:set foldcolumn=4
+:set foldcolumn=0
 ":set foldlevel=1        "use if indent based
 :let javaScript_fold=1 
 :set expandtab
@@ -131,6 +138,11 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 "set nonumber
 :autocmd BufNewFile,BufRead *.js  :set number
 :autocmd BufNewFile,BufRead *.sh  :set number
+" run shell check on write to .sh files
+set makeprg=shellcheck\ -f\ gcc\ % 
+:autocmd BufWritePost *.sh  :silent make | redraw!
+" Setup node.vim; see: https://github.com/moll/vim-node
+autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
 :set ruler
 :syntax on
 :set t_Co=256
