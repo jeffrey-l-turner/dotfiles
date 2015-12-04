@@ -1,3 +1,4 @@
+#!/bin/bash
 # .bash_profile file -- executed once per login shell
 
 # Concepts:
@@ -51,6 +52,7 @@
 #  - All non-login shell parameters go there
 #  - All declarations repeated for each screen session go there
 if [ -f ~/.bashrc ]; then
+   # shellcheck disable=SC1091
    source ~/.bashrc
 fi
 
@@ -58,10 +60,10 @@ fi
 ## -- determine if on Cygwin, then use other options on ssh-keys --
 ## ----------------------------------------------------------------
    
-OS=`uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6`
+OS=$(uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6)
 if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     pgrep(){
-        ps aux | fgrep $1 | cut -d ' ' -f 6- | cut -d ' ' -f 1
+        ps aux | fgrep "$1" | cut -d ' ' -f 6- | cut -d ' ' -f 1
     }
     PGopts=""
     SSHopts=""
@@ -89,7 +91,7 @@ function _use-ssh-keys() {
     elif [[ "${status}" -eq 2 && "${agent_started}" -eq 1 ]]; then
            echo -e "ssh-agent failed to start..."
            echo -e "attempting to restart agent"
-           eval $(ssh-agent -s)
+           eval "$(ssh-agent -s)"
            _add_ssh_keys
            # this is a fix for Mac OS but will skip rest of shell config
            #ssh-agent bash
@@ -100,8 +102,8 @@ function _use-ssh-keys() {
 }
 
 function _add_ssh_keys {
-    if [ `ls "${HOME}"/.ssh/*.pub | wc -l ` -gt 0 ]; then  
-       ssh-add "${SSHopts}" `ls ~/.ssh/*.pub | sed 's/\.pub//g'`
+if [ "$(find "${HOME}"/.ssh/*.pub | wc -l )" -gt 0 ]; then  
+       ssh-add "${SSHopts}" "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
        ssh-add -l
     fi
 }
@@ -112,7 +114,8 @@ function _start_agent {
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
      echo succeeded
      chmod 600 "${SSH_ENV}"
-     . "${SSH_ENV}" > /dev/null
+     # shellcheck disable=SC1091,SC1090
+     source "${SSH_ENV}" > /dev/null
      agent_started=1
  }
 
@@ -122,14 +125,16 @@ if [ "${OS}" == "darwin" ]; then # if on Mac OS then add ids from Keychain
        ssh-add -A
 else
     if [ -f "${SSH_ENV}" ]; then
-        . "${SSH_ENV}" > /dev/null
-        ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null  || { _start_agent; }
-        SPROCS=`pgrep $PGopts $USER | fgrep ssh-agent | sed s/ssh-agent//`
+        # shellcheck disable=SC1091,SC1090
+        source "${SSH_ENV}" > /dev/null
+        # shellcheck disable=SC2009
+        ps -ef | grep "${SSH_AGENT_PID}" | grep ssh-agent$ > /dev/null  || { _start_agent; }
+        SPROCS=$(pgrep $PGopts "$USER" | fgrep ssh-agent | sed s/ssh-agent//)
         echo 'ssh-agent process(es): ' "${SPROCS}"
-        if [[ `echo "${SPROCS}" | wc -w ` -gt 1 ]] ; then 
+        if [[ $(echo "${SPROCS}" | wc -w ) -gt 1 ]] ; then 
             echo "Too many ssh-agent processes already started; killing processes and removing existing environment file..."
             echo "Please start another shell to correct."
-            pkill -9 -u $USER ssh-agent 
+            pkill -9 -u "$USER" ssh-agent 
             rm -f "${SSH_ENV}"
         else
             agent_started=1
@@ -145,7 +150,7 @@ fi
 # Simple functions to use a piped grep and to search through eternal and regular history
 function eternalhist() {
     QU="cat ~/.bash_eternal_history |"
-    for GR in $@
+    for GR in "$@"
     do
         QU="${QU} grep -i ${GR} | " 
     done
@@ -154,19 +159,28 @@ function eternalhist() {
 
 function ht() {
     QU="history "
-    for GR in $@
+    for GR in "$@"
     do
         QU="${QU} | grep -i ${GR} " 
     done
     eval "${QU}"
 }
 
-# function to get pull requests locally from GitHub
+# function to get pull requests locally from remote
 pullify() {
-
-git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
-
+     git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
 }
+
+if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
+    cdf() {
+        target=$(osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)')
+        if [ "$target" != "" ]; then
+             cd "$target" || exit; pwd
+        else
+             echo 'No Finder window found' >&2
+        fi
+    }
+fi
 
 # function to update all local branches from remote repo 
 ## works only with merge approach -- needs to be refactored to use rebase
@@ -215,9 +229,11 @@ if [ -O ~/.ssh/heroku-rsa ]; then
 fi
 export PATH=$PATH:/usr/local/bin  # testing placement for nvm on Mac OS -- still checking other OSes
 
+# shellcheck disable=SC1091
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
 # add docker completion from https://github.com/nicferrier/docker-bash-completion
-if [ -f ${HOME}/bin/docker-complete ]; then
-    source ${HOME}/bin/docker-complete
+if [ -f "${HOME}/bin/docker-complete" ]; then
+    # shellcheck disable=SC1090
+    source "${HOME}/bin/docker-complete"
     alias DockStart="bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'"
 fi

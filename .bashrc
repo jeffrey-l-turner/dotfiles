@@ -1,3 +1,4 @@
+#!/bin/bash
 # .bashrc file
 #  Originally By Balaji S. Srinivasan (balajis@stanford.edu)
 #  Modified for Jeff Turner
@@ -68,7 +69,7 @@
 #  AND the user id is greater than 99, we're on the server, and set umask
 #  022 for easy collaborative editing.
 
-if [ "`id -gn`" == "`id -un`" -a `id -u` -gt 99 ]; then
+if [ "$(id -gn)" == "$(id -un)" ] && [ "$(id -u)" -gt 99 ]; then
 	umask 002
 else
 	umask 022
@@ -79,9 +80,10 @@ fi
 lowercase(){
     echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
 }
-OS=`lowercase \`uname\``
+OS="$(lowercase "$(uname)")"
 
 # source some useful color definitions:
+# shellcheck disable=SC1091
 source ~/dotfiles/colordefs.sh
 
 # ---------------------------------------------------------
@@ -94,12 +96,12 @@ if [ "$PS1" ]; then
 
  if [ "${OS}" != "darwin" ]; then
    if [ -x /usr/bin/tput ]; then
-     if [ "x`tput kbs`" != "x" ]; then # We can't do this with "dumb" terminal -- this if stmt does not work on Mac OS 
-      stty erase `tput kbs`
+     if [ "x$(tput kbs)" != "x" ]; then # We can't do this with "dumb" terminal -- this if stmt does not work on Mac OS 
+         stty erase "$(tput kbs)"
      elif [ -x /usr/bin/wc ]; then
-       if [ "`tput kbs|wc -c `" -gt 0 ]; then # We can't do this with "dumb" terminal
-         stty erase `tput kbs`
-       fi
+        if [ "$(tput kbs|wc -c )" -gt 0 ]; then # We can't do this with "dumb" terminal
+           stty erase "$(tput kbs)"
+        fi
      fi
     fi
  fi
@@ -162,7 +164,8 @@ if [ "$PS1" ]; then
     if [ "x$SHLVL" != "x1" ]; then # We're not a login shell
         for i in /etc/profile.d/*.sh; do
 	    if [ -r "$i" ]; then
-	        . $i
+                # shellcheck disable=SC1091,SC1090
+	        . "$i"
 	    fi
 	done
     fi
@@ -175,16 +178,19 @@ shopt -s histappend
 # Create some useful functions for the prompt if in a Git directory
 
 function _git-branch-prompt { 
-    local declare HC=$(color URed esc)
-    local declare TC=$(color IRed esc)
+    local declare HC
+    HC=$(color URed esc)
+    local declare TC
+    TC=$(color IRed esc)
     git symbolic-ref HEAD > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
         HColor=$(color UGreen)
-        echo -ne `git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}'`" "
+        echo -ne "$(git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}')"" "
     else
         HColor=$(color URed)
-        local declare br=`git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)) }'`
-        if [ $br ]; then
+        local declare br
+        br=$(git branch 2> /dev/null | awk '/$* \(/ { printf " %s ", substr($4, 0, length($4)) }')
+        if [ "$br" ]; then
             echo -ne "${HC}not on HEAD${TC} ${br}"
         else
             HColor=$(color IGreen)
@@ -195,7 +201,8 @@ function _git-branch-prompt {
 function _git-commits {
     git status -s > /dev/null 2>&1
     if [ "$?" -eq 0  ]; then
-        local num=`git status -s | wc -l | sed -e 's/^ *//'`
+        local num
+        num=$(git status -s | wc -l | sed -e 's/^ *//')
         if [ "$num" -gt 0  ]; then
             HColor=$(color URed)
             echo "${num} "
@@ -207,20 +214,26 @@ function _git-commits {
     fi
 }
 
-which docker 2>&1 >/dev/null
+which docker >/dev/null 2>&1 
 if [ $? -eq 0 ]; then
     function _docker-prompt { 
-        local declare DC=$(color On_ICyan esc)
-        local declare off=$(color Color_Off)
-        local declare whale="\xF0\x9F\x90\xB3"
-        if [ `docker info 2>/dev/null | wc -l` -gt 0 ]; then
+        local declare DC
+        DC=$(color On_ICyan esc)
+        local declare off
+        off=$(color Color_Off)
+        # shellcheck disable=SC2034
+        local declare whale
+        whale="\xF0\x9F\x90\xB3"
+        if [ "$(docker info 2>/dev/null | wc -l)" -gt 0 ]; then
             echo -e "${DC}${whale} ${off} "
         else
+            # shellcheck disable=SC2005
             echo "$(color Color_Off)"
         fi
 }
 else
     function _docker-prompt { 
+            # shellcheck disable=SC2005
             echo "$(color Color_Off)"
     }
 fi
@@ -285,7 +298,8 @@ alias node="env NODE_NO_READLINE=1 rlwrap node"
 alias node_repl="node -e \"require('repl').start({ignoreUndefined: true})\""
 export NODE_DISABLE_COLORS=1
 if [ -s ~/.nvm/nvm.sh ]; then
-    NVM_DIR=~/.nvm
+    export NVM_DIR=~/.nvm
+    # shellcheck disable=SC1091
     source ~/.nvm/nvm.sh
     # nvm use v0.10.19 &> /dev/null # silence nvm use; needed for rsync
 fi
@@ -302,6 +316,7 @@ export HTML_TIDY=~/.tidy
 
 # Load bash completion here:
 if [ -e /usr/local/etc/bash_completion ]; then
+    # shellcheck disable=SC1091
     source /usr/local/etc/bash_completion
     which aws > /dev/null
     if [ $? -eq 0 ]; then
@@ -311,5 +326,6 @@ fi
 
 ## Define any user-specific variables you want here.
 if [ -f "${HOME}/.bashrc_custom" ]; then
+    # shellcheck disable=SC1091
     source ~/.bashrc_custom
 fi
