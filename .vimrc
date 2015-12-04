@@ -146,4 +146,5 @@ autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
 :set ruler
 :syntax on
 :set t_Co=256
+set showcmd  " (sc) display an incomplete command in the lower right
 :set background=dark
