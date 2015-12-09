@@ -133,6 +133,7 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 " vat,c on head of item to be  commented out
 :vmap ,c <esc>a--><esc>'<i<!--<esc>'>$
 au BufRead,BufNewFile *.json set filetype=json
+" `npm install -g jsonlint` to enable:
 let g:syntastic_json_checkers=['jsonlint']
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
 :autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
