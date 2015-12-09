@@ -46,6 +46,11 @@ Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
 Bundle "burnettk/vim-angular"
 Bundle "moll/vim-node"
+" Colorized indentation <leader>ig or \ig to enable
+Bundle "nathanaelkane/vim-indent-guides"
+autocmd FileType javascript set ts=4 sw=4 et 
+let g:indent_guides_start_level=1
+let g:indent_guides_guide_size=1
 " Lines of history to remember
 set history=1000
 " turn on autoread in case file modified externally
@@ -127,10 +132,11 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 " setup commenting of html with surround.vim -- 
 " vat,c on head of item to be  commented out
 :vmap ,c <esc>a--><esc>'<i<!--<esc>'>$
+au BufRead,BufNewFile *.json set filetype=json
+let g:syntastic_json_checkers=['jsonlint']
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
 :autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
 :autocmd FileType *.js *.json *.html setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
-:autocmd BufNewFile,BufRead *.json set ft=javascript
 " make and restore views automatically
 :autocmd BufWinLeave *.* mkview
 :autocmd BufWinEnter *.* silent loadview 
