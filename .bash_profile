@@ -236,4 +236,7 @@ if [ -f "${HOME}/bin/docker-complete" ]; then
     # shellcheck disable=SC1090
     source "${HOME}/bin/docker-complete"
     alias DockStart="bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'"
+fi 
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion 
 fi
