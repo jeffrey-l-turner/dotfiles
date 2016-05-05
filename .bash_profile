@@ -237,6 +237,13 @@ if [ -f "${HOME}/bin/docker-complete" ]; then
     source "${HOME}/bin/docker-complete"
     alias DockStart="bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'"
 fi 
+
+# Load bash completion here:
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    # shellcheck disable=SC1091
     . $(brew --prefix)/etc/bash_completion 
+    which aws > /dev/null
+    if [ $? -eq 0 ]; then
+        complete -C aws_completer aws
+    fi
 fi

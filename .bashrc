@@ -314,16 +314,6 @@ alias gitgraphParent="git log  --graph --abbrev-commit --decorate --format=forma
 # Setting up tidy for editing angular html fragments
 export HTML_TIDY=~/.tidy
 
-# Load bash completion here:
-if [ -e /usr/local/etc/bash_completion ]; then
-    # shellcheck disable=SC1091
-    source /usr/local/etc/bash_completion
-    which aws > /dev/null
-    if [ $? -eq 0 ]; then
-        complete -C aws_completer aws
-    fi
-fi
-
 ## Define any user-specific variables you want here.
 if [ -f "${HOME}/.bashrc_custom" ]; then
     # shellcheck disable=SC1091
