@@ -229,6 +229,7 @@ if [ -O ~/.ssh/heroku-rsa ]; then
 fi
 export PATH=$PATH:/usr/local/bin  # testing placement for nvm on Mac OS -- still checking other OSes
 export PATH=~/Library/Android/sdk/platform-tools:$PATH # for Android sdk adb
+export PATH=~/Library/Android/sdk/tools:$PATH # for Android sdk tools incl. `android`; use `android list targets` to generate list of system image targets
 
 # shellcheck disable=SC1091
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
