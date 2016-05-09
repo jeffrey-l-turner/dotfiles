@@ -228,6 +228,7 @@ if [ -O ~/.ssh/heroku-rsa ]; then
     export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
 fi
 export PATH=$PATH:/usr/local/bin  # testing placement for nvm on Mac OS -- still checking other OSes
+export PATH=~/Library/Android/sdk/platform-tools:$PATH # for Android sdk adb
 
 # shellcheck disable=SC1091
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
