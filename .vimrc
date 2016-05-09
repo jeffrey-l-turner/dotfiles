@@ -11,7 +11,7 @@ Plugin 'gmarik/vundle'
 " The following two plugins have taken a great deal of experimentation to find the right path...
 " Plugin 'git://git.wincent.com/command-t.git'
 "Plugin 'file:///users/jeffturner~/.vim/bundle/command-t'
-Plugin 'git@github.com:wincent/command-t.git'
+"Plugin 'git@github.com:wincent/command-t.git'
 " supported using SyntaxComplete
 Plugin 'othree/javascript-libraries-syntax.vim.git'
 Plugin 'othree/html5.vim'
@@ -112,7 +112,16 @@ let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 "  zE deletes all folds.
 "  [z move to start of open fold.
 "  ]z move to end of open fold.
+"  Ctrl-P setup
 :set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
+:set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+":set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 ":set foldmethod=indent   "fold based on indent
 :set foldmethod=syntax   "fold based on syntax
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
