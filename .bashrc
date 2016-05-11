@@ -238,8 +238,15 @@ else
     }
 fi
 
+if [ $(tput cols) -lt 120 ]; then
+    echo "setting line break in PS1"
+    lbreak="\n"
+else
+    lbreak=""
+fi
+
 HColor=$(color IGreen)
-PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 
 ## -----------------------
 ## -- 2) Set up aliases --
