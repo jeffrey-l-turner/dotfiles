@@ -238,7 +238,7 @@ else
     }
 fi
 
-if [ $(tput cols) -lt 120 ]; then
+if [ $(tput cols) -lt 140 ]; then
     echo "setting line break in PS1"
     lbreak="\n"
 else
