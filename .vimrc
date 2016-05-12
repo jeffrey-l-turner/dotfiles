@@ -16,6 +16,7 @@ Plugin 'gmarik/vundle'
 Plugin 'othree/javascript-libraries-syntax.vim.git'
 Plugin 'othree/html5.vim'
 Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
+Plugin 'git@github.com:vimplugin/project.vim.git'
 " alternatively, pass a path where Vundle should install plugins
 "let path = '~/some/path/here'
 "call vundle#rc(path)
@@ -117,11 +118,7 @@ let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 :set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 ":set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+"let g:ctrlp_custom_ignore = {  'dir':  '\v[\/]\.(git|hg|svn)$',  'file': '\v\.(exe|so|dll)$',  'link': 'some_bad_symbolic_links',  }
 ":set foldmethod=indent   "fold based on indent
 :set foldmethod=syntax   "fold based on syntax
 syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
@@ -164,3 +161,4 @@ autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
 :set t_Co=256
 set showcmd  " (sc) display an incomplete command in the lower right
 :set background=dark
+:set mouse=a
