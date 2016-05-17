@@ -166,6 +166,18 @@ function ht() {
     eval "${QU}"
 }
 
+function FF() {
+    QU="find . -type f -exec grep --null -nHi $1 {} \\; | tr -d '\000'" 
+    shift
+    for GR in "$@"
+    do
+        QU="${QU} | grep -i ${GR}"
+    done
+    echo $QU
+    eval "${QU}"
+    #eval "${QU}"
+}
+
 # function to get pull requests locally from remote
 pullify() {
      git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
