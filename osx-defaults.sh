@@ -306,6 +306,15 @@ defaults write com.apple.terminal StringEncodings -array 4
 #defaults write org.x.X11 wm_ffm -bool true
 
 ###############################################################################
+# Xcode
+###############################################################################
+# Always use spaces for indenting
+defaults write com.apple.dt.Xcode DVTTextIndentUsingTabs -bool false
+
+# Show tab bar
+defaults write com.apple.dt.Xcode AlwaysShowTabBar -bool true
+
+###############################################################################
 # Time Machine                                                                #
 ###############################################################################
 
