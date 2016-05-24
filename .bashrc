@@ -189,7 +189,7 @@ function _git-branch-prompt {
     else
         HColor=$(color URed)
         local declare br
-        br=$(git branch 2> /dev/null | awk '/$* \(/ { printf "at %s ", substr($5, 0, length($5) - 1) }')
+        br=$(git branch 2> /dev/null |git branch 2>/dev/null | head -1 | sed s/*\*\ *\(// | sed s/\)*$//)
         if [ "$br" ]; then
             echo -ne "${HC}not on HEAD${TC} ${br}"
         else
