@@ -167,13 +167,13 @@ function ht() {
 }
 
 function FF() {
-    QU="find . -type f -exec grep --null -nHi $1 {} \\; | tr -d '\000'" 
+    QU="find . -type f -exec grep -nHi $1 {} \\;" 
     shift
     for GR in "$@"
     do
         QU="${QU} | grep -i ${GR}"
     done
-    echo $QU
+    echo $QU >&2 
     eval "${QU}"
     #eval "${QU}"
 }

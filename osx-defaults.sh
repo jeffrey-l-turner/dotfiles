@@ -306,13 +306,16 @@ defaults write com.apple.terminal StringEncodings -array 4
 #defaults write org.x.X11 wm_ffm -bool true
 
 ###############################################################################
-# Xcode
+# Xcode & Local Development
 ###############################################################################
 # Always use spaces for indenting
 defaults write com.apple.dt.Xcode DVTTextIndentUsingTabs -bool false
 
 # Show tab bar
 defaults write com.apple.dt.Xcode AlwaysShowTabBar -bool true
+
+# Enable Dev Tools in WebKit-based apps
+defaults write com.bundle.identifier WebKitDeveloperExtras -bool true
 
 ###############################################################################
 # Time Machine                                                                #
