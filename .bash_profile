@@ -149,16 +149,16 @@ fi
 
 # Simple functions to use a piped grep and to search through eternal and regular history
 function eternalhist() {
-    QU="cat ~/.bash_eternal_history |"
+    local declare QU="cat ~/.bash_eternal_history |"
     for GR in "$@"
     do
         QU="${QU} grep -i ${GR} | " 
     done
-    eval "${QU} cut -f 5-"
+    eval "${QU} cut -d ' ' -f 5-"
 }
 
 function ht() {
-    QU="history "
+    local declare QU="history "
     for GR in "$@"
     do
         QU="${QU} | grep -i ${GR} " 
@@ -167,7 +167,7 @@ function ht() {
 }
 
 function FF() {
-    QU="find . -type f -exec grep -nHi $1 {} \\;" 
+    local declare QU="find . -type f -exec grep -nHi $1 {} \\;" 
     shift
     for GR in "$@"
     do
