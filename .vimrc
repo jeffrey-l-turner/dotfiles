@@ -5,6 +5,21 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 call vundle#begin('~/.vim/bundle')
+" Vundle
+"set nocompatible
+"filetype off
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+"Plugin 'gmarik/Vundle.vim'
+
+"let g:instant_markdown_slow = 1
+"source ~/.vim/vundle-plugins
+
+"call vundle#end()
+"filetype plugin indent on
+
+" eof Vundle
+
 " Convention: Plugin '~/.vim/path/to/plugin'
 Plugin 'gmarik/vundle'
 " Plugins that have been cloned separately
@@ -26,6 +41,7 @@ Plugin 'git@github.com:vimplugin/project.vim.git'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tpope/vim-surround'
+Plugin 'majutsushi/tagbar'
 "Plugin 'tpope/vim-rails.git'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
@@ -138,6 +154,8 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 " setup commenting of html with surround.vim -- 
 " vat,c on head of item to be  commented out
 :vmap ,c <esc>a--><esc>'<i<!--<esc>'>$
+" map F8 to Tagbar
+:nmap <F8> :TagbarToggle<CR> 
 au BufRead,BufNewFile *.json set filetype=json
 " `npm install -g jsonlint` to enable:
 let g:syntastic_json_checkers=['jsonlint']
@@ -162,3 +180,13 @@ autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
 set showcmd  " (sc) display an incomplete command in the lower right
 :set background=dark
 :set mouse=a
+
+" CTRL + hjkl left,down,up,right to move between windows
+nnoremap <C-J> <C-W><C-J>
+nnoremap <silent> <C-Down> <c-w>j
+nnoremap <C-K> <C-W><C-K>
+nnoremap <silent> <C-Up> <c-w>k
+nnoremap <C-L> <C-W><C-L>
+nnoremap <silent> <C-Right> <c-w>l
+nnoremap <C-H> <C-W><C-H>
+nnoremap <silent> <C-Left> <c-w>h
