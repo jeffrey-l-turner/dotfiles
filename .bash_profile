@@ -52,8 +52,8 @@
 #  - All non-login shell parameters go there
 #  - All declarations repeated for each screen session go there
 if [ -f ~/.bashrc ]; then
-   # shellcheck disable=SC1091
-   source ~/.bashrc
+   # shellcheck disable=SC1090
+   . "$HOME/.bashrc"
 fi
 
 ## ----------------------------------------------------------------
@@ -149,16 +149,26 @@ fi
 
 # Simple functions to use a piped grep and to search through eternal and regular history
 function eternalhist() {
-    local declare QU="cat ~/.bash_eternal_history |"
+    # option -d; parse UTC seconds timestamp into readable local time date
+    if [ "$1" = "-d" ]; then
+        opt="date"
+        shift
+    fi
+    local QU="cat ~/.bash_eternal_history |"
     for GR in "$@"
     do
         QU="${QU} grep -i ${GR} | " 
     done
-    eval "${QU} cut -d ' ' -f 5-"
+    if [ "$opt" = "date" ]; then
+        eval "${QU} cut -d ' ' -f 5-"
+        #eval "${QU} cut -d ' ' -f 5- | awk '{system(\"date -r \"$1)}'"
+    else
+        eval "${QU} cut -d ' ' -f 5-"
+    fi
 }
 
 function ht() {
-    local declare QU="history "
+    local QU="history "
     for GR in "$@"
     do
         QU="${QU} | grep -i ${GR} " 
@@ -167,13 +177,13 @@ function ht() {
 }
 
 function FF() {
-    local declare QU="find . -type f -exec grep -nHi $1 {} \\;" 
+    local QU="find . -type f -exec grep -nHi $1 {} \\;" 
     shift
     for GR in "$@"
     do
         QU="${QU} | grep -i ${GR}"
     done
-    echo $QU >&2 
+    echo "${QU}" >&2 
     eval "${QU}"
     #eval "${QU}"
 }
@@ -253,9 +263,10 @@ if [ -f "${HOME}/bin/docker-complete" ]; then
 fi 
 
 # Load bash completion here:
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
+if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
     # shellcheck disable=SC1091
-    . $(brew --prefix)/etc/bash_completion 
+    # shellcheck disable=SC1090
+    . "$(brew --prefix)/etc/bash_completion" 
     which aws > /dev/null
     if [ $? -eq 0 ]; then
         complete -C aws_completer aws
