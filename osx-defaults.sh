@@ -92,7 +92,7 @@ fi
 defaults write com.apple.screencapture location -string "$HOME/Desktop/screencaps"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
-defaults write com.apple.screencapture type -string "png"
+defaults write com.apple.screencapture type -string "jpg"
 
 # Disable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
@@ -145,6 +145,9 @@ defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
 defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
 defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
 defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
+
+# Enable text selection in Quick Look
+defaults write com.apple.finder QLEnableTextSelection -bool TRUE
 
 # Show item info below desktop icons
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
@@ -326,6 +329,11 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 # Disable local Time Machine backups
 hash tmutil &> /dev/null && sudo tmutil disablelocal
+
+###############################################################################
+# Sysadmin options (requires sudo) - show system info on login
+###############################################################################
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 ###############################################################################
 # Kill affected applications                                                  #
