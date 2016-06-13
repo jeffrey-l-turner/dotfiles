@@ -23,7 +23,7 @@ dotfiles/.git_template/config.sh # to set git hooks for tagging, etc.
 ```
 
 See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite
-programs. If all goes well, in addition to a more useful prompt, now you can
-do `emacs -nw hello.js` and hitting `C-c!` to launch an interactive SSJS
-REPL, among many other features. This was originally developed for
+programs. If all goes well, in addition to a more useful prompt, these files may
+be used to setup many different headless systems. The macOS-defaults configures a
+ Mac from the command line.  This was originally developed for 
 [Startup Engineering Video Lectures 4a/4b](https://class.coursera.org/startup-001/lecture/index).
