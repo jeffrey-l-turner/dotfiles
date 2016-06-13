@@ -1,5 +1,23 @@
-#!/bin/bash 
-#~/.osx # http://mths.be/osx
+#!/usr/bin/env bash
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `$0` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###############################################################################
+# System Settings                                                             #
+###############################################################################
+
+# Set standby delay to 24 hours (default is 1 hour)
+sudo pmset -a standbydelay 86400
+
+# Disable hibernation (speeds up entering sleep mode)
+sudo pmset -a hibernatemode 0
+
+# Change Login Screen Background
+sudo defaults write /Library/Preferences/com.apple.loginwindow DesktopPicture "/Library/Desktop\ Pictures/Underwater.jpg"
 
 ###############################################################################
 # General UI/UX                                                               #
@@ -48,7 +66,7 @@ defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
 ###############################################################################
-# Trackpad, mouse, keyboard, and input                                        #
+# Trackpad, mouse, keyboard, input, and bluetooth                             #
 ###############################################################################
 
 # Trackpad: swipe between pages with three fingers
@@ -73,6 +91,9 @@ defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
 defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=USD"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
 defaults write NSGlobalDomain AppleMetricUnits -bool false
+
+# Increase sound quality for Bluetooth headphones/headsets
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
 # Disable auto-correct
 #defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
@@ -220,28 +241,55 @@ find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
 #defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
 
 # Hot corners
+# Hot corners
+# Possible values:
+#  0: no-op
+#  2: Mission Control
+#  3: Show application windows
+#  4: Desktop
+#  5: Start screen saver
+#  6: Disable screen saver
+#  7: Dashboard
+# 10: Put display to sleep
+# 11: Launchpad
+# 12: Notification Center
 # Top left screen corner → Mission Control
-defaults write com.apple.dock wvous-tl-corner -int 2
-defaults write com.apple.dock wvous-tl-modifier -int 0
-# Top right screen corner → Desktop
-defaults write com.apple.dock wvous-tr-corner -int 4
+# Top left screen corner → Mission Control
+#defaults write com.apple.dock wvous-tl-corner -int 2
+#defaults write com.apple.dock wvous-tl-modifier -int 0
+# Bottom right screen corner → Desktop
+#defaults write com.apple.dock wvous-br-corner -int 4
+#defaults write com.apple.dock wvous-br-modifier -int 0
+# Top right screen corner → put display to sleep
+defaults write com.apple.dock wvous-tr-corner -int 10
 defaults write com.apple.dock wvous-tr-modifier -int 0
-# Bottom left screen corner → Start screen saver
-defaults write com.apple.dock wvous-bl-corner -int 5
-defaults write com.apple.dock wvous-bl-modifier -int 0
 
 ###############################################################################
 # Safari & WebKit                                                             #
 ###############################################################################
 
+# Privacy: don't send search queries to Apple
+defaults write com.apple.Safari UniversalSearchEnabled -bool false
+defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+
+# Press Tab to highlight each item on a web page
+#defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
+#defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
+
+# Show the full URL in the address bar (note: this still hides the scheme)
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+
 # Disable Safari’s thumbnail cache for History and Top Sites
 defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
 
-# Enable Safari’s debug menu
+# Enable Safari's debug menu
 defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # Make Safari’s search banners default to Contains instead of Starts With
 defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
+
+# Hide Safari sidebar in Top Sites
+defaults write com.apple.Safari ShowSidebarInTopSites -bool false
 
 # Remove useless icons from Safari’s bookmarks bar
 defaults write com.apple.Safari ProxiesInBookmarksBar "()"
@@ -249,6 +297,10 @@ defaults write com.apple.Safari ProxiesInBookmarksBar "()"
 # Add a context menu item for showing the Web Inspector in web views
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
+# Enable the Develop menu and the Web Inspector in Safari
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 # Don't allow websites to ask to not use autocompletion
 defaults write com.apple.Safari AllowBypassOfAutocompleteOff -bool true
 
@@ -297,6 +349,13 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
 
 ###############################################################################
+# Address Book, Dashboard, iCal, iTunes, Mail, and Disk Utility               #
+###############################################################################
+
+# Prevent Photos from opening automatically when devices are plugged in
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+###############################################################################
 # Terminal                                                                    #
 ###############################################################################
 
@@ -307,6 +366,49 @@ defaults write com.apple.terminal StringEncodings -array 4
 # This means you can hover over a window and start typing in it without clicking first
 #defaults write com.apple.terminal FocusFollowsMouse -bool true
 #defaults write org.x.X11 wm_ffm -bool true
+# Use a modified version of the Solarized Dark theme by default in Terminal.app
+#osascript <<EOD
+#tell application "Terminal"
+#    local allOpenedWindows
+#    local initialOpenedWindows
+#    local windowID
+#    set themeName to "Solarized Dark xterm-256color"
+#
+#    (* Store the IDs of all the open terminal windows. *)
+#    set initialOpenedWindows to id of every window
+#
+#    (* Open the custom theme so that it gets added to the list
+#       of available terminal themes (note: this will open two
+#       additional terminal windows). *)
+#
+#    do shell script "open '$HOME/init/" & themeName & ".terminal'"
+#
+#    (* Wait a little bit to ensure that the custom theme is added. *)
+#    delay 1
+#
+#    (* Set the custom theme as the default terminal theme. *)
+#    set default settings to settings set themeName
+#
+#    (* Get the IDs of all the currently opened terminal windows. *)
+#    set allOpenedWindows to id of every window
+#
+#    repeat with windowID in allOpenedWindows
+#
+#        (* Close the additional windows that were opened in order
+#        to add the custom theme to the list of terminal themes. *)
+#        if initialOpenedWindows does not contain windowID then
+#            close (every window whose id is windowID)
+#        
+#            (* Change the theme for the initial opened terminal windows
+#               to remove the need to close them in order for the custom
+#               theme to be applied. *)
+#        else
+#            set current settings of tabs of (every window whose id is windowID) to settings set themeName
+#        end if
+#    
+#    end repeat
+#    end tell
+#EOD
 
 ###############################################################################
 # Xcode & Local Development
@@ -316,6 +418,10 @@ defaults write com.apple.dt.Xcode DVTTextIndentUsingTabs -bool false
 
 # Show tab bar
 defaults write com.apple.dt.Xcode AlwaysShowTabBar -bool true
+
+# Add iOS & Watch Simulator to Launchpad
+sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" "/Applications/Simulator.app"
+#sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator (Watch).app" "/Applications/Simulator (Watch).app"
 
 # Enable Dev Tools in WebKit-based apps
 defaults write com.bundle.identifier WebKitDeveloperExtras -bool true
