@@ -13,3 +13,10 @@ function concatToEternalHist() {
     let linenum="${recent} - ${last}"
     tail -n "${linenum}" ~/.bash_eternal_history >> ~/Google\ Drive/Bash_eternal_hist
 }
+
+function mergeEternalHist() {
+    rm -f /tmp/Bash_eternal_hist
+    concatToEternalHist 
+    sort -r --key=5,7 ~/Google\ Drive/Bash_eternal_hist  | uniq > /tmp/Bash_eternal_hist
+    mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
+}
