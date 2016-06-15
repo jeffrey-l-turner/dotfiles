@@ -17,6 +17,7 @@ function concatToEternalHist() {
 function mergeEternalHist() {
     rm -f /tmp/Bash_eternal_hist
     concatToEternalHist 
-    sort --key=7 ~/Google\ Drive/Bash_eternal_hist  | uniq > /tmp/Bash_eternal_hist
+    sort -n --key=8 ~/Google\ Drive/Bash_eternal_hist  | uniq > /tmp/Bash_eternal_hist
     mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
+    cp -i /tmp/Bash_eternal_hist ~/Google\ Drive/Bash_eternal_hist  
 }
