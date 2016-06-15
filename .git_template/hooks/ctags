@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 PATH="/usr/local/bin:$PATH"
-dir="`git rev-parse --git-dir`"
+dir="$(git rev-parse --git-dir)"
 trap 'rm -f "$dir/$$.tags"' EXIT
 git ls-files | \
-  ctags --tag-relative --exclude=.git --exclude=node_modules  -L - -f"$dir/$$.tags" --languages=-sql
+  ctags --tag-relative --options=$HOME/.git_template/config   -L - -f"$dir/$$.tags" --languages=-sql
 mv "$dir/$$.tags" "$dir/tags"
