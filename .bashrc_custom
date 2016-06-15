@@ -1,6 +1,15 @@
 # Pre-configure or override your bashrc environment here:
 # the following alias is for mac environment when version 7.4 has been downloaded:
 alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim' # using to support vim 7.4 downloaded from google build
+
 alias jsb='js-beautify -w 120 -pc " " -s 2 -r' # alias to beautify using .eslintrc defaults
 
 # export HTML_TIDY=~/.tidy # setting up for editing angular html fragments
+
+function concatToEternalHist() {
+    local last recent linenum
+    last=$(fgrep -n "$(tail -1 ~/Google\ Drive/Bash_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/Google\ Drive/Bash_eternal_hist  | sed s/:.*$//)
+    recent=$(wc -l ~/.bash_eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
+    let linenum="${recent} - ${last}"
+    tail -n "${linenum}" ~/.bash_eternal_history >> ~/Google\ Drive/Bash_eternal_hist
+}
