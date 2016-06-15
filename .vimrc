@@ -183,9 +183,9 @@ set showcmd  " (sc) display an incomplete command in the lower right
 
 " CTRL + hjkl left,down,up,right to move between windows
 nnoremap <C-J> <C-W><C-J>
-nnoremap <silent> <C-Down> <c-w>j
+"nnoremap <silent> <C-Down> <c-w>j " Note: C-Down doesn't work on macOS b/c conflict with spaces shortcut
 nnoremap <C-K> <C-W><C-K>
-nnoremap <silent> <C-Up> <c-w>k
+"nnoremap <silent> <C-Up> <c-w>k " Note: C-Up doesn't work on macOS b/c conflict with spaces shortcut
 nnoremap <C-L> <C-W><C-L>
 nnoremap <silent> <C-Right> <c-w>l
 nnoremap <C-H> <C-W><C-H>
