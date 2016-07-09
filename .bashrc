@@ -248,6 +248,16 @@ fi
 HColor=$(color IGreen)
 PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 
+function shortenPropmt { 
+    lbreak="\n"
+    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+}
+
+function lengthenPropmt { 
+    lbreak=""
+    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+}
+
 ## -----------------------
 ## -- 2) Set up aliases --
 ## -----------------------
