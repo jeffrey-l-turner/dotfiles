@@ -53,6 +53,10 @@ Plugin 'FuzzyFinder'
 " \ is leader key
 " command-t uses \t for file interface;
 " git repos on your local machine (i.e. when working on your own plugin)
+
+" Sass lint plugins
+Plugin 'gcorne/vim-sass-lint'
+
 call vundle#end()
 " ...
 Bundle 'flazz/vim-colorschemes'
@@ -159,6 +163,9 @@ syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
 au BufRead,BufNewFile *.json set filetype=json
 " `npm install -g jsonlint` to enable:
 let g:syntastic_json_checkers=['jsonlint']
+"Enable the sass_lint checker 
+let g:syntastic_sass_checkers=["sass_lint"]
+let g:syntastic_scss_checkers=["sass_lint"]
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
 :autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
 :autocmd FileType *.js *.json *.html setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
@@ -183,10 +190,17 @@ set showcmd  " (sc) display an incomplete command in the lower right
 
 " CTRL + hjkl left,down,up,right to move between windows
 nnoremap <C-J> <C-W><C-J>
-"nnoremap <silent> <C-Down> <c-w>j " Note: C-Down doesn't work on macOS b/c conflict with spaces shortcut
+nnoremap <silent> <C-Down> <c-w>j
 nnoremap <C-K> <C-W><C-K>
-"nnoremap <silent> <C-Up> <c-w>k " Note: C-Up doesn't work on macOS b/c conflict with spaces shortcut
+nnoremap <silent> <C-Up> <c-w>k
 nnoremap <C-L> <C-W><C-L>
 nnoremap <silent> <C-Right> <c-w>l
 nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> <C-Left> <c-w>h
+
+map <F2> :mksession! ~/.vim_session <cr> " Quick write session with F2
+map <F3> :source ~/.vim_session <cr>     " And load session with F3
+
+" for gvim/mvim:
+set guifont=Monaco:h16
+
