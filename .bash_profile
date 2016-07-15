@@ -114,8 +114,9 @@ function _start_agent {
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
      echo succeeded
      chmod 600 "${SSH_ENV}"
-     # shellcheck disable=SC1091,SC1090
-     source "${SSH_ENV}" > /dev/null
+     # shellcheck disable=SC1091 
+     # shellcheck source=$HOME/.ssh 
+     . "${SSH_ENV}" > /dev/null
      agent_started=1
  }
 
