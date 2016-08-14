@@ -238,25 +238,27 @@ else
     }
 fi
 
+HColor=$(color IGreen)
+function setPS1 { 
+    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+}
+
+function shortenPrompt { 
+    lbreak="\n"
+    setPS1 
+}
+
+function lengthenPrompt { 
+    lbreak=""
+    setPS1 
+}
+
 if [ $(tput cols) -lt 140 ]; then
     echo "setting line break in PS1"
-    lbreak="\n"
+    shortenPrompt 
 else
-    lbreak=""
+    lengthenPrompt 
 fi
-
-HColor=$(color IGreen)
-PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
-
-function shortenPropmt { 
-    lbreak="\n"
-    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
-}
-
-function lengthenPropmt { 
-    lbreak=""
-    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
-}
 
 ## -----------------------
 ## -- 2) Set up aliases --
