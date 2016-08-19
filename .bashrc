@@ -244,12 +244,12 @@ function setPS1 {
 }
 
 function shortenPrompt { 
-    lbreak="\n"
+    export lbreak="\n"
     setPS1 
 }
 
 function lengthenPrompt { 
-    lbreak=""
+    export lbreak=""
     setPS1 
 }
 
