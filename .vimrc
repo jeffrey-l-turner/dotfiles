@@ -47,9 +47,9 @@ set fo-=t                      " Do no auto-wrap text using textwidth (does not 
 set nowrap
 "set textwidth=0                " Don't wrap lines by default
 
-"set tabstop=2                  " tab size eql 2 spaces
-set softtabstop=2
-"set shiftwidth=2               " default shift width for indents
+set tabstop=4                  " tab size eql 4 spaces
+set softtabstop=4
+set shiftwidth=4               " default shift width for indents
 set expandtab                  " replace tabs with ${tabstop} spaces
 set smarttab                   "
 
@@ -239,6 +239,10 @@ au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}      setl ft=ru
 au BufRead,BufNewFile {*.local}                                       setl ft=sh
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         setl ft=markdown
 au BufRead,BufNewFile {*.scala}                                       setl ft=scala
+au BufNewFile,BufRead {*.js}                                          setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number
+au BufNewFile,BufRead {*.sh}  :set number
+au BufWritePost *.sh  :silent make | redraw!                          " run shell check on write to .sh files
+au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
 au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}               exec 'setl ft=gitcommit noml list spell' | norm 1G
 au! BufWritePost      {*.snippet,*.snippets}                          call ReloadAllSnippets()
 
@@ -264,6 +268,15 @@ Plugin 'othree/javascript-libraries-syntax.vim.git'
 Plugin 'othree/html5.vim'
 Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
 Plugin 'git@github.com:vimplugin/project.vim.git'
+execute pathogen#infect()
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']      " want only eslint
 
 " Python
 Plugin 'davidhalter/jedi-vim'
@@ -374,6 +387,14 @@ Plugin 'gmarik/sudo-gui.vim'
 
 Plugin 'sjl/gundo.vim'
 nnoremap <F5> :GundoToggle
+" ================ Persistent Undo ==================
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+if has('persistent_undo') && !isdirectory(expand('~').'/.vim/backups')
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
+  set undofile
+endif
 
 Plugin 'mkitt/browser-refresh.vim'
 com! ONRRB :au! BufWritePost <buffer> :RRB
@@ -443,7 +464,6 @@ filetype plugin indent on      " Automatically detect file types.
 " trying pangloss instead of:
 "Bundle 'jelera/vim-javascript-syntax'
 "Bundle "pangloss/vim-javascript"
-"Bundle 'scrooloose/syntastic'
 "Bundle 'groenewege/vim-less'
 "Bundle "burnettk/vim-angular"
 "Bundle "moll/vim-node"
@@ -493,7 +513,7 @@ filetype plugin indent on      " Automatically detect file types.
 " :PluginSearch(!) foo - search (or refresh cache first) for foo
 " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
 " see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Plugin commands are not allowed.
+" Note: comments after Plugin commands are not allowed.
 " Put your stuff after this line:set expandtab
 " turn on incremental search highlighting
 ":set incsearch
@@ -563,7 +583,6 @@ filetype plugin indent on      " Automatically detect file types.
 ":set ruler
 ":syntax on
 ":set t_Co=256
-"set showcmd  " (sc) display an incomplete command in the lower right
 ":set background=dark
 ":set mouse=a
 "
@@ -582,13 +601,5 @@ filetype plugin indent on      " Automatically detect file types.
 "
 " for gvim/mvim:
 "
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
-"if has('persistent_undo') && !isdirectory(expand('~').'/.vim/backups')
-"  silent !mkdir ~/.vim/backups > /dev/null 2>&1
-"  set undodir=~/.vim/backups
-"  set undofile
-"endif
 "
 " " }}}
