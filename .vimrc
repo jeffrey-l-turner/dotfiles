@@ -93,14 +93,32 @@ set stl+=[%{&ff}]             " show fileformat
 set stl+=%y%m%r%=
 set stl+=%-14.(%l,%c%V%)\ %P
 
-
 set foldenable                " Turn on folding
 set foldmethod=marker         " Fold on the marker
+"set foldmethod=indent        "fold based on indent
+"set foldmethod=syntax        "fold based on syntax
 set foldlevel=100             " Don't autofold anything (but I can still fold manually)
 
 set foldopen=block,hor,tag    " what movements open folds
 set foldopen+=percent,mark
 set foldopen+=quickfix
+
+"Vim folding commands:
+"  zf#j creates a fold from the cursor down # lines.
+"  zf/string creates a fold from the cursor to string .
+"  zj moves the cursor to the next fold.
+"  zk moves the cursor to the previous fold.
+"  zo opens a fold at the cursor.
+"  zO opens all folds at the cursor.
+"  zm increases the foldlevel by one.
+"  zM closes all open folds.
+"  zr decreases the foldlevel by one.
+"  zR decreases the foldlevel to zero -- all folds will be open.
+"  zd deletes the fold at the cursor.
+"  zE deletes all folds.
+"  [z move to start of open fold.
+"  ]z move to end of open fold.
+"  Ctrl-P setup
 
 set virtualedit=block
 
@@ -239,7 +257,7 @@ au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}      setl ft=ru
 au BufRead,BufNewFile {*.local}                                       setl ft=sh
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         setl ft=markdown
 au BufRead,BufNewFile {*.scala}                                       setl ft=scala
-au BufNewFile,BufRead {*.js}                                          setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number
+au BufNewFile,BufRead {*.js}                                          setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
 au BufNewFile,BufRead {*.sh}  :set number
 au BufWritePost *.sh  :silent make | redraw!                          " run shell check on write to .sh files
 au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
@@ -518,22 +536,6 @@ filetype plugin indent on      " Automatically detect file types.
 " turn on incremental search highlighting
 ":set incsearch
 ":set hlsearch 
-"Vim folding commands:
-"  zf#j creates a fold from the cursor down # lines.
-"  zf/string creates a fold from the cursor to string .
-"  zj moves the cursor to the next fold.
-"  zk moves the cursor to the previous fold.
-"  zo opens a fold at the cursor.
-"  zO opens all folds at the cursor.
-"  zm increases the foldlevel by one.
-"  zM closes all open folds.
-"  zr decreases the foldlevel by one.
-"  zR decreases the foldlevel to zero -- all folds will be open.
-"  zd deletes the fold at the cursor.
-"  zE deletes all folds.
-"  [z move to start of open fold.
-"  ]z move to end of open fold.
-"  Ctrl-P setup
 ":set runtimepath^=~/.vim/bundle/ctrlp.vim "ctrl-p plugin helps find files for angular (and others)
 ":set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 ":set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
@@ -567,15 +569,11 @@ filetype plugin indent on      " Automatically detect file types.
 "let g:syntastic_sass_checkers=["sass_lint"]
 "let g:syntastic_scss_checkers=["sass_lint"]
 "change below : to " or vice versa to stop autoformatting of comments when copying pasting code snipppets into vim
-":autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
-":autocmd FileType *.js *.json *.html setlocal foldmethod=syntax foldlevelstart=1 foldlevel=99
 " make and restore views automatically
 ":autocmd BufWinLeave *.* mkview
 ":autocmd BufWinEnter *.* silent loadview 
 "set no line numbers -- :set number to enable
-"set nonumber
-":autocmd BufNewFile,BufRead *.js  :set number
-":autocmd BufNewFile,BufRead *.sh  :set number
+":autocmd FileType *.js *.css *.html *.json *.less setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
 " run shell check on write to .sh files
 ":autocmd BufWritePost *.sh  :silent make | redraw!
 " Setup node.vim; see: https://github.com/moll/vim-node
