@@ -145,7 +145,7 @@ if has('gui_running')
   set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
-    set guifont=Monaco:h17
+    set guifont=Consolas:h9
     set lines=120 columns=140
   end
 endif
@@ -251,18 +251,22 @@ map <leader>2h :runtime! syntax/2html.vim<CR>
 
 " AutoCommands " {{{
 "
-au BufRead,BufNewFile {*.go}                                          setl ft=go
-au BufRead,BufNewFile {*.coffee}                                      setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
-au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}      setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-au BufRead,BufNewFile {*.local}                                       setl ft=sh
-au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         setl ft=markdown
-au BufRead,BufNewFile {*.scala}                                       setl ft=scala
-au BufNewFile,BufRead {*.js}                                          setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-au BufNewFile,BufRead {*.sh}  :set number
+au BufRead,BufNewFile {*.go}                                       setl ft=go
+au BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
+au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+au BufRead,BufNewFile {*.local}                                    setl ft=sh
+au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+au BufRead,BufNewFile {*.scala}                                    setl ft=scala
+au BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+au BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+au BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
+au BufNewFile,BufRead {*.sh}                                       setl number
 au BufWritePost *.sh  :silent make | redraw!                          " run shell check on write to .sh files
 au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
-au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}               exec 'setl ft=gitcommit noml list spell' | norm 1G
-au! BufWritePost      {*.snippet,*.snippets}                          call ReloadAllSnippets()
+au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
+au! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
+au! BufWritePost      {*.ts}                                       :TsuGeterr
+au! bufwritepost .vimrc nested source % " automatically reload .vimrc on write
 
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
