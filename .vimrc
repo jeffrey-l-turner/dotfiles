@@ -266,7 +266,7 @@ au BufWritePost *.sh  :silent make | redraw!                          " run shel
 au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
 au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
 au! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
-"au! BufWritePost      {*.ts}                                       :TsuGeterr
+au! BufWritePost      {*.ts}                                       setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
 au! bufwritepost .vimrc nested source % " automatically reload .vimrc on write
 
 " open help in vertical split
@@ -319,7 +319,7 @@ let g:go_highlight_structs = 1
 let g:go_highlight_build_constraints = 1
 
 " TypeScript
-":TsuquyomiStartServer
+":TsuquyomiStartServer " starts server for TSC checking
 
 augroup go
 " clear everything
