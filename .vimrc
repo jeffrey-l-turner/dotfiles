@@ -18,7 +18,7 @@ set modeline
 set modelines=5                " default numbers of lines to read for modeline instructions
 
 set autowrite                  " Writes on make/shell commands
-set autoread
+set autoread                   " In case file is changed externally
 
 set nobackup
 set nowritebackup
@@ -145,7 +145,7 @@ if has('gui_running')
   set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
-    set guifont=Monaco:h17
+    set guifont=Consolas:h9
     set lines=120 columns=140
   end
 endif
@@ -251,18 +251,23 @@ map <leader>2h :runtime! syntax/2html.vim<CR>
 
 " AutoCommands " {{{
 "
-au BufRead,BufNewFile {*.go}                                          setl ft=go
-au BufRead,BufNewFile {*.coffee}                                      setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
-au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}      setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-au BufRead,BufNewFile {*.local}                                       setl ft=sh
-au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         setl ft=markdown
-au BufRead,BufNewFile {*.scala}                                       setl ft=scala
-au BufNewFile,BufRead {*.js}                                          setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-au BufNewFile,BufRead {*.sh}  :set number
+au BufRead,BufNewFile {*.go}                                       setl ft=go
+au BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
+au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+au BufRead,BufNewFile {*.local}                                    setl ft=sh
+au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+au BufRead,BufNewFile {*.scala}                                    setl ft=scala
+au BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+au BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+au BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
+au BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
+au BufNewFile,BufRead {*.sh}                                       setl number
 au BufWritePost *.sh  :silent make | redraw!                          " run shell check on write to .sh files
 au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
-au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}               exec 'setl ft=gitcommit noml list spell' | norm 1G
-au! BufWritePost      {*.snippet,*.snippets}                          call ReloadAllSnippets()
+au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
+au! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
+au! BufWritePost      {*.ts}                                       setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
+au! bufwritepost .vimrc nested source % " automatically reload .vimrc on write
 
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
@@ -295,6 +300,9 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']      " want only eslint
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
+let g:syntastic_json_checkers=['jsonlint']
 
 " Python
 Plugin 'davidhalter/jedi-vim'
@@ -309,6 +317,9 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_build_constraints = 1
+
+" TypeScript
+":TsuquyomiStartServer " starts server for TSC checking
 
 augroup go
 " clear everything
@@ -487,13 +498,11 @@ filetype plugin indent on      " Automatically detect file types.
 "Bundle "moll/vim-node"
 " Colorized indentation <leader>ig or \ig to enable
 "Bundle "nathanaelkane/vim-indent-guides"
-"autocmd FileType javascript set ts=4 sw=4 et 
+
 "let g:indent_guides_start_level=1
 "let g:indent_guides_guide_size=1
 " Lines of history to remember
 "set history=1000
-" turn on autoread in case file modified externally
-"set autoread
 " Omni-competion for environments I typically use:
 " To use, type <C-X><C-O> while open in Insert mode. If
 " matching names are found, a pop-up menu opens which can be navigated using
