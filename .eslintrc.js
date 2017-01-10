@@ -13,7 +13,7 @@ module.exports = {
 
           // disable rules from base configurations
           "no-console": "off",
-      }
+      },
 
     "env": {
           "browser": true,
