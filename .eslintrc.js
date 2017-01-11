@@ -4,7 +4,7 @@ module.exports = {
        // enable additional rules
           "indent": ["error", 4],
           "linebreak-style": ["error", "unix"],
-          "quotes": ["error", "double"],
+          "quotes": ["error", "single"],
           "semi": ["error", "always"],
 
           // override default options for rules from base configurations
@@ -80,7 +80,6 @@ module.exports = {
         "object-curly-spacing": [2, "never"],
         "space-infix-ops": 2,
         "one-var": 0,
-        "quotes": [2, "single"],
         "no-irregular-whitespace": 2, 
 
         // Legacy
