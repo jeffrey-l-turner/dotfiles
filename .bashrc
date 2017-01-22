@@ -287,26 +287,10 @@ alias ...='cd ..;cd ..'
 alias md='mkdir'
 if [ "${OS}" = "darwin" ]; then
     alias cl='clear; printf "\e[3J"'
-    vim()
-    {
-    # remap b/c ctrl-s is flow control in bash, need to disable for vim
-    # osx must use stty -g
-       local STTYOPTS="$(stty -g)"
-       stty  stop '' -ixoff
-       command vim "$@"
-       stty  "$STTYOPTS"
-    }
 else
     alias cl='clear'
-    vim()
-    {
-    # remap b/c ctrl-s is flow control in bash, need to disable for vim
-       local STTYOPTS="$(stty --save)"
-       stty -g stop '' -ixoff
-       command vim "$@"
-       stty -g "$STTYOPTS"
-    }
 fi
+
 #alias du='du -ch --max-depth=1'
 alias treeacl='tree -A -C -L 2'
 
@@ -357,3 +341,16 @@ if [ -f "${HOME}/.bashrc_custom" ]; then
     # shellcheck disable=SC1091
     source ~/.bashrc_custom
 fi
+
+vim()
+{ # remap b/c ctrl-s is flow control in bash, need to disable for vim
+  # osx must use stty -g
+if [ "${OS}" = "darwin" ]; then
+   local STTYOPTS="$(stty -g)"
+else
+   local STTYOPTS="$(stty --save)"
+fi
+   stty  stop '' -ixoff
+   command vim "$@"
+   stty  "$STTYOPTS"
+}
