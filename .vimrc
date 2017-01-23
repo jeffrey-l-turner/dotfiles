@@ -314,6 +314,7 @@ let g:syntastic_javascript_checkers = ['eslint']      " want only eslint
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
 let g:syntastic_json_checkers=['jsonlint']
+let g:flow#autoclose=1
 
 " Python
 Plugin 'davidhalter/jedi-vim'
