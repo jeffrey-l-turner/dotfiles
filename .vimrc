@@ -266,9 +266,11 @@ au BufRead,BufNewFile {*.local}                                    setl ft=sh
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
 au BufRead,BufNewFile {*.scala}                                    setl ft=scala
 au BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+au User Node if &filetype == "javascript" | setlocal expandtab | endif
 au BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
 au BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
 au BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
+au BufRead,BufNewFile .eslintrc.js                                 setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o
 au BufNewFile,BufRead {*.sh}                                       setl number
 au BufWritePost *.sh  :silent make | redraw!                          " run shell check on write to .sh files
 au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
