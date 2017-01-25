@@ -191,7 +191,7 @@ function _git-branch-prompt {
         local declare br
         br=$(git branch 2> /dev/null |git branch 2>/dev/null | head -1 | sed s/*\*\ *\(// | sed s/\)*$//)
         if [ "$br" ]; then
-            echo -ne "${HC}not on HEAD${TC} ${br}"
+            echo -ne "${HC}warning:${TC} ${br}"
         else
             HColor=$(color IGreen)
         fi
@@ -290,6 +290,7 @@ if [ "${OS}" = "darwin" ]; then
 else
     alias cl='clear'
 fi
+
 #alias du='du -ch --max-depth=1'
 alias treeacl='tree -A -C -L 2'
 
@@ -340,3 +341,16 @@ if [ -f "${HOME}/.bashrc_custom" ]; then
     # shellcheck disable=SC1091
     source ~/.bashrc_custom
 fi
+
+vim()
+{ # remap b/c ctrl-s is flow control in bash, need to disable for vim
+  # osx must use stty -g
+if [ "${OS}" = "darwin" ]; then
+   local STTYOPTS="$(stty -g)"
+else
+   local STTYOPTS="$(stty --save)"
+fi
+   stty  stop '' -ixoff
+   command vim "$@"
+   stty  "$STTYOPTS"
+}
