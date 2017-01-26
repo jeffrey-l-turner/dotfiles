@@ -223,8 +223,10 @@ function _git-commits {
     fi
 }
 
-which docker >/dev/null 2>&1 
-if [ $? -eq 0 ]; then
+if [ ${OS} != "sunos" ]; then
+    which docker >/dev/null 2>&1 
+fi
+if [[ $? -eq 0  &&  ${OS} != "sunos" ]]; then
     function _docker-prompt { 
         local declare DC
         DC=$(color On_ICyan esc)
@@ -287,6 +289,7 @@ elif [ "${OS}" == "sunos" ]; then
     alias ll="ls -lrtF"
     alias dir='ls --color=auto --format=vertical'
     alias vdir='ls --color=auto --format=long'
+    stty erase ^?
 else
     alias ll="ls -lrtF --color"
     alias dir='ls --color=auto --format=vertical'
@@ -325,7 +328,10 @@ export LC_ALL=POSIX
 
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
-command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";}
+command -v rlwrap >/dev/null 2>&1 
+if [ "$?" -ne 0  ]; then
+    echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";
+fi
 
 # 2.7) node.js and nvm
 # http://nodejs.org/api/repl.html#repl_repl
