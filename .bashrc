@@ -40,6 +40,20 @@
 #      --norc option. The --rcfile file option will force Bash to read and
 #      execute commands from file instead of ~/.bashrc.
 
+#  Determine the OS:
+#  Using the lowercase function for accurate comparisons -- the tput utility on 
+#  Mac OS returns a non-printable
+#  character so the if statements below do not work
+lowercase(){
+    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+}
+OS="$(lowercase "$(uname)")"
+
+# source some useful color definitions:
+# shellcheck disable=SC1091
+source ~/dotfiles/colordefs.sh
+
+
 # -----------------------------------
 # -- 1.1) Set up umask permissions --
 # -----------------------------------
@@ -82,18 +96,6 @@ else
         umask 022
     fi
 fi
-
-
-#  Using the lowercase function for accurate comparisons -- the tput utility on Mac OS returns a non-printable
-#  character so the if statements below do not work
-lowercase(){
-    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
-}
-OS="$(lowercase "$(uname)")"
-
-# source some useful color definitions:
-# shellcheck disable=SC1091
-source ~/dotfiles/colordefs.sh
 
 # ---------------------------------------------------------
 # -- 1.2) Set up bash prompt and ~/.bash_eternal_history --
@@ -266,6 +268,7 @@ function lengthenPrompt {
 
 if [ $(tput cols) -lt 140 ]; then
     echo "setting line break in PS1"
+    echo "use lengthenPrompt to reset PS1 to single line"
     shortenPrompt 
 else
     lengthenPrompt 
@@ -329,7 +332,7 @@ export LC_ALL=POSIX
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
 command -v rlwrap >/dev/null 2>&1 
-if [ "$?" -ne 0  ]; then
+if [ "$?" -ne 0  ] && [ "$OS" != "sunos" ]; then
     echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";
 fi
 
