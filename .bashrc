@@ -11,7 +11,7 @@
 #    3) .bash_profile imports .bashrc, but not vice versa.
 #    4) .bashrc imports .bashrc_custom, which can be used to override
 #        variables specified here.
-#           
+#
 # When using GNU screen:
 #
 #    1) .bash_profile is loaded the first time you login, and should be used
@@ -69,11 +69,20 @@
 #  AND the user id is greater than 99, we're on the server, and set umask
 #  022 for easy collaborative editing.
 
-if [ "$(id -gn)" == "$(id -un)" ] && [ "$(id -u)" -gt 99 ]; then
-	umask 002
+if [ "${OS}" == "sunos" ]; then
+    if [ "$(/usr/xpg4/bin/id -gn)" == "$(/usr/xpg4/bin/id -un)" ] && [ "$(/usr/xpg4/bin/id -u)" -gt 99 ]; then
+	    umask 002
+    else
+        umask 022
+    fi
 else
-	umask 022
+    if [ "$(id -gn)" == "$(id -un)" ] && [ "$(id -u)" -gt 99 ]; then
+	    umask 002
+    else
+        umask 022
+    fi
 fi
+
 
 #  Using the lowercase function for accurate comparisons -- the tput utility on Mac OS returns a non-printable
 #  character so the if statements below do not work
@@ -321,7 +330,9 @@ command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sud
 # 2.7) node.js and nvm
 # http://nodejs.org/api/repl.html#repl_repl
 alias node="env NODE_NO_READLINE=1 rlwrap node"
-alias node_repl="node -e \"require('repl').start({ignoreUndefined: true})\""
+if [ "${OS}" != "sunos" ]; then # doesn't work on sunos
+  alias node_repl="node -e \"require('repl').start({ignoreUndefined: true})\""
+fi
 export NODE_DISABLE_COLORS=1
 if [ -s ~/.nvm/nvm.sh ]; then
     export NVM_DIR=~/.nvm
