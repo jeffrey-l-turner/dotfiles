@@ -249,8 +249,8 @@ export HISTFILESIZE=2500 # Set the bash history to 2500 entries
 if [ -O ~/.ssh/heroku-rsa ]; then
     export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
 fi
-export PATH=~/Library/Android/sdk/platform-tools:$PATH # for Android sdk adb
-export PATH=~/Library/Android/sdk/tools:$PATH # for Android sdk tools incl. `android`; use `android list targets` to generate list of system image targets
+#export PATH=~/Library/Android/sdk/platform-tools:$PATH # for Android sdk adb
+#export PATH=~/Library/Android/sdk/tools:$PATH # for Android sdk tools incl. `android`; use `android list targets` to generate list of system image targets
 
 if [ "${OS}" == "sunos" ]; then  # to add color to vim
     export TERM=xtermc
