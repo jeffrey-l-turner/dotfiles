@@ -274,6 +274,10 @@ if [ "${OS}" == "darwin" ]; then
     alias ll="ls -lrtFG"
     alias dir='ls -Gx'
     alias vdir='ls -l@G'
+elif [ "${OS}" == "sunos" ]; then
+    alias ll="ls -lrtF
+    alias dir='ls --color=auto --format=vertical'
+    alias vdir='ls --color=auto --format=long'
 else
     alias ll="ls -lrtF --color"
     alias dir='ls --color=auto --format=vertical'
