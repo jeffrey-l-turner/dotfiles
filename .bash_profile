@@ -252,8 +252,14 @@ fi
 #export PATH=~/Library/Android/sdk/platform-tools:$PATH # for Android sdk adb
 #export PATH=~/Library/Android/sdk/tools:$PATH # for Android sdk tools incl. `android`; use `android list targets` to generate list of system image targets
 
-if [ "${OS}" == "sunos" ]; then  # to add color to vim
+if [ "${OS}" == "sunos" ]; then  # doesn't seem to be decent color term for SunOS...
     export TERM=xtermc
+fi
+
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM='xterm-256color'
+else
+    export TERM='xterm-color'
 fi
 
 # shellcheck disable=SC1091
