@@ -1,49 +1,50 @@
 [core]
-	autocrlf = input
-	safecrlf = false
-	editor = /usr/bin/vim
-	pager = less -R
+    autocrlf = input
+    safecrlf = false
+    editor = /usr/bin/vim
+    pager = less -R
 [alias]
-	graph = log --graph --abbrev-commit --decorate --first-parent --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    graph = log --graph --abbrev-commit --decorate --first-parent --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 [push]
-	default = tracking
+    default = tracking
 [mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustexitcode = true
+    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+    trustexitcode = true
 [merge]
-	tool = Kaleidoscope
+    tool = Kaleidoscope
 [difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool]
-	prompt = false
+    prompt = false
 [mergetool]
-	prompt = false
+    prompt = false
 [diff]
-	tool = Kaleidoscope
+    tool = Kaleidoscope
 [branch]
-	autosetuprebase = always
+    autosetuprebase = always
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
 [git-up "bundler"]
-	check = true
+    check = true
 [init]
-	templatedir = ~/dotfiles/.git_template
+    templatedir = ~/dotfiles/.git_template
 [rerere]
-	enabled = true
+    enabled = true
 [color]
-        branch = auto
-        diff = auto
-        status = auto
-	ui = true
+    branch = auto
+    diff = auto
+    status = auto
+    ui = true
 [color "branch"]
-        current = white reverse
-        local = green
-        remote = yellow
+    current = white reverse
+    local = green
+    remote = yellow
 [color "diff"]
-        meta = yellow bold
-        frag = magenta bold
-        old = red bold
-        new = green bold
+     meta = yellow bold
+     frag = magenta bold
+     old = red bold
+     new = green bold
+    whitespace = yellow reverse
 [color "grep"]
         match = magenta bold
 [color "status"]
