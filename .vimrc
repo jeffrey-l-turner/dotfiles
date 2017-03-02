@@ -248,9 +248,9 @@ endif
 
 " Control+S and Control+Q are flow-control characters: disable them in your terminal settings.
 " $ stty -ixon -ixoff
-noremap <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <C-O>:update<CR>
+noremap <C-S> :wa<CR>
+vnoremap <C-S> <C-C>:wa<CR>
+inoremap <C-S> <C-O>:wa<CR>
 "
 " generate HTML version current buffer using current color scheme
 map <leader>2h :runtime! syntax/2html.vim<CR>
@@ -293,7 +293,9 @@ call vundle#rc()
 
 if has("gui_running")
 "  colorscheme ingretu
-  colorscheme blue
+"  colorscheme blue
+"  colorscheme candy
+   colorscheme neon-custom
 endif
 
 " Programming
@@ -315,6 +317,7 @@ let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
 let g:syntastic_json_checkers=['jsonlint']
 let g:flow#autoclose=1
+let g:flow#enable=0
 
 " Python
 Plugin 'davidhalter/jedi-vim'
