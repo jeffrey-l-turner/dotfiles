@@ -11,7 +11,7 @@
 #    3) .bash_profile imports .bashrc, but not vice versa.
 #    4) .bashrc imports .bashrc_custom, which can be used to override
 #        variables specified here.
-#           
+#
 # When using GNU screen:
 #
 #    1) .bash_profile is loaded the first time you login, and should be used
@@ -39,6 +39,20 @@
 #      ~/.bashrc, if that file exists. This may be inhibited by using the
 #      --norc option. The --rcfile file option will force Bash to read and
 #      execute commands from file instead of ~/.bashrc.
+
+#  Determine the OS:
+#  Using the lowercase function for accurate comparisons -- the tput utility on 
+#  Mac OS returns a non-printable
+#  character so the if statements below do not work
+lowercase(){
+    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+}
+OS="$(lowercase "$(uname)")"
+
+# source some useful color definitions:
+# shellcheck disable=SC1091
+source ~/dotfiles/colordefs.sh
+
 
 # -----------------------------------
 # -- 1.1) Set up umask permissions --
@@ -69,22 +83,19 @@
 #  AND the user id is greater than 99, we're on the server, and set umask
 #  022 for easy collaborative editing.
 
-if [ "$(id -gn)" == "$(id -un)" ] && [ "$(id -u)" -gt 99 ]; then
-	umask 002
+if [ "${OS}" == "sunos" ]; then
+    if [ "$(/usr/xpg4/bin/id -gn)" == "$(/usr/xpg4/bin/id -un)" ] && [ "$(/usr/xpg4/bin/id -u)" -gt 99 ]; then
+	    umask 002
+    else
+        umask 022
+    fi
 else
-	umask 022
+    if [ "$(id -gn)" == "$(id -un)" ] && [ "$(id -u)" -gt 99 ]; then
+	    umask 002
+    else
+        umask 022
+    fi
 fi
-
-#  Using the lowercase function for accurate comparisons -- the tput utility on Mac OS returns a non-printable
-#  character so the if statements below do not work
-lowercase(){
-    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
-}
-OS="$(lowercase "$(uname)")"
-
-# source some useful color definitions:
-# shellcheck disable=SC1091
-source ~/dotfiles/colordefs.sh
 
 # ---------------------------------------------------------
 # -- 1.2) Set up bash prompt and ~/.bash_eternal_history --
@@ -191,7 +202,7 @@ function _git-branch-prompt {
         local declare br
         br=$(git branch 2> /dev/null |git branch 2>/dev/null | head -1 | sed s/*\*\ *\(// | sed s/\)*$//)
         if [ "$br" ]; then
-            echo -ne "${HC}warning:${TC} ${br}"
+            echo -ne "${HC}warning:${TC} ${br} "
         else
             HColor=$(color IGreen)
         fi
@@ -214,8 +225,10 @@ function _git-commits {
     fi
 }
 
-which docker >/dev/null 2>&1 
-if [ $? -eq 0 ]; then
+if [ ${OS} != "sunos" ]; then
+    which docker >/dev/null 2>&1 
+fi
+if [[ $? -eq 0  &&  ${OS} != "sunos" ]]; then
     function _docker-prompt { 
         local declare DC
         DC=$(color On_ICyan esc)
@@ -255,6 +268,7 @@ function lengthenPrompt {
 
 if [ $(tput cols) -lt 140 ]; then
     echo "setting line break in PS1"
+    echo "use lengthenPrompt to reset PS1 to single line"
     shortenPrompt 
 else
     lengthenPrompt 
@@ -274,6 +288,11 @@ if [ "${OS}" == "darwin" ]; then
     alias ll="ls -lrtFG"
     alias dir='ls -Gx'
     alias vdir='ls -l@G'
+elif [ "${OS}" == "sunos" ]; then
+    alias ll="ls -lrtF"
+    alias dir='ls --color=auto --format=vertical'
+    alias vdir='ls --color=auto --format=long'
+    stty erase ^?
 else
     alias ll="ls -lrtF --color"
     alias dir='ls --color=auto --format=vertical'
@@ -312,12 +331,17 @@ export LC_ALL=POSIX
 
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
-command -v rlwrap >/dev/null 2>&1 || { echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";}
+command -v rlwrap >/dev/null 2>&1 
+if [ "$?" -ne 0  ] && [ "$OS" != "sunos" ]; then
+    echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";
+fi
 
 # 2.7) node.js and nvm
 # http://nodejs.org/api/repl.html#repl_repl
 alias node="env NODE_NO_READLINE=1 rlwrap node"
-alias node_repl="node -e \"require('repl').start({ignoreUndefined: true})\""
+if [ "${OS}" != "sunos" ]; then # doesn't work on sunos
+  alias node_repl="node -e \"require('repl').start({ignoreUndefined: true})\""
+fi
 export NODE_DISABLE_COLORS=1
 if [ -s ~/.nvm/nvm.sh ]; then
     export NVM_DIR=~/.nvm

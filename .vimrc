@@ -248,9 +248,9 @@ endif
 
 " Control+S and Control+Q are flow-control characters: disable them in your terminal settings.
 " $ stty -ixon -ixoff
-noremap <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <C-O>:update<CR>
+noremap <C-S> :wa<CR>
+vnoremap <C-S> <C-C>:wa<CR>
+inoremap <C-S> <C-O>:wa<CR>
 "
 " generate HTML version current buffer using current color scheme
 map <leader>2h :runtime! syntax/2html.vim<CR>
@@ -266,6 +266,7 @@ au BufRead,BufNewFile {*.local}                                    setl ft=sh
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
 au BufRead,BufNewFile {*.scala}                                    setl ft=scala
 au BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+au User Node if &filetype == "javascript" | setlocal expandtab | endif
 au BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
 au BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
 au BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
@@ -292,7 +293,9 @@ call vundle#rc()
 
 if has("gui_running")
 "  colorscheme ingretu
-  colorscheme blue
+"  colorscheme blue
+"  colorscheme candy
+   colorscheme neon-custom
 endif
 
 " Programming
@@ -313,6 +316,8 @@ let g:syntastic_javascript_checkers = ['eslint']      " want only eslint
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
 let g:syntastic_json_checkers=['jsonlint']
+let g:flow#autoclose=1
+let g:flow#enable=0
 
 " Python
 Plugin 'davidhalter/jedi-vim'

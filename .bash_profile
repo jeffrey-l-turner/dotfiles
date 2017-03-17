@@ -186,7 +186,6 @@ function FF() {
     done
     echo "${QU}" >&2 
     eval "${QU}"
-    #eval "${QU}"
 }
 
 # function to get pull requests locally from remote
@@ -253,6 +252,16 @@ fi
 #export PATH=~/Library/Android/sdk/platform-tools:$PATH # for Android sdk adb
 #export PATH=~/Library/Android/sdk/tools:$PATH # for Android sdk tools incl. `android`; use `android list targets` to generate list of system image targets
 
+if [ "${OS}" == "sunos" ]; then  # doesn't seem to be decent color term for SunOS...
+    export TERM=xtermc
+fi
+
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM='xterm-256color'
+else
+    export TERM='xterm-color'
+fi
+
 # shellcheck disable=SC1091
 [ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
 # add docker completion from https://github.com/nicferrier/docker-bash-completion
@@ -263,7 +272,8 @@ if [ -f "${HOME}/bin/docker-complete" ]; then
 fi 
 
 # Load bash completion here:
-if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+if [ "${OS}" == "darwin" ]; then 
+  if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
     # shellcheck disable=SC1091
     # shellcheck disable=SC1090
     . "$(brew --prefix)/etc/bash_completion" 
@@ -271,4 +281,5 @@ if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
     if [ $? -eq 0 ]; then
         complete -C aws_completer aws
     fi
+  fi
 fi
