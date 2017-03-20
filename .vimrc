@@ -154,7 +154,7 @@ if has('gui_running')
   else
 "    set guifont=Terminus:h16
     set guifont=Consolas:h9
-    set lines=120 columns=140
+    set lines=123 columns=180
   end
 endif
 " "}}}
