@@ -139,6 +139,7 @@ set listchars+=trail:·
 set listchars+=extends:»,precedes:«
 map <silent> <F12> :set invlist<CR>
 
+colorscheme neon-custom
 if has('gui_running')
   set guioptions=cMg " console dialogs, do not show menu and toolbar
 
