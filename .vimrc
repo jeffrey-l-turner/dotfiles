@@ -1,7 +1,6 @@
 " Adapted originally from github.com/gmarik/dotfiles
 " General "{{{
 set nocompatible               " be iMproved
-
 scriptencoding utf-8           " utf-8 all the way
 set encoding=utf-8
 
@@ -85,6 +84,7 @@ set showmatch                 " Show matching brackets.
 set matchtime=2               " Bracket blinking.
 
 set wildmode=longest,list     " At command line, complete longest common string, then list alternatives.
+set wildmenu
 
 set completeopt-=preview      " disable auto opening preview window
 
@@ -276,7 +276,9 @@ au BufWritePost *.sh  :silent make | redraw!                          " run shel
 au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
 au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
 au! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
-au! BufWritePost      {*.ts}                                       setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
+if has('gui_running')
+    au! BufWritePost      {*.ts}                                       setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
+endif
 au! bufwritepost .vimrc nested source % " automatically reload .vimrc on write
 
 au BufWinLeave *.* mkview
@@ -286,12 +288,44 @@ au BufWinEnter *.* silent loadview  " use mkview to automatically load cursor po
 " " }}}
 
 " Scripts and Plugins " {{{
+" DEIN installation (for tsuquyomi, etc.)
+set runtimepath+=/home/User/employees/culver_city/jturner/.vim/bundle/dein.vim
+
+" Required:
+if dein#load_state('/home/User/employees/culver_city/jturner/.vim/bundle/dein.vim')
+"  call dein#begin('/home/User/employees/culver_city/jturner/.vim/bundle/')
+" 
+"   " Let dein manage dein
+"   " Required:
+   call dein#add('/home/User/employees/culver_city/jturner/.vim/bundle/')
+" 
+"   " Add or remove your plugins here:
+"   call dein#add('Shougo/neosnippet.vim')
+"   call dein#add('Shougo/neosnippet-snippets')
+" 
+"   " You can specify revision/branch/tag.
+"   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+" 
+"  call dein#end()
+  call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
 filetype off
 runtime macros/matchit.vim
-set rtp+=~/.vim/vendor/snipmate.snippets/
-set rtp+=~/.vim/vendor/vundle.vim/
+set rtp+=~/.vim/bundle/snipmate.snippets/
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+colorscheme neon-custom
 if has("gui_running")
 "  colorscheme ingretu
 "  colorscheme blue
@@ -305,6 +339,13 @@ Plugin 'othree/javascript-libraries-syntax.vim.git'
 Plugin 'othree/html5.vim'
 Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
 Plugin 'git@github.com:vimplugin/project.vim.git'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'groenewege/vim-less'
+Plugin 'elzr/vim-json'
+Plugin 'editorconfig/editorconfig-vim'
+
 execute pathogen#infect()
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -316,7 +357,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']      " want only eslint
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
-let g:syntastic_json_checkers=['jsonlint']
+"let g:syntastic_json_checkers=['jsonlint']
 let g:flow#autoclose=1
 let g:flow#enable=0
 
@@ -389,9 +430,8 @@ Plugin 'mxw/vim-jsx'
 
 " Snippets
 Plugin 'gmarik/snipmate.vim'
+
 nnoremap <leader>so :Explore ~/.vim/vendor/snipmate.snippets/snippets/<CR>
-
-
 
 " Syntax highlight
 Plugin 'gmarik/vim-markdown'
