@@ -18,8 +18,11 @@ set tags=.git/tags;$HOME       " consider the repo tags first, then
                                "  :20  :  up to 20 lines of command-line history will be remembered
                                "   %    :  saves and restores the buffer list
                                "   n... :  where to save the viminfo files
-set viminfo='10,\"100,:20,%,n~/.viminfo
-"set viminfo='10,\"100,:20,%,nc:~/vimfiles/.viminfo " for window
+if has("win32") || has("win16")
+    set viminfo='10,\"100,:20,%,nc:~/vimfiles/.viminfo 
+else
+    set viminfo='10,\"100,:20,%,n~/.viminfo
+endif
 
 set modeline
 set modelines=5                " default numbers of lines to read for modeline instructions
@@ -289,40 +292,50 @@ au BufWinEnter *.* silent loadview  " use mkview to automatically load cursor po
 
 " Scripts and Plugins " {{{
 " DEIN installation (for tsuquyomi, etc.)
-set runtimepath+=/home/User/employees/culver_city/jturner/.vim/bundle/dein.vim
 
 " Required:
-if dein#load_state('/home/User/employees/culver_city/jturner/.vim/bundle/dein.vim')
-"  call dein#begin('/home/User/employees/culver_city/jturner/.vim/bundle/')
-" 
-"   " Let dein manage dein
-"   " Required:
-   call dein#add('/home/User/employees/culver_city/jturner/.vim/bundle/')
-" 
-"   " Add or remove your plugins here:
-"   call dein#add('Shougo/neosnippet.vim')
-"   call dein#add('Shougo/neosnippet-snippets')
-" 
-"   " You can specify revision/branch/tag.
-"   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-" 
-"  call dein#end()
-  call dein#save_state()
+if has("win32") || has("win16")
+    " for the 'hostile' developer environment...
+    set runtimepath+=~/vimfiles/bundle/dein.vim
+else
+    set runtimepath+=~/.vim/bundle/dein.vim
+    if dein#load_state('~/vimfiles/bundle/dein.vim')
+    "  call dein#begin('/home/User/employees/culver_city/jturner/.vim/bundle/')
+    " 
+    "   " Let dein manage dein
+    "   " Required:
+    "   call dein#add('~/vimfiles/bundle/')
+    " 
+    "   " Add or remove your plugins here:
+    "   call dein#add('Shougo/neosnippet.vim')
+    "   call dein#add('Shougo/neosnippet-snippets')
+    " 
+    "   " You can specify revision/branch/tag.
+    "   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+    " 
+    "  call dein#end()
+    "  call dein#save_state()
+    endif
+    " If you want to install not installed plugins on startup.
+    "if dein#check_install()
+       call dein#install()
+    "endif
 endif
 
 " Required:
 filetype plugin indent on
 syntax enable
 
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
 
 filetype off
 runtime macros/matchit.vim
-set rtp+=~/.vim/bundle/snipmate.snippets/
-set rtp+=~/.vim/bundle/vundle/
+if has("win32") || has("win16")
+    set rtp+=~/vimfiles/bundle/snipmate.snippets/
+    set rtp+=~/vimfiles/bundle/vundle/
+else
+    set rtp+=~/.vim/bundle/snipmate.snippets/
+    set rtp+=~/.vim/bundle/vundle/
+endif
 call vundle#rc()
 
 colorscheme neon-custom
@@ -431,7 +444,11 @@ Plugin 'mxw/vim-jsx'
 " Snippets
 Plugin 'gmarik/snipmate.vim'
 
-nnoremap <leader>so :Explore ~/.vim/vendor/snipmate.snippets/snippets/<CR>
+if has("win32") || has("win16")
+    nnoremap <leader>so :Explore ~/vimfiles/vendor/snipmate.snippets/snippets/<CR>
+else
+    nnoremap <leader>so :Explore ~/.vim/vendor/snipmate.snippets/snippets/<CR>
+endif
 
 " Syntax highlight
 Plugin 'gmarik/vim-markdown'
