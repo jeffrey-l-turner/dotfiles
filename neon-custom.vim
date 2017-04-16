@@ -1,8 +1,8 @@
 " Vim color file
-"  Neon theme by: Tiza
-" Maintainer: Praful 
-" Last Change: 2011/11/26 by Praful. 
-"     version: 2.0: This new theme (neon-PK) is based on the neon theme by Tiza.
+"  Neon theme originially by: Tiza
+" Maintainer: Jeff 
+" Last Change: 2015/4/16 by JLT. 
+"     version: 2.0: This new theme (neon-custom) is based on the neon theme by Tiza.
 "
 " This color scheme uses a dark background.
 
@@ -12,7 +12,7 @@ if exists("syntax_on")
    syntax reset
 endif
 
-let colors_name = "neon-PK"
+let colors_name = "neon-custom"
 
 hi Normal       guifg=#ffffff guibg=#000030
 "
