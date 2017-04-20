@@ -299,7 +299,7 @@ if has("win32") || has("win16")
     set runtimepath+=~/vimfiles/bundle/dein.vim
 else
     set runtimepath+=~/.vim/bundle/dein.vim
-    if dein#load_state('~/vimfiles/bundle/dein.vim')
+    "if dein#load_state('~/vimfiles/bundle/dein.vim')
     "  call dein#begin('/home/User/employees/culver_city/jturner/.vim/bundle/')
     " 
     "   " Let dein manage dein
@@ -315,10 +315,10 @@ else
     " 
     "  call dein#end()
     "  call dein#save_state()
-    endif
+    "endif
     " If you want to install not installed plugins on startup.
     "if dein#check_install()
-       call dein#install()
+    "   call dein#install()
     "endif
 endif
 
