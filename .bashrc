@@ -366,6 +366,9 @@ if [ -f "${HOME}/.bashrc_custom" ]; then
     source ~/.bashrc_custom
 fi
 
+# inode command for interactive with tab completion
+alias inode='rlwrap -p Cyan -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
+
 vim()
 { # remap b/c ctrl-s is flow control in bash, need to disable for vim
   # osx must use stty -g
