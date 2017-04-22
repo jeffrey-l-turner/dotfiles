@@ -150,9 +150,19 @@ if has('gui_running')
   " :set guifont=* " to launch a GUI dialog
   if has('mac')
     if has('macligatures')
-      set antialias macligatures guifont=Fira\ Code\ Light:h13 " -> <=
+"     Set font size based on screen size. When vertical height is greater than 900
+"     (i.e. an external monitor is attached on 13" or smaller MacBooks), use 18, else use 16.
+      if system("osascript -e 'tell application \"Finder\" to get bounds of window of desktop' | cut -d ' ' -f 4") > 900
+        set noantialias macligatures guifont=Andale\ Mono:h18 
+      else
+        set noantialias macligatures guifont=Andale\ Mono:h15 
+      endif
     else
-      set noantialias guifont=Andale\ Mono:h14
+      if system("osascript -e 'tell application \"Finder\" to get bounds of window of desktop' | cut -d ' ' -f 4") > 900
+        set noantialias guifont=Andale\ Mono:h18 
+      else
+        set noantialias guifont=Andale\ Mono:h15
+      endif
     end
   set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
