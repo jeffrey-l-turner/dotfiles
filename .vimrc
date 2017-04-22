@@ -159,12 +159,12 @@ if has('gui_running')
       endif
     else
       if system("osascript -e 'tell application \"Finder\" to get bounds of window of desktop' | cut -d ' ' -f 4") > 900
-        set noantialias guifont=Andale\ Mono:h18 
+        set noantialias guifont=Andale\ Mono:h19 
       else
         set noantialias guifont=Andale\ Mono:h15
       endif
     end
-  set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
+    set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
     set guifont=Consolas:h9
