@@ -167,7 +167,7 @@ if has('gui_running')
     set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
-    set guifont=Consolas:h9
+    set guifont=Consolas:h10
     set lines=123 columns=180
   end
 endif
