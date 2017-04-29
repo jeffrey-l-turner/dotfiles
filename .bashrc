@@ -193,8 +193,7 @@ function _git-branch-prompt {
     HC=$(color URed esc)
     local declare TC
     TC=$(color IRed esc)
-    git symbolic-ref HEAD > /dev/null 2>&1
-    if [ "$?" -eq 0  ]; then
+    if git symbolic-ref HEAD > /dev/null 2>&1 ; then
         HColor=$(color UGreen)
         echo -ne "$(git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}')"" "
     else
