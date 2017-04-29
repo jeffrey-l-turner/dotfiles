@@ -85,13 +85,13 @@ source ~/dotfiles/colordefs.sh
 
 if [ "${OS}" == "sunos" ]; then
     if [ "$(/usr/xpg4/bin/id -gn)" == "$(/usr/xpg4/bin/id -un)" ] && [ "$(/usr/xpg4/bin/id -u)" -gt 99 ]; then
-	    umask 002
+        umask 002
     else
         umask 022
     fi
 else
     if [ "$(id -gn)" == "$(id -un)" ] && [ "$(id -u)" -gt 99 ]; then
-	    umask 002
+        umask 002
     else
         umask 022
     fi
@@ -117,24 +117,24 @@ if [ "$PS1" ]; then
     fi
  fi
     case $TERM in
-	xterm*)
-		if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
-			PROMPT_COMMAND=/etc/sysconfig/bash-prompt-xterm
-		else
-	    	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
-		fi
-		;;
-	screen)
-		if [ -e /etc/sysconfig/bash-prompt-screen ]; then
-			PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
-		else
-		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\033\\"'
-		fi
-		;;
-	*)
-		[ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+    xterm*)
+        if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
+            PROMPT_COMMAND=/etc/sysconfig/bash-prompt-xterm
+        else
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
+        fi
+        ;;
+    screen)
+        if [ -e /etc/sysconfig/bash-prompt-screen ]; then
+            PROMPT_COMMAND=/etc/sysconfig/bash-prompt-screen
+        else
+        PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\033\\"'
+        fi
+        ;;
+    *)
+        [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
 
-	    ;;
+        ;;
     esac
 
     # Bash eternal history

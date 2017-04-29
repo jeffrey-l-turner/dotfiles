@@ -97,14 +97,18 @@ function _use-ssh-keys() {
            #ssh-agent bash
            agent_started=1 
     else
-       _add_ssh_keys
+        _add_ssh_keys
     fi
 }
 
 function _add_ssh_keys {
 if [ "$(find "${HOME}"/.ssh/*.pub | wc -l )" -gt 0 ]; then  
-       ssh-add "${SSHopts}" "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
-       ssh-add -l
+        if [ "${SSHopts}" = "" ] ; then
+            ssh-add "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
+        else
+            ssh-add "${SSHopts}" "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
+        fi
+        ssh-add -l
     fi
 }
 
