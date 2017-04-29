@@ -174,11 +174,11 @@ if [ "$PS1" ]; then
 
     if [ "x$SHLVL" != "x1" ]; then # We're not a login shell
         for i in /etc/profile.d/*.sh; do
-	    if [ -r "$i" ]; then
+        if [ -r "$i" ]; then
                 # shellcheck disable=SC1091,SC1090
-	        . "$i"
-	    fi
-	done
+            . "$i"
+        fi
+    done
     fi
 fi
 
