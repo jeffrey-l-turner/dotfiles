@@ -366,15 +366,16 @@ fi
 # inode command for interactive with tab completion
 alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
 
-vim()
-{ # remap b/c ctrl-s is flow control in bash, need to disable for vim
-  # osx must use stty -g
-if [ "${OS}" = "darwin" ]; then
-   local STTYOPTS="$(stty -g)"
-else
-   local STTYOPTS="$(stty --save)"
-fi
-   stty  stop '' -ixoff
-   command vim "$@"
-   stty  "$STTYOPTS"
+vim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
+    # osx must use stty -g
+    local TTYOPTS
+    if [ "${OS}" = "darwin" ]; then
+        TTYOPTS="$(stty -g)"
+    else
+        # shellcheck disable=SC2034
+        TTYOPTS="$(stty --save)"
+    fi
+    stty  stop '' -ixoff
+    command vim "$@"
+    stty  "STTYOPTS"
 }
