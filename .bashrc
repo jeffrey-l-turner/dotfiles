@@ -50,7 +50,7 @@ lowercase(){
 OS="$(lowercase "$(uname)")"
 
 # source some useful color definitions:
-# shellcheck disable=SC1091
+# shellcheck disable=SC1091 disable=SC1090
 source ~/dotfiles/colordefs.sh
 
 
@@ -209,8 +209,7 @@ function _git-branch-prompt {
 }
 
 function _git-commits {
-    git status -s > /dev/null 2>&1
-    if [ "$?" -eq 0  ]; then
+    if git status -s > /dev/null 2>&1 ; then
         local num
         num=$(git status -s | wc -l | sed -e 's/^ *//')
         if [ "$num" -gt 0  ]; then
@@ -224,10 +223,8 @@ function _git-commits {
     fi
 }
 
-if [ ${OS} != "sunos" ]; then
+if [ "${OS}" != "sunos" ]; then
     which docker >/dev/null 2>&1 
-fi
-if [[ $? -eq 0  &&  ${OS} != "sunos" ]]; then
     function _docker-prompt { 
         local declare DC
         DC=$(color On_ICyan esc)
@@ -265,7 +262,7 @@ function lengthenPrompt {
     setPS1 
 }
 
-if [ $(tput cols) -lt 140 ]; then
+if [ "$(tput cols)" -lt 140 ]; then
     echo "setting line break in PS1"
     echo "use lengthenPrompt to reset PS1 to single line"
     shortenPrompt 
@@ -330,9 +327,10 @@ export LC_ALL=POSIX
 
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
-command -v rlwrap >/dev/null 2>&1 
-if [ "$?" -ne 0  ] && [ "$OS" != "sunos" ]; then
-    echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";
+if ! command -v rlwrap >/dev/null 2>&1 ; then
+    if [ "$OS" != "sunos" ]; then
+        echo >&2 "Install rlwrap to use node: sudo <installation command> install -y rlwrap";
+    fi
 fi
 
 # 2.7) node.js and nvm
@@ -344,7 +342,7 @@ fi
 export NODE_DISABLE_COLORS=1
 if [ -s ~/.nvm/nvm.sh ]; then
     export NVM_DIR=~/.nvm
-    # shellcheck disable=SC1091
+    # shellcheck disable=SC1091 disable=SC1090
     source ~/.nvm/nvm.sh
     # nvm use v0.10.19 &> /dev/null # silence nvm use; needed for rsync
 fi
@@ -361,7 +359,7 @@ export HTML_TIDY=~/.tidy
 
 ## Define any user-specific variables you want here.
 if [ -f "${HOME}/.bashrc_custom" ]; then
-    # shellcheck disable=SC1091
+    # shellcheck disable=SC1091 disable=SC1090
     source ~/.bashrc_custom
 fi
 
