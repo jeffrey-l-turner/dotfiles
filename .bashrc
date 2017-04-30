@@ -105,17 +105,17 @@ fi
 #  non-interactive one is the bash environment used in scripts.
 if [ "$PS1" ]; then
 
- if [ "${OS}" != "darwin" ]; then
-   if [ -x /usr/bin/tput ]; then
-     if [ "x$(tput kbs)" != "x" ]; then # We can't do this with "dumb" terminal -- this if stmt does not work on Mac OS 
-         stty erase "$(tput kbs)"
-     elif [ -x /usr/bin/wc ]; then
-        if [ "$(tput kbs|wc -c )" -gt 0 ]; then # We can't do this with "dumb" terminal
-           stty erase "$(tput kbs)"
+    if [ "${OS}" != "darwin" ]; then
+        if [ -x /usr/bin/tput ] && [ "${TERM}" != "dumb" ]; then
+            if [ "x$(tput kbs)" != "x" ]; then # We can't do this with "dumb" terminal -- this if stmt does not work on Mac OS 
+                stty erase "$(tput kbs)"
+            elif [ -x /usr/bin/wc ]; then
+                if [ "$(tput kbs|wc -c )" -gt 0 ]; then # We can't do this with "dumb" terminal
+                    stty erase "$(tput kbs)"
+                fi
+            fi
         fi
-     fi
     fi
- fi
     case $TERM in
     xterm*)
         if [ -e /etc/sysconfig/bash-prompt-xterm ]; then
@@ -130,6 +130,9 @@ if [ "$PS1" ]; then
         else
         PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\033\\"'
         fi
+        ;;
+    dumb)
+        PROMPT_COMMAND="echo -ne dumb terminal"
         ;;
     *)
         [ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
@@ -262,7 +265,7 @@ function lengthenPrompt {
     setPS1 
 }
 
-if [ "$(tput cols)" -lt 140 ]; then
+if [ "${TERM}" != "dumb" ] && [ "$(tput cols)" -lt 140 ]; then
     echo "setting line break in PS1"
     echo "use lengthenPrompt to reset PS1 to single line"
     shortenPrompt 
