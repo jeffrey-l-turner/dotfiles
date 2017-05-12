@@ -325,8 +325,13 @@ export GREP_COLOR='1;31' # green for matches
 # 2.5) sort options
 # Ensures cross-platform sorting behavior of GNU sort.
 # http://www.gnu.org/software/coreutils/faq/coreutils-faq.html#Sort-does-not-sort-in-normal-order_0021
-unset LANG
-export LC_ALL=POSIX
+#unset LANG
+#export LC_ALL=POSIX
+# deprecating above in favor of better tmux support for vim, $PS1:
+#http://stackoverflow.com/questions/11237462/weird-space-before-prompt-using-tmux-on-mac-os-lion
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
