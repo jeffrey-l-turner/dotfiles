@@ -97,7 +97,7 @@ function _use-ssh-keys() {
            #ssh-agent bash
            agent_started=1 
     else
-        _add_ssh_keys
+        echo "ssh-agent keys present: $(ssh-add -l)"
     fi
 }
 
