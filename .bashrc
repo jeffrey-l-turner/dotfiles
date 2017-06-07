@@ -372,7 +372,11 @@ if [ -f "${HOME}/.bashrc_custom" ]; then
 fi
 
 # inode command for interactive with tab completion
-alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
+if [ "${OS}" == "linux" ]; then
+    alias inode='rlwrap -p"0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
+else
+    alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
+fi
 
 vim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     # osx must use stty -g
