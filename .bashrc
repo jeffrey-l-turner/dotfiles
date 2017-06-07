@@ -389,5 +389,5 @@ vim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     fi
     stty  stop '' -ixoff
     command vim "$@"
-    stty  "TTYOPTS"
+    stty  "$TTYOPTS"
 }
