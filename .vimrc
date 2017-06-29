@@ -450,6 +450,7 @@ Plugin 'tpope/vim-rails'
 " Js
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+let g:jsx_ext_required = 0 "to highlight .js files also 
 
 " Snippets
 Plugin 'gmarik/snipmate.vim'
