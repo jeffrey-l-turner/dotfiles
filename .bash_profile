@@ -281,7 +281,11 @@ if [ "${OS}" == "darwin" ]; then
     # shellcheck disable=SC1091
     # shellcheck disable=SC1090
     . "$(brew --prefix)/etc/bash_completion" 
+    # shellcheck disable=SC1090
+    # shellcheck disable=SC1091
+    . "$(brew --prefix)/Cellar/bash-completion/git-flow-completion/git-flow-completion.bash"
     which aws > /dev/null
+    # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         complete -C aws_completer aws
     fi
