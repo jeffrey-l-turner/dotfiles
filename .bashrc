@@ -198,11 +198,13 @@ function _git-branch-prompt {
     TC=$(color IRed esc)
     if git symbolic-ref HEAD > /dev/null 2>&1 ; then
         HColor=$(color UGreen)
-        echo -ne "$(git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}')"" "
+        # The following stmt is better for Atlassian stash setups which requires heads/<branch> specificity
+        # echo -ne "$(git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s/%s", $(NF-1), $NF ;}')"" "
+        echo -ne "$(git symbolic-ref HEAD 2>/dev/null | awk -F"/" '{printf "%s", $NF ;}')"" "
     else
         HColor=$(color URed)
         local declare br
-        br=$(git branch 2> /dev/null |git branch 2>/dev/null | head -1 | sed s/*\*\ *\(// | sed s/\)*$//)
+        br=$(git branch 2>/dev/null | head -1 | sed s/*\*\ *\(// | sed s/\)*$//)
         if [ "$br" ]; then
             echo -ne "${HC}warning:${TC} ${br} "
         else
