@@ -163,7 +163,9 @@ if has('gui_running')
       else
         set noantialias guifont=Andale\ Mono:h15
       endif
-    end
+    endif
+    " for MacOS Only: Fix Python Path (for YCM)
+    let g:ycm_path_to_python_interpreter="/usr/bin/python"
     set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
