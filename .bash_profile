@@ -63,7 +63,8 @@ fi
 OS=$(uname | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"  | cut -b 1-6)
 if [ "${OS}" == "cygwin" ]; then # define simple pgrep for cygwin
     pgrep(){
-        ps aux | fgrep "$1" | cut -d ' ' -f 6- | cut -d ' ' -f 1
+        # shellcheck disable=SC2009 
+        ps aux | grep -F "$1" | cut -d ' ' -f 6- | cut -d ' ' -f 1
     }
     PGopts=""
     SSHopts=""
@@ -134,7 +135,7 @@ else
         source "${SSH_ENV}" > /dev/null
         # shellcheck disable=SC2009
         ps -ef | grep "${SSH_AGENT_PID}" | grep ssh-agent$ > /dev/null  || { _start_agent; }
-        SPROCS=$(pgrep $PGopts "$USER" | fgrep ssh-agent | sed s/ssh-agent//)
+        SPROCS=$(pgrep $PGopts "$USER" | grep -F ssh-agent | sed s/ssh-agent//)
         echo 'ssh-agent process(es): ' "${SPROCS}"
         if [[ $(echo "${SPROCS}" | wc -w ) -gt 1 ]] ; then 
             echo "Too many ssh-agent processes already started; killing processes and removing existing environment file..."
