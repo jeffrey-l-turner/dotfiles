@@ -22,8 +22,5 @@ cat dotfiles/ssh-config-* >> ~/.ssh/config
 dotfiles/.git_template/config.sh # to set git hooks for tagging, etc.
 ```
 
-See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite
-programs. If all goes well, in addition to a more useful prompt, these files may
-be used to setup many different headless systems. The macOS-defaults configures a
- Mac from the command line.  This was originally developed for 
-[Startup Engineering Lectures](https://class.coursera.org/).
+See also http://github.com/jeffrey-l-turner/syssetup to install prerequisite programs. If all goes well, in addition to a more useful prompt, these files may
+be used to setup many different headless systems. The macOS-defaults configures a Mac from the command line.  This was originally developed for [Startup Engineering Lectures](https://class.coursera.org/).
