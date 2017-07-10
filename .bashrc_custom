@@ -2,9 +2,9 @@
 # Pre-configure or override your bashrc environment here:
 # the following alias is for mac environment when version 7.4 has been downloaded:
 if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
-    alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim' 
-    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim' 
-    alias vi='/Applications/MacVim.app/Contents/MacOS/Vim' 
+    #alias mvim='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
+    #alias vim='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
+    #alias vi='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
     alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
 fi
 
