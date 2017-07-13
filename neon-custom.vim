@@ -64,6 +64,7 @@ hi SpecialKey   gui=BOLD guifg=#8888ff guibg=NONE
 hi Title        gui=BOLD guifg=fg      guibg=NONE
 hi Visual       gui=NONE guifg=#b0ffb0 guibg=#008000
 hi VisualNOS    gui=NONE guifg=#ffe8c8 guibg=#c06800
+hi QuickFixLine gui=NONE guifg=#ffe8c8 guibg=purple
 
 " Syntax group
 "hi Comment      gui=NONE guifg=#c0c0c0 guibg=NONE
