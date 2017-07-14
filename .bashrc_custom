@@ -6,22 +6,25 @@ if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder d
     alias vim='/Applications/MacVim.app/Contents/MacOS/Vim' 
     alias vi='/Applications/MacVim.app/Contents/MacOS/Vim' 
     alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
+    alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
 fi
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
 function concatToEternalHist() {
     local last recent linenum
-    last=$(grep -Fn "$(tail -1 ~/Google\ Drive/Bash_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/Google\ Drive/Bash_eternal_hist  | sed s/:.*$//)
+    last=$(grep -Fn "$(tail -1 ~/OneDrive/Bash_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/OneDrive/Bash_eternal_hist  | sed s/:.*$//)
     recent=$(wc -l ~/.bash_eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
     let linenum="${recent} - ${last}"
-    tail -n "${linenum}" ~/.bash_eternal_history >> ~/Google\ Drive/Bash_eternal_hist
+    tail -n "${linenum}" ~/.bash_eternal_history >> ~/OneDrive/Bash_eternal_hist
 }
 
 function mergeEternalHist() {
     rm -f /tmp/Bash_eternal_hist
     concatToEternalHist 
-    sort -n --key=8 ~/Google\ Drive/Bash_eternal_hist  | uniq > /tmp/Bash_eternal_hist
+    sort -n --key=8 ~/OneDrive/Bash_eternal_hist  | uniq > /tmp/Bash_eternal_hist
     mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
-    cp -i /tmp/Bash_eternal_hist ~/Google\ Drive/Bash_eternal_hist  
+    cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
 }
+# shellcheck disable=SC1090
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
