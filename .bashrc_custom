@@ -11,7 +11,7 @@ fi
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
-function concatToEternalHist() {
+function _concatToEternalHist() {
     local last recent linenum
     last=$(grep -Fn "$(tail -1 ~/OneDrive/Bash_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/OneDrive/Bash_eternal_hist  | sed s/:.*$//)
     recent=$(wc -l ~/.bash_eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
@@ -21,8 +21,8 @@ function concatToEternalHist() {
 
 function mergeEternalHist() {
     rm -f /tmp/Bash_eternal_hist
-    concatToEternalHist 
-    sort -n --key=8 ~/OneDrive/Bash_eternal_hist  | uniq > /tmp/Bash_eternal_hist
+    _concatToEternalHist 
+    sort -n --key=8 ~/OneDrive/Bash_eternal_hist  | LC_ALL=C uniq > /tmp/Bash_eternal_hist
     mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
     cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
 }
