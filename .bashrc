@@ -257,24 +257,6 @@ function setPS1 {
     PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 }
 
-function shortenPrompt { 
-    export lbreak="\n"
-    setPS1 
-}
-
-function lengthenPrompt { 
-    export lbreak=""
-    setPS1 
-}
-
-if [ "${TERM}" != "dumb" ] && [ "$(tput cols)" -lt 140 ]; then
-    echo "setting line break in PS1"
-    echo "use lengthenPrompt to reset PS1 to single line"
-    shortenPrompt 
-else
-    lengthenPrompt 
-fi
-
 ## -----------------------
 ## -- 2) Set up aliases --
 ## -----------------------
