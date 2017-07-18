@@ -292,3 +292,21 @@ if [ "${OS}" == "darwin" ]; then
     fi
   fi
 fi
+
+function shortenPrompt { 
+    export lbreak="\n"
+    setPS1 
+}
+
+function lengthenPrompt { 
+    export lbreak=""
+    setPS1 
+}
+
+if [ "${TERM}" != "dumb" ] && [ "$(tput cols)" -lt 140 ] &&  [[ $- == *i* ]]; then
+    echo "setting line break in PS1"
+    echo "use lengthenPrompt to reset PS1 to single line"
+    shortenPrompt 
+else
+    lengthenPrompt 
+fi
