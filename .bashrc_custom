@@ -28,4 +28,5 @@ function mergeEternalHist() {
 }
 # shellcheck disable=SC1090
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+source "${NVM_DIR?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
 PATH=$PATH:"${NVM_DIR}":"/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
