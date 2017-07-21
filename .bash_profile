@@ -310,3 +310,9 @@ if [ "${TERM}" != "dumb" ] && [ "$(tput cols)" -lt 140 ] &&  [[ $- == *i* ]]; th
 else
     lengthenPrompt 
 fi
+
+# this allows neovim to work properly with UTF chars
+#export LC_ALL=POSIX
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+

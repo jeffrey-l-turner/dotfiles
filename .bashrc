@@ -310,12 +310,8 @@ export GREP_COLOR='1;31' # green for matches
 # Ensures cross-platform sorting behavior of GNU sort.
 # http://www.gnu.org/software/coreutils/faq/coreutils-faq.html#Sort-does-not-sort-in-normal-order_0021
 #unset LANG
-#export LC_ALL=POSIX
 # deprecating above in favor of better tmux support for vim, $PS1:
 #http://stackoverflow.com/questions/11237462/weird-space-before-prompt-using-tmux-on-mac-os-lion
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
 
 # 2.6) Install rlwrap if not present
 # http://stackoverflow.com/a/677212
@@ -375,3 +371,8 @@ vim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     command vim "$@"
     stty  "$TTYOPTS"
 }
+
+ # added for npm-completion https://github.com/Jephuff/npm-bash-completion
+PATH_TO_NPM_COMPLETION="/Users/Jeff/.nvm/versions/node/v5.10.1/lib/node_modules/npm-completion"
+source $PATH_TO_NPM_COMPLETION/npm-completion.sh
+PATH_TO_NPM_COMPLETION="/Users/Jeff/.nvm/versions/node/v8.2.0/lib/node_modules/npm-completion"
