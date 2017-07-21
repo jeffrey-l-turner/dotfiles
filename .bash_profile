@@ -276,7 +276,7 @@ if [ -f "${HOME}/bin/docker-complete" ]; then
     alias DockStart="bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'"
 fi 
 
-# Load bash completion here:
+# Load bash & git-flow completion here, note: use only brew installed git with MacOS, Apple's git does not work with git-flow
 if [ "${OS}" == "darwin" ]; then 
   if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
     # shellcheck disable=SC1091
@@ -310,3 +310,9 @@ if [ "${TERM}" != "dumb" ] && [ "$(tput cols)" -lt 140 ] &&  [[ $- == *i* ]]; th
 else
     lengthenPrompt 
 fi
+
+# this allows neovim to work properly with UTF chars
+#export LC_ALL=POSIX
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
