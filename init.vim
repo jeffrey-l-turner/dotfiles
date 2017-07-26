@@ -4,6 +4,8 @@ let &packpath = &runtimepath
 :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " Adapted originally from github.com/gmarik/dotfiles
+" "}}}
+"
 " General "{{{
 set termguicolors              " use true colors
 set nocompatible               " be iMproved
@@ -90,6 +92,7 @@ set matchtime=2               " Bracket blinking.
 
 set wildmode=longest,list     " At command line, complete longest common string, then list alternatives.
 set wildmenu
+set wildignore=*.o,*.pyc,node_modules,.git " wild card ignore
 
 set completeopt-=preview      " disable auto opening preview window
 
@@ -286,15 +289,21 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Place deoplete before autocomplete-flow
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'wokalski/autocomplete-flow'
+"Plug 'steelsojka/deoplete-flow' " this one may not be as good; trying this out for now autocomplet-flow, above
 "  Need the following for function argument completion:
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
-Plug 'flowtype/vim-flow'
+"Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = {'javascript': ['eslint', 'flow']}
+let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
+
 let g:flow#autoclose = 1
 let g:deoplete#enable_at_startup = 1
 if !exists('g:deoplete#omni#input_patterns')
@@ -302,6 +311,17 @@ if !exists('g:deoplete#omni#input_patterns')
 endif
 " let g:deoplete#disable_auto_complete = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+      \ [ '*~', '*.o', '*.exe', '*.bak',
+      \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
+      \ '.hg/', '.git/', '.bzr/', '.svn/',
+      \ 'node_modules/', 'bower_components/', 'tmp/', 'log/', 'vendor/ruby',
+      \ '.idea/', 'dist/',
+      \ 'tags', 'tags-*'])
 " " }}}
 "
 " AutoCommands " {{{
@@ -343,7 +363,9 @@ augroup omnifuncs
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup end
+" " }}}
 
+" Tern " {{{
 " tern
 if exists('g:plugs["tern_for_vim"]')
   let g:tern_show_argument_hints = 'on_hold'
@@ -351,9 +373,18 @@ if exists('g:plugs["tern_for_vim"]')
   autocmd FileType javascript setlocal omnifunc=tern#Complete
   autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 endif
-" " }}}
-
-let &runtimepath.=',~/.vim/bundle/ale' " to run ale background linting
+let errorformat =
+        \ '%f:%l:%c: %trror: %m,' .
+        \ '%f:%l:%c: %tarning: %m,' .
+        \ '%f:%l:%c: %tote: %m'
+" Experiment with 
+" set mouse=nvi
+" set mouse=v 
+" with nvim -e startup in shell
+" to copy/paste with trackpad
+" ALEInfo
+" Check
+let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
 
 " Original vimrc to move to neovim "{{{
 "source ~/.vimrc
