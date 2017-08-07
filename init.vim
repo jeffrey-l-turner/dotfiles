@@ -296,6 +296,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
+Plug 'editorconfig/editorconfig-vim'
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
 let g:ale_lint_on_save = 1
@@ -325,7 +326,10 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 " " }}}
 "
 " AutoCommands " {{{
-"
+" Required:
+filetype plugin indent on
+syntax enable
+
 au BufRead,BufNewFile {*.go}                                       setl ft=go
 au BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
 au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
