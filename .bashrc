@@ -372,7 +372,3 @@ vim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     stty  "$TTYOPTS"
 }
 
- # added for npm-completion https://github.com/Jephuff/npm-bash-completion
-PATH_TO_NPM_COMPLETION="/Users/Jeff/.nvm/versions/node/v5.10.1/lib/node_modules/npm-completion"
-source $PATH_TO_NPM_COMPLETION/npm-completion.sh
-PATH_TO_NPM_COMPLETION="/Users/Jeff/.nvm/versions/node/v8.2.0/lib/node_modules/npm-completion"
