@@ -27,6 +27,12 @@ function mergeEternalHist() {
     cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
 }
 # shellcheck disable=SC1090
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
-source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
-PATH=$PATH:"${NVM_DIR}":"/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
+#[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+#source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
+#if [ "${PATH_TO_NPM_COMPLETION}/npm-completion.sh" != "${NVM_BIN}/../lib/node_modules/npm-completion/npm-completion.sh" ]; then
+#    export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
+#fi
+#PATH=$PATH:"${NVM_DIR}":"/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
+#export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
+#echo $PATH_TO_NPM_COMPLETION="$PATH_TO_NPM_COMPLETION"
+#source $PATH_TO_NPM_COMPLETION/npm-completion.sh
