@@ -127,8 +127,13 @@ function _start_agent {
 
 # Source SSH settings, if applicable
 if [ "${OS}" == "darwin" ]; then # if on Mac OS then add ids from Keychain
-       # Be certain to use ssh-add -K on each of the keys the first time
-       ssh-add -A
+        # Be certain to use ssh-add -K on each of the keys the first time
+        ssh-add -A
+        # Add the following to ~/.ssh/config and add/substitute keys to be used between reboots 
+        # Host *
+        # UseKeychain yes
+        # AddKeysToAgent yes
+        # IdentityFile ~/.ssh/id_rsa
 else
     if [ -f "${SSH_ENV}" ]; then
         # shellcheck disable=SC1091,SC1090
@@ -316,3 +321,12 @@ fi
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+# shellcheck disable=SC1090
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+if [ "${PATH_TO_NPM_COMPLETION}/npm-completion.sh" != "${NVM_BIN}/../lib/node_modules/npm-completion/npm-completion.sh" ]; then
+    export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
+fi
+PATH=$PATH:"${NVM_DIR}:/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
+export PATH_TO_NPM_COMPLETION="${NVM_BIN?NVM_BIN MUST be used and set}/../lib/node_modules/npm-completion"
+# shellcheck disable=SC1090
+source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
