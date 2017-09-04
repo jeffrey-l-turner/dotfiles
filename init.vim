@@ -21,7 +21,7 @@ set nocompatible               " be iMproved
 scriptencoding utf-8           " utf-8 all the way
 set encoding=utf-8
 
-set history=1000                " Number of things to remember in history.
+set history=1000               " Number of things to remember in history.
 set timeoutlen=250             " Time to wait after ESC (default causes an annoying delay)
 set clipboard+=unnamed         " Yanks go on clipboard instead.
 set pastetoggle=<F10>          " toggle between paste and normal: for 'safer' pasting from keyboard
