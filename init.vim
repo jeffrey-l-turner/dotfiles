@@ -1,9 +1,18 @@
-" Beginning transition to neovim"{{{
+"Beginning transition to neovim"{{{
+"      ██╗███████╗███████╗███████╗██████╗ ███████╗██╗   ██╗    ██╗         ████████╗██╗   ██╗██████╗ ███╗   ██╗███████╗██████╗ 
+"      ██║██╔════╝██╔════╝██╔════╝██╔══██╗██╔════╝╚██╗ ██╔╝    ██║         ╚══██╔══╝██║   ██║██╔══██╗████╗  ██║██╔════╝██╔══██╗
+"      ██║█████╗  █████╗  █████╗  ██████╔╝█████╗   ╚████╔╝     ██║            ██║   ██║   ██║██████╔╝██╔██╗ ██║█████╗  ██████╔╝
+" ██   ██║██╔══╝  ██╔══╝  ██╔══╝  ██╔══██╗██╔══╝    ╚██╔╝      ██║            ██║   ██║   ██║██╔══██╗██║╚██╗██║██╔══╝  ██╔══██╗
+" ╚█████╔╝███████╗██║     ██║     ██║  ██║███████╗   ██║       ███████╗       ██║   ╚██████╔╝██║  ██║██║ ╚████║███████╗██║  ██║
+"  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+" Author: Jeff Turner 
+" repo  : https://github.com/jeffrey-l-turner/dotfiles/
+"
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
-" Adapted originally from github.com/gmarik/dotfiles
+" Loosely based from github.com/gmarik/dotfiles
 " "}}}
 "
 " General "{{{
@@ -297,6 +306,11 @@ Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-airline/vim-airline' " Nice colorful status line
+Plug 'airblade/vim-gitgutter' " git compat gutter
+Plug 'ap/vim-css-color' " color highlighting for css
+Plug 'sheerun/vim-polyglot' " bundled language plugin
+"Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
 let g:ale_lint_on_save = 1
@@ -336,22 +350,9 @@ au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby 
 au BufRead,BufNewFile {*.local}                                    setl ft=sh
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
 au BufRead,BufNewFile {*.scala}                                    setl ft=scala
-au BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-"au FileType javascript set formatprg=prettier\ --stdin " set formatter to use prettier
+/
 "au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
-au User Node if &filetype == "javascript" | setlocal expandtab | endif
-au BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-au BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
-au BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
-au BufNewFile,BufRead {*.sh}                                       setl number
-au BufWritePost *.sh  :silent make | redraw!                          " run shell check on write to .sh files
-au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
-au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
-au! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
-if has('gui_running')
-    au! BufWritePost      {*.ts}                                       setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
-endif
 au! bufwritepost init.vim nested source % " automatically reload init.vim on write
 
 au BufWinLeave *.* mkview
@@ -359,6 +360,9 @@ au BufWinEnter *.* silent loadview  " use mkview to automatically load cursor po
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
 " omnifuncs
+" " }}}
+"
+" Programming " {{{
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -366,9 +370,22 @@ augroup omnifuncs
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
+  autocmd BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufNewFile,BufRead {*.sh}                                       setl number
+  autocmd BufWritePost *.sh  :silent make | redraw!                       " run shell check on write to .sh files
+  autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
+  autocmd! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
+  if has('gui_running')
+    au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
+  endif
 augroup end
-" " }}}
 
+" " }}}
+"
 " Tern " {{{
 " tern
 if exists('g:plugs["tern_for_vim"]')
