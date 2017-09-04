@@ -70,9 +70,9 @@ set fo-=t                      " Do no auto-wrap text using textwidth (does not 
 set nowrap
 "set textwidth=0                " Don't wrap lines by default
 
-set tabstop=4                  " tab size eql 4 spaces
-set softtabstop=4
-set shiftwidth=4               " default shift width for indents
+set tabstop=2                  " tab size eql 4 spaces
+set softtabstop=2
+set shiftwidth=2               " default shift width for indents
 set expandtab                  " replace tabs with ${tabstop} spaces
 set smarttab                   "
 
@@ -94,7 +94,7 @@ syntax on                      " enable syntax
 
 " set synmaxcol=250              " limit syntax highlighting to 128 columns
 
-set mouse=a "enable mouse in GUI mode
+set mouse=a                   " enable mouse in GUI mode
 set mousehide                 " Hide mouse after chars typed
 set showmatch                 " Show matching brackets.
 set matchtime=2               " Bracket blinking.
@@ -287,7 +287,11 @@ inoremap <C-S> <C-O>:wa<CR>
 "
 " generate HTML version current buffer using current color scheme
 map <leader>2h :runtime! syntax/2html.vim<CR>
-
+" close terminal on clean exit
+augroup terminal
+        autocmd!
+        autocmd TermClose * if getline('$') == 'Exit 0' | close | endif
+augroup end
 " " }}}
 
 " neovim plugins "{{{
@@ -307,14 +311,31 @@ Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --log
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline' " Nice colorful status line
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
 Plug 'ap/vim-css-color' " color highlighting for css
 Plug 'sheerun/vim-polyglot' " bundled language plugin
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
 Plug 'junegunn/fzf.vim' " fuzzy finder
+Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
+let g:airline_theme  = 'dark_minimal'
+let g:airline_powerlin_fonts  = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+"let g:airline_symbols.space = "\ua0"
+
+" unicode symbols
+let g:airline_left_sep = '⮀'
+let g:airline_right_sep = '⮂'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
