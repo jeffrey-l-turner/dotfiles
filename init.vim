@@ -310,6 +310,8 @@ Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'airblade/vim-gitgutter' " git compat gutter
 Plug 'ap/vim-css-color' " color highlighting for css
 Plug 'sheerun/vim-polyglot' " bundled language plugin
+Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
+Plug 'junegunn/fzf.vim' " fuzzy finder
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
@@ -344,25 +346,39 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
-au BufRead,BufNewFile {*.go}                                       setl ft=go
-au BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
-au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-au BufRead,BufNewFile {*.local}                                    setl ft=sh
-au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
-au BufRead,BufNewFile {*.scala}                                    setl ft=scala
-/
+autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
+autocmd BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
+autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
+autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
 "au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
-au! bufwritepost init.vim nested source % " automatically reload init.vim on write
+autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
 
-au BufWinLeave *.* mkview
-au BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
 " omnifuncs
 " " }}}
 "
 " Programming " {{{
+highlight ColorColumn ctermbg=yellow ctermfg=blue
+
+function! MarkMargin (on)
+    if exists('b:MarkMargin')
+        try
+            call matchdelete(b:MarkMargin)
+        catch /./
+        endtry
+        unlet b:MarkMargin
+    endif
+    if a:on
+        let b:MarkMargin = matchadd('ColorColumn', '\%101v\s*\S', 10)
+    endif
+endfunction
+
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -371,13 +387,14 @@ augroup omnifuncs
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
-  autocmd BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-  autocmd BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-  autocmd BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
-  autocmd BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
-  autocmd BufNewFile,BufRead {*.sh}                                       setl number
-  autocmd BufWritePost *.sh  :silent make | redraw!                       " run shell check on write to .sh files
-  autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
+  autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  "autocmd BufNewFile,BufRead {*.js}                              :call MarkMargin(1)
+  autocmd BufNewFile,BufRead {*.ts}                              setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufNewFile,BufRead {*.sh}                              setl number
+  autocmd BufWritePost *.sh  :silent make | redraw!              " run shell check on write to .sh files
+  autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}   exec 'setl ft=gitcommit noml list spell' | norm 1G
   autocmd! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
   if has('gui_running')
     au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
