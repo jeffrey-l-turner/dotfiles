@@ -106,8 +106,6 @@ set completeopt-=preview      " disable auto opening preview window
 
 set novisualbell              " No blinking
 set noerrorbells              " No noise.
-set visualbell             " disable any beeps or flashes on error
-set t_vb=
 
 set laststatus=2              " always show status line.
 set shortmess=atI             " shortens messages
