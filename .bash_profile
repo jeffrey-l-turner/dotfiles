@@ -106,8 +106,10 @@ function _add_ssh_keys {
 if [ "$(find "${HOME}"/.ssh/*.pub | wc -l )" -gt 0 ]; then  
         if [ "${SSHopts}" = "" ] ; then
             ssh-add "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
+            ssh-add "$(find ~/.ssh/*.pem)"
         else
             ssh-add "${SSHopts}" "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
+            ssh-add "${SSHopts}" "$(find ~/.ssh/*.pem)"
         fi
         ssh-add -l
     fi

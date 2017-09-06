@@ -1,9 +1,18 @@
-" Beginning transition to neovim"{{{
+"Beginning transition to neovim"{{{
+"      ██╗███████╗███████╗███████╗██████╗ ███████╗██╗   ██╗    ██╗         ████████╗██╗   ██╗██████╗ ███╗   ██╗███████╗██████╗ 
+"      ██║██╔════╝██╔════╝██╔════╝██╔══██╗██╔════╝╚██╗ ██╔╝    ██║         ╚══██╔══╝██║   ██║██╔══██╗████╗  ██║██╔════╝██╔══██╗
+"      ██║█████╗  █████╗  █████╗  ██████╔╝█████╗   ╚████╔╝     ██║            ██║   ██║   ██║██████╔╝██╔██╗ ██║█████╗  ██████╔╝
+" ██   ██║██╔══╝  ██╔══╝  ██╔══╝  ██╔══██╗██╔══╝    ╚██╔╝      ██║            ██║   ██║   ██║██╔══██╗██║╚██╗██║██╔══╝  ██╔══██╗
+" ╚█████╔╝███████╗██║     ██║     ██║  ██║███████╗   ██║       ███████╗       ██║   ╚██████╔╝██║  ██║██║ ╚████║███████╗██║  ██║
+"  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+" Author: Jeff Turner 
+" repo  : https://github.com/jeffrey-l-turner/dotfiles/
+"
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
-" Adapted originally from github.com/gmarik/dotfiles
+" Loosely based from github.com/gmarik/dotfiles
 " "}}}
 "
 " General "{{{
@@ -12,7 +21,7 @@ set termguicolors              " use true colors
 set encoding=utf-8
 scriptencoding utf-8           " utf-8 all the way
 
-set history=1000                " Number of things to remember in history.
+set history=1000               " Number of things to remember in history.
 set timeoutlen=250             " Time to wait after ESC (default causes an annoying delay)
 set clipboard+=unnamed         " Yanks go on clipboard instead.
 set pastetoggle=<F10>          " toggle between paste and normal: for 'safer' pasting from keyboard
@@ -49,21 +58,20 @@ set incsearch                  " show matches while typing
 let g:is_posix = 1             " vim's default is archaic bourne shell, bring it up to the 90s
 let g:instant_markdown_slow = 1
 let g:mapleader = ','
-let g:maplocalleader = '	'  " Tab as a local leader
 let g:netrw_banner = 0         " do not show Netrw help banner
 " "}}}
 
 " Formatting "{{{
-set formatoptions+=o           " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
-set formatoptions-=r           " Do not automatically insert a comment leader after an enter
-set formatoptions-=t           " Do no auto-wrap text using textwidth (does not apply to comments)
+set formatoptions+=o                      " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
+set formatoptions-=r                      " Do not automatically insert a comment leader after an enter
+set formatoptions-=t                      " Do no auto-wrap text using textwidth (does not apply to comments)
 
 set nowrap
 "set textwidth=0                " Don't wrap lines by default
 
-set tabstop=4                  " tab size eql 4 spaces
-set softtabstop=4
-set shiftwidth=4               " default shift width for indents
+set tabstop=2                  " tab size eql 4 spaces
+set softtabstop=2
+set shiftwidth=2               " default shift width for indents
 set expandtab                  " replace tabs with ${tabstop} spaces
 set smarttab                   "
 
@@ -85,7 +93,7 @@ syntax on                      " enable syntax
 
 " set synmaxcol=250              " limit syntax highlighting to 128 columns
 
-set mouse=a "enable mouse in GUI mode
+set mouse=a                   " enable mouse in GUI mode
 set mousehide                 " Hide mouse after chars typed
 set showmatch                 " Show matching brackets.
 set matchtime=2               " Bracket blinking.
@@ -98,7 +106,8 @@ set completeopt-=preview      " disable auto opening preview window
 
 set novisualbell              " No blinking
 set noerrorbells              " No noise.
-set visualbell t_vb=          " disable any beeps or flashes on error
+set visualbell             " disable any beeps or flashes on error
+set t_vb=
 
 set laststatus=2              " always show status line.
 set shortmess=atI             " shortens messages
@@ -278,7 +287,11 @@ inoremap <C-S> <C-O>:wa<CR>
 "
 " generate HTML version current buffer using current color scheme
 map <leader>2h :runtime! syntax/2html.vim<CR>
-
+" close terminal on clean exit
+augroup terminal
+        autocmd!
+        autocmd TermClose * if getline('$') == 'Exit 0' | close | endif
+augroup end
 " " }}}
 
 " neovim plugins "{{{
@@ -297,9 +310,34 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
-"Plug 'kien/ctrlp.vim'  # Control-p
+Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-airline/vim-airline' " Nice colorful status line
+Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter' " git compat gutter
+Plug 'ap/vim-css-color' " color highlighting for css
+Plug 'sheerun/vim-polyglot' " bundled language plugin
+Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
+Plug 'junegunn/fzf.vim' " fuzzy finder
+Plug 'tpope/vim-fugitive' " only using for airline integration
+"Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
+let g:airline_theme  = 'dark_minimal'
+let g:airline_powerlin_fonts  = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+"let g:airline_symbols.space = "\ua0"
+
+" see https://github.com/powerline/fonts instructions, then restart vim w/new fonts
+" unicode symbols
+let g:airline_left_sep = '⮀'
+let g:airline_right_sep = '⮂'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
@@ -327,37 +365,43 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 " " }}}
 "
 " AutoCommands " {{{
-"
-au BufRead,BufNewFile {*.go}                                       setl ft=go
-au BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
-au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-au BufRead,BufNewFile {*.local}                                    setl ft=sh
-au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
-au BufRead,BufNewFile {*.scala}                                    setl ft=scala
-au BufNewFile,BufRead {*.js}                                       setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-"au FileType javascript set formatprg=prettier\ --stdin " set formatter to use prettier
+" Required:
+filetype plugin indent on
+syntax enable
+
+autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
+autocmd BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
+autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
+autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
 "au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
-au BufNewFile,BufRead {*.ts}                                       setl ft=typescript tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
-au BufNewFile,BufRead {*.html}                                     setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
-au BufRead,BufNewFile {*.json}                                     setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
-au BufNewFile,BufRead {*.sh}                                       setl number
-augroup buffer
-au BufWritePost *.sh  :silent make | redraw!                       " run shell check on write to .sh files
-au User Node if &filetype == "javascript" | setlocal expandtab | endif " Setup node.vim; see: https://github.com/moll/vim-node
-au! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}            exec 'setl ft=gitcommit noml list spell' | norm 1G
-au! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
-if has('gui_running')
-    au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
-endif
-au! bufwritepost init.vim nested source % " automatically reload init.vim on write
+autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
 
-au BufWinLeave *.* mkview
-au BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
-augroup end
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
 " omnifuncs
+" " }}}
+"
+" Programming " {{{
+highlight ColorColumn ctermbg=yellow ctermfg=blue
+
+function! MarkMargin (on)
+    if exists('b:MarkMargin')
+        try
+            call matchdelete(b:MarkMargin)
+        catch /./
+        endtry
+        unlet b:MarkMargin
+    endif
+    if a:on
+        let b:MarkMargin = matchadd('ColorColumn', '\%101v\s*\S', 10)
+    endif
+endfunction
+
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -365,9 +409,23 @@ augroup omnifuncs
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
+  autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  "autocmd BufNewFile,BufRead {*.js}                              :call MarkMargin(1)
+  autocmd BufNewFile,BufRead {*.ts}                              setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufNewFile,BufRead {*.sh}                              setl number
+  autocmd BufWritePost *.sh  :silent make | redraw!              " run shell check on write to .sh files
+  autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}   exec 'setl ft=gitcommit noml list spell' | norm 1G
+  autocmd! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
+  if has('gui_running')
+    au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
+  endif
 augroup end
-" " }}}
 
+" " }}}
+"
 " Tern " {{{
 " tern
 if exists('g:plugs["tern_for_vim"]')

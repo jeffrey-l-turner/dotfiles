@@ -254,6 +254,7 @@ fi
 
 HColor=$(color IGreen)
 function setPS1 { 
+    # shellcheck disable=SC2154
     PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
 }
 
