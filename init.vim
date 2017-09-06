@@ -17,9 +17,9 @@ let &packpath = &runtimepath
 "
 " General "{{{
 set termguicolors              " use true colors
-set nocompatible               " be iMproved
-scriptencoding utf-8           " utf-8 all the way
+"set nocompatible               " be iMproved
 set encoding=utf-8
+scriptencoding utf-8           " utf-8 all the way
 
 set history=1000               " Number of things to remember in history.
 set timeoutlen=250             " Time to wait after ESC (default causes an annoying delay)
@@ -57,15 +57,15 @@ set incsearch                  " show matches while typing
 
 let g:is_posix = 1             " vim's default is archaic bourne shell, bring it up to the 90s
 let g:instant_markdown_slow = 1
-let mapleader = ','
-let maplocalleader = '	'      " Tab as a local leader
+let g:mapleader = ','
+let g:maplocalleader = '	'    " Tab as a local leader
 let g:netrw_banner = 0         " do not show Netrw help banner
 " "}}}
 
 " Formatting "{{{
-set fo+=o                      " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
-set fo-=r                      " Do not automatically insert a comment leader after an enter
-set fo-=t                      " Do no auto-wrap text using textwidth (does not apply to comments)
+set formatoptions+=o                      " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
+set formatoptions-=r                      " Do not automatically insert a comment leader after an enter
+set formatoptions-=t                      " Do no auto-wrap text using textwidth (does not apply to comments)
 
 set nowrap
 "set textwidth=0                " Don't wrap lines by default
@@ -107,16 +107,16 @@ set completeopt-=preview      " disable auto opening preview window
 
 set novisualbell              " No blinking
 set noerrorbells              " No noise.
-set vb t_vb=                  " disable any beeps or flashes on error
+set visualbell=                  " disable any beeps or flashes on error
 
 set laststatus=2              " always show status line.
 set shortmess=atI             " shortens messages
 set showcmd                   " display an incomplete command in statusline
 
 set statusline=%<%f\          " custom statusline
-set stl+=[%{&ff}]             " show fileformat
-set stl+=%y%m%r%=
-set stl+=%-14.(%l,%c%V%)\ %P
+set statusline+=[%{&ff}]             " show fileformat
+set statusline+=%y%m%r%=
+set statusline+=%-14.(%l,%c%V%)\ %P
 
 set foldenable                " Turn on folding
 set foldmethod=marker         " Fold on the marker
@@ -180,9 +180,9 @@ if has('gui_running')
       endif
     endif
     " for MacOS Only: Fix Python Path (for YCM)
-    let g:ycm_path_to_python_interpreter="/usr/local/bin/python"
+    let g:ycm_path_to_python_interpreter='/usr/local/bin/python'
     " for MacOS homebrew setup): Dein, etc.
-    let g:python_host_prog="/usr/local/bin/python3"
+    let g:python_host_prog='/usr/local/bin/python3'
     set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
@@ -328,6 +328,7 @@ if !exists('g:airline_symbols')
 endif
 "let g:airline_symbols.space = "\ua0"
 
+" see https://github.com/powerline/fonts instructions, then restart vim w/new fonts
 " unicode symbols
 let g:airline_left_sep = '⮀'
 let g:airline_right_sep = '⮂'
@@ -432,7 +433,7 @@ if exists('g:plugs["tern_for_vim"]')
   autocmd FileType javascript setlocal omnifunc=tern#Complete
   autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 endif
-let errorformat =
+let g:errorformat =
         \ '%f:%l:%c: %trror: %m,' .
         \ '%f:%l:%c: %tarning: %m,' .
         \ '%f:%l:%c: %tote: %m'
