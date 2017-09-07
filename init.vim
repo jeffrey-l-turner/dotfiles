@@ -306,8 +306,9 @@ Plug 'wokalski/autocomplete-flow'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/denite.nvim'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern' }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
+Plug 'MaxMEllon/vim-jsx-pretty'          "jsx syntax highlight, incl .js files 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'vim-airline/vim-airline-themes'
