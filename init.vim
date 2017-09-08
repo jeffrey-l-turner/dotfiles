@@ -318,9 +318,14 @@ Plug 'sheerun/vim-polyglot' " bundled language plugin
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'tpope/vim-fugitive' " only using for airline integration
+"Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
+
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
+" " }}}
+
+" airline config "{{{
 let g:airline_theme  = 'dark_minimal'
 let g:airline_powerlin_fonts  = 1
 if !exists('g:airline_symbols')
@@ -336,6 +341,9 @@ let g:airline_symbols.linenr = '␤'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
+let g:airline#extensions#tabline#left_sep = '⮀'
+let g:airline#extensions#tabline#left_alt_sep = '⮀'
+
 
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
