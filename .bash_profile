@@ -280,7 +280,6 @@ fi
 if [ -f "${HOME}/bin/docker-complete" ]; then
     # shellcheck disable=SC1090
     source "${HOME}/bin/docker-complete"
-    alias DockStart="bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'"
 fi 
 
 # Load bash & git-flow completion here, note: use only brew installed git with MacOS, Apple's git does not work with git-flow

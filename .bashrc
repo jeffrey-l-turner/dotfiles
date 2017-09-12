@@ -1,6 +1,5 @@
 #!/bin/bash
 # .bashrc file
-#  Originally By Balaji S. Srinivasan (balajis@stanford.edu)
 #  Modified for Jeff Turner
 #
 # Concepts:
