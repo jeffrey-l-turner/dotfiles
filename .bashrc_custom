@@ -5,7 +5,7 @@ if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder d
     #alias mvim='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
     #alias vim='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
     #alias vi='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
-    alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
+    #alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
     alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
 fi
 
@@ -23,16 +23,6 @@ function mergeEternalHist() {
     rm -f /tmp/Bash_eternal_hist
     _concatToEternalHist 
     sort -n --key=8 ~/OneDrive/Bash_eternal_hist  | LC_ALL=C uniq > /tmp/Bash_eternal_hist
-    mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
     cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
+    mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
 }
-# shellcheck disable=SC1090
-#[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
-#source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
-#if [ "${PATH_TO_NPM_COMPLETION}/npm-completion.sh" != "${NVM_BIN}/../lib/node_modules/npm-completion/npm-completion.sh" ]; then
-#    export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
-#fi
-#PATH=$PATH:"${NVM_DIR}":"/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
-#export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
-#echo $PATH_TO_NPM_COMPLETION="$PATH_TO_NPM_COMPLETION"
-#source $PATH_TO_NPM_COMPLETION/npm-completion.sh
