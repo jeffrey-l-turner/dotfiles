@@ -348,7 +348,7 @@ let g:airline#extensions#tabline#left_alt_sep = '⮀'
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {'javascript': ['eslint', 'flow']}
+let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow']}
 let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
 
 let g:flow#autoclose = 1
