@@ -312,6 +312,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
+Plug 'tomlion/vim-solidity'
 Plug 'ap/vim-css-color' " color highlighting for css
 Plug 'sheerun/vim-polyglot' " bundled language plugin
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
