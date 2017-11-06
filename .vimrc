@@ -361,6 +361,7 @@ endif
 " Programming
 Plugin 'majutsushi/tagbar'
 Plugin 'othree/javascript-libraries-syntax.vim.git'
+Plugin 'mtscout6/syntastic-local-eslint.vim'
 Plugin 'othree/html5.vim'
 Plugin 'git@github.com:vim-scripts/SyntaxComplete.git'
 Plugin 'git@github.com:vimplugin/project.vim.git'
@@ -379,7 +380,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']      " want only eslint
+let g:syntastic_javascript_checkers = ['eslint', 'flow']  " want only eslint/flow
+"let g:syntastic_javascript_eslint_exec ='eslint'
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
 "let g:syntastic_json_checkers=['jsonlint']
