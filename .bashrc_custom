@@ -23,6 +23,6 @@ function mergeEternalHist() {
     rm -f /tmp/Bash_eternal_hist
     _concatToEternalHist 
     sort -n --key=8 ~/OneDrive/Bash_eternal_hist  | LC_ALL=C uniq > /tmp/Bash_eternal_hist
+
     cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
     mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
-}
