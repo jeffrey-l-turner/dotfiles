@@ -331,3 +331,5 @@ PATH=$PATH:"${NVM_DIR}:/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/.
 export PATH_TO_NPM_COMPLETION="${NVM_BIN?NVM_BIN MUST be used and set}/../lib/node_modules/npm-completion"
 # shellcheck disable=SC1090
 source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
+
+

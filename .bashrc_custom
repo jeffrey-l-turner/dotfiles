@@ -26,3 +26,5 @@ function mergeEternalHist() {
     cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
     mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
 }
+
+export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
