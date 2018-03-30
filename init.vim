@@ -318,6 +318,7 @@ Plug 'ap/vim-css-color' " color highlighting for css
 Plug 'sheerun/vim-polyglot' " bundled language plugin
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
 Plug 'junegunn/fzf.vim' " fuzzy finder
+Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 
@@ -344,6 +345,7 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airline#extensions#tabline#left_alt_sep = '⮀'
+" " }}}
 
 
 let g:ale_lint_on_save = 1
