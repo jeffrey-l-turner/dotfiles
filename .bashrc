@@ -299,8 +299,8 @@ alias treeacl='tree -A -C -L 2'
 # 2.3) Text and editor commands
 alias em='emacs -nw'     # No X11 windows
 alias eqq='emacs -nw -Q' # No config and no X11
-export EDITOR='vi'
-export VISUAL='vi' 
+export EDITOR='nvim'
+export VISUAL='nvim' 
 
 # 2.4) grep options
 export GREP_OPTIONS='--color=auto'
@@ -358,7 +358,7 @@ else
     alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
 fi
 
-vim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
+nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     # osx must use stty -g
     local TTYOPTS
     if [ "${OS}" = "darwin" ]; then
