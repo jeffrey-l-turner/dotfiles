@@ -172,7 +172,7 @@ if [ "$PS1" ]; then
     shopt -s checkwinsize
 
     #Prompt edited from default
-    [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u \w]\\$ "
+    [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\\u \\w]\\$ "
 
     if [ "x$SHLVL" != "x1" ]; then # We're not a login shell
         for i in /etc/profile.d/*.sh; do
@@ -236,7 +236,7 @@ if [ "${OS}" != "sunos" ]; then
         off=$(color Color_Off)
         # shellcheck disable=SC2034
         local declare whale
-        whale="\xF0\x9F\x90\xB3"
+        whale="\\xF0\\x9F\\x90\\xB3"
         if [ "$(docker info 2>/dev/null | wc -l)" -gt 0 ]; then
             echo -e "${DC}${whale} ${off} "
         else
@@ -254,7 +254,7 @@ fi
 HColor=$(color IGreen)
 function setPS1 { 
     # shellcheck disable=SC2154
-    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\u$(color IPurple)@\h:$(color BICyan)\W$(color Color_Off) $ "
+    PS1="$(_docker-prompt)${HColor}\$(_git-branch-prompt)$(color BRed)\$(_git-commits)$lbreak$(color Yellow)\\u$(color IPurple)@\\h:$(color BICyan)\\W$(color Color_Off) $ "
 }
 
 ## -----------------------
@@ -265,6 +265,12 @@ function setPS1 {
 alias mv="mv -i"
 alias cp="cp -i"
 set -o noclobber
+
+# Move export GREP_OPTIONS="--color=auto" (which is deprecated) from .exports to .alias
+# Always enable colored `grep` output`
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
 
 # 2.2) Listing, directories, and motion
 if [ "${OS}" == "darwin" ]; then
@@ -372,9 +378,3 @@ nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     stty  "$TTYOPTS"
 }
 
-# added by travis gem
-[ -f /Users/jeff/.travis/travis.sh ] && source /Users/jeff/.travis/travis.sh
-
- # added for npm-completion https://github.com/Jephuff/npm-bash-completion
- PATH_TO_NPM_COMPLETION="$HOME/.nvm/versions/node/$(node --version)/lib/node_modules/npm-completion"
-source $PATH_TO_NPM_COMPLETION/npm-completion.sh
