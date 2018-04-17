@@ -303,7 +303,7 @@ export EDITOR='nvim'
 export VISUAL='nvim' 
 
 # 2.4) grep options
-export GREP_OPTIONS='--color=auto'
+# export GREP_OPTIONS='--color=auto' # deprecated
 export GREP_COLOR='1;31' # green for matches
 
 # 2.5) sort options
