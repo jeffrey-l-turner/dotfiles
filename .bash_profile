@@ -163,7 +163,7 @@ fi
 # Simple functions to use a piped grep and to search through eternal and regular history
 function eternalhist() {
     # option -d; parse UTC seconds timestamp into readable local time date
-    if [ "$1" = "-d" ]; then
+    if [ "$1" = "-d" ] || [ "$1" = "--date" ] ; then
         opt="date"
         shift
     fi
@@ -173,8 +173,8 @@ function eternalhist() {
         QU="${QU} grep -i ${GR} | " 
     done
     if [ "$opt" = "date" ]; then
-        eval "${QU} cut -d ' ' -f 5-"
-        #eval "${QU} cut -d ' ' -f 5- | awk '{system(\"date -r \"$1)}'"
+        # shellcheck disable=SC2154
+        eval "${QU}" cut -f 5- 
     else
         eval "${QU} cut -d ' ' -f 5-"
     fi
@@ -300,7 +300,7 @@ if [ "${OS}" == "darwin" ]; then
 fi
 
 function shortenPrompt { 
-    export lbreak="\n"
+    export lbreak="\\n"
     setPS1 
 }
 
