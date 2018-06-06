@@ -274,7 +274,7 @@ alias egrep="egrep --color=auto"
 
 # 2.2) Listing, directories, and motion
 if [ "${OS}" == "darwin" ]; then
-    alias ll="ls -lrtFG"
+    alias ll="ls -lprtFG"
     alias dir='ls -Gx'
     alias vdir='ls -l@G'
 elif [ "${OS}" == "sunos" ]; then
