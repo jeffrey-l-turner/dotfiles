@@ -100,7 +100,7 @@ set matchtime=2               " Bracket blinking.
 
 set wildmode=longest,list     " At command line, complete longest common string, then list alternatives.
 set wildmenu
-set wildignore=*.o,*.pyc,node_modules,.git " wild card ignore
+set wildignore=*.o,*.pyc,node_modules,.git,npm-debug.log,yarn-error.log,.buckd,*.keystore " wild card ignore
 
 set completeopt-=preview      " disable auto opening preview window
 
@@ -322,7 +322,6 @@ Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
-
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
