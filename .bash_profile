@@ -275,7 +275,7 @@ else
 fi
 
 # shellcheck disable=SC1091
-[ -s "/Users/jeffreyturner/.nvm/nvm.sh" ] && . "/Users/jeffreyturner/.nvm/nvm.sh" # This loads nvm
+[ -s "${HOME}/.nvm/nvm.sh" ] && . "${HOME}/.nvm/nvm.sh" # This loads nvm
 # add docker completion from https://github.com/nicferrier/docker-bash-completion
 if [ -f "${HOME}/bin/docker-complete" ]; then
     # shellcheck disable=SC1090
