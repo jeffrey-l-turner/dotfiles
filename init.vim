@@ -100,7 +100,7 @@ set matchtime=2               " Bracket blinking.
 
 set wildmode=longest,list     " At command line, complete longest common string, then list alternatives.
 set wildmenu
-set wildignore=*.o,*.pyc,*/node_modules/*,*/build/*,*/.git/*,*/dist/* " wild card ignore
+set wildignore+=*.o,*.pyc,*/node_modules/*,/.git/*,*/build/*,*/dist/*,npm-debug.log,yarn-error.log,.buckd,*.keystore " wild card ignore
 
 set completeopt-=preview      " disable auto opening preview window
 
@@ -296,6 +296,21 @@ augroup end
 call plug#begin('$HOME/.config/nvim/plugged')
 Plug 'editorconfig/editorconfig-vim'
 Plug 'w0rp/ale'
+Plug 'majutsushi/tagbar'
+let g:tagbar_type_javascript = {
+  \ 'ctagstype': 'javascript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+\ }
+
 "Plug 'https://github.com/wesQ3/vim-windowswap'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Place deoplete before autocomplete-flow
@@ -309,7 +324,6 @@ Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'MaxMEllon/vim-jsx-pretty'          "jsx syntax highlight, incl .js files 
-Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
@@ -322,7 +336,6 @@ Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
-
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 call plug#end()
@@ -419,6 +432,7 @@ augroup omnifuncs
   autocmd BufNewFile,BufRead *.scss  set ft=scss.css tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd BufWritePre *.js :normal gggqG
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
