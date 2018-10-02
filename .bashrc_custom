@@ -2,12 +2,10 @@
 # Pre-configure or override your bashrc environment here:
 # the following alias is for mac environment when version 7.4 has been downloaded:
 if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
-    #alias mvim='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
-    #alias vim='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
-    #alias vi='/Applications/MacVim.app/Contents/MacOS/bin/vim' 
-    #alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
+    # alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
     alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
 fi
+alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
@@ -28,3 +26,4 @@ function mergeEternalHist() {
 }
 
 export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
+
