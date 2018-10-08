@@ -7,6 +7,7 @@
 "  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 " Author: Jeff Turner 
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
+" Place in ~/.config/nvim/init.vim
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
@@ -324,6 +325,7 @@ Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'MaxMEllon/vim-jsx-pretty'          "jsx syntax highlight, incl .js files 
+Plug 'mxw/vim-jsx'          "jsx syntax highlight, incl .js files 
 Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
@@ -338,7 +340,27 @@ Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
+" Plug 'sbdchd/neoformat' " this does not work properly
 call plug#end()
+" " }}}
+
+" neovim plugin settings "{{{
+"let g:neoformat_try_formatprg = 1 " configure Neoformatot use formatprg
+" let g:neoformat_javascript_prettier = {
+"             \ 'exe': 'prettier',
+"             \ 'replace': 1 " replace the file, instead of updating buffer (default: 0),
+"             \ 'stdin': 1, " send data to stdin of formatter (default: 0)
+"             \ 'env': ["DEBUG=1"], " prepend environment variables to formatter command
+"             \ 'valid_exit_codes': [0],
+"             \ 'no_append': 1,
+"             \ }
+" let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
+" let g:neoformat_read_from_buffer = 0 " read from file instead of buffer
+" let g:neoformat_run_all_formatters = 1 " configure Neoformatot to convert tabs to spaces
+" let g:neoformat_basic_format_retab = 1 " configure Neoformatot to convert tabs to spaces
+" let g:neoformat_basic_format_align = 1 " configure Neoformatot to convert tabs to spaces
+" let g:neoformat_basic_format_trim = 1 " configure Neoformatot to convert tabs to spaces
+" let g:neoformat_only_msg_on_error = 1 " only message on errors
 " " }}}
 
 " airline config "{{{
@@ -432,7 +454,7 @@ augroup omnifuncs
   autocmd BufNewFile,BufRead *.scss  set ft=scss.css tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd BufWritePre *.js :normal gggqG
+"  autocmd BufWritePre *.js,*.jsx Neoformat " this does not work properly
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
@@ -450,6 +472,17 @@ augroup omnifuncs
     au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
   endif
 augroup end
+
+" Neoformat does not seem to work well. Will experiement again when more mature
+" augroup NeoformatAutoFormat
+"   autocmd!
+"   " autocmd BufWritePre *.js :normal gggqG
+"   autocmd FileType javascript,javascript.jsx setlocal formatprg=prettier\
+"                                                             \--stdin\
+"                                                             \--print-width\ 120\
+"                                                             \--single-quote\
+"                                                             \--trailing-comma\ es6
+" augroup end
 
 " " }}}
 "
