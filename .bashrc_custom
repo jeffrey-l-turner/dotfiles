@@ -26,4 +26,10 @@ function mergeEternalHist() {
 }
 
 export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
+if [ -e /Users/jeff/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/jeff/.nix-profile/etc/profile.d/nix.sh; fi
+export THEME="${HOME}/.bash/themes/agnoster-bash/agnoster.bash"
+if [[ -f "$THEME" ]]; then
+    export DEFAULT_USER=`whoami`
+    source "$THEME"
+fi
 
