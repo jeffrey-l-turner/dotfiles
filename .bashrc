@@ -374,7 +374,7 @@ nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
         TTYOPTS="$(stty --save)"
     fi
     stty  stop '' -ixoff
-    command vim "$@"
+    command nvim "$@"
     stty  "$TTYOPTS"
 }
 
