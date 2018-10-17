@@ -42,8 +42,8 @@ set modeline
 set modelines=5                " default numbers of lines to read for modeline instructions
 
 set autowrite                  " Writes on make/shell commands
-let autoreadargs={'autoread':1} " works better than just a plain set autoread
-execute WatchForChanges("*",autoreadargs) 
+set autoread                   " works better than just a plain set autoread
+au FocusGained * :checktime
 
 set nobackup
 set nowritebackup
