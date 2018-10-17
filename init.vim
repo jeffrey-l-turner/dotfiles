@@ -42,7 +42,8 @@ set modeline
 set modelines=5                " default numbers of lines to read for modeline instructions
 
 set autowrite                  " Writes on make/shell commands
-set autoread                   " In case file is changed externally
+let autoreadargs={'autoread':1} " works better than just a plain set autoread
+execute WatchForChanges("*",autoreadargs) 
 
 set nobackup
 set nowritebackup
@@ -464,8 +465,10 @@ augroup omnifuncs
   autocmd BufNewFile,BufRead {*.ts}                              setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
   autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
-  autocmd BufNewFile,BufRead {*.sh}                              setl number
-  autocmd BufWritePost *.sh  :silent make | redraw!              " run shell check on write to .sh files
+  autocmd BufNewFile,BufRead {*.sh}                              setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead *.bash                            setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufWritePost *.sh   :silent make | redraw!             " run shell check on write to .sh files
+  autocmd BufWritePost *.bash :silent make | redraw!             " run shell check on write to .sh files
   autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}   exec 'setl ft=gitcommit noml list spell' | norm 1G
   autocmd! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
   if has('gui_running')
