@@ -4,6 +4,7 @@
 if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
     # alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
     alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
+    export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:${PATH}" # adding altool to path
 fi
 alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
 
@@ -26,10 +27,12 @@ function mergeEternalHist() {
 }
 
 export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
-if [ -e /Users/jeff/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/jeff/.nix-profile/etc/profile.d/nix.sh; fi
-export THEME="${HOME}/.bash/themes/agnoster-bash/agnoster.bash"
-if [[ -f "$THEME" ]]; then
-    export DEFAULT_USER=`whoami`
-    source "$THEME"
-fi
 
+if [ -e /Users/jeff/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/jeff/.nix-profile/etc/profile.d/nix.sh; fi
+export PowerLineFonts="${HOME}/.config/fontconfig/conf.d/50-enable-terminess-powerline.conf"
+if [[ -f "$PowerLineFonts" ]]; then
+  DEFAULT_USER=$(whoami)
+  export DEFAULT_USER;
+  # shellcheck disable=SC1090
+  source "${HOME}/dotfiles/PowerLine.sh"
+fi
