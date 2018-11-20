@@ -8,6 +8,7 @@
 " Author: Jeff Turner 
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
 " Place in ~/.config/nvim/init.vim
+" Remember to :PlugInstall " after first starting neovim
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
