@@ -51,14 +51,14 @@ _prompt_segment() {
     debug "Codes: "
     # declare -p codes
 
-    if [[ $CURRENT_BG != NONE && $1 != $CURRENT_BG ]]; then
+    if [[ "${CURRENT_BG}" != NONE && $1 != "${CURRENT_BG}" ]]; then
         declare -a intermediate=($(fg_color $CURRENT_BG) $(bg_color $1))
         debug "pre prompt " $(ansi intermediate[@])
         PR="$PR $(ansi intermediate[@])$SEGMENT_SEPARATOR"
         debug "post prompt " $(ansi codes[@])
         PR="$PR$(ansi codes[@]) "
     else
-        debug "no current BG, codes is $codes[@]"
+        debug "no current BG, codes is" "${codes[@]}"
         PR="$PR$(ansi codes[@]) "
     fi
     CURRENT_BG=$1
