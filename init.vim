@@ -342,6 +342,7 @@ Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 " Plug 'sbdchd/neoformat' " this does not work properly
+Plug 'codeclimate/codeclimate' "  for Code Climate setup
 call plug#end()
 " " }}}
 
