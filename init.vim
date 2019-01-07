@@ -343,7 +343,7 @@ Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 " Plug 'sbdchd/neoformat' " this does not work properly
-Plug 'codeclimate/codeclimate' "  for Code Climate setup
+Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
 call plug#end()
 " " }}}
 
@@ -424,6 +424,7 @@ autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=
 autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
 autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
 autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
+autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
 "au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
 autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
@@ -466,7 +467,7 @@ augroup omnifuncs
   "autocmd BufNewFile,BufRead {*.js}                              :call MarkMargin(1)
   autocmd BufNewFile,BufRead {*.ts}                              setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
-  autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=syntax
   autocmd BufNewFile,BufRead {*.sh}                              setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead *.bash                            setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufWritePost *.sh   :silent make | redraw!             " run shell check on write to .sh files
