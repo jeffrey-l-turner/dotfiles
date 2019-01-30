@@ -7,6 +7,7 @@ if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder d
     export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:${PATH}" # adding altool to path
 fi
 alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
+alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
