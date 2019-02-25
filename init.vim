@@ -44,7 +44,9 @@ set modelines=5                " default numbers of lines to read for modeline i
 
 set autowrite                  " Writes on make/shell commands
 set autoread                   " works better than just a plain set autoread
-au FocusGained * :checktime
+augroup focus
+  au FocusGained * :checktime
+augroup end
 
 set nobackup
 set nowritebackup
@@ -344,6 +346,7 @@ Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
 " Plug 'sbdchd/neoformat' " this does not work properly
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
+Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
 Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
 call plug#end()
 " " }}}
@@ -387,6 +390,7 @@ let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airline#extensions#tabline#left_alt_sep = '⮀'
 " " }}}
 
+augroup ale
 " ale config "{{{
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
@@ -401,6 +405,7 @@ if !exists('g:deoplete#omni#input_patterns')
 endif
 " let g:deoplete#disable_auto_complete = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup end
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
@@ -419,19 +424,23 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
-autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
-autocmd BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
-autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
-autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
-autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
-autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
+augroup syntax
+  autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
+  autocmd BufRead,BufNewFile {*.hs}                                       setl ft=haskell
+  autocmd BufRead,BufNewFile {*.purs}                                     setl ft=purescript
+  autocmd BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
+  autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+  autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
+  autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+  autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
+  autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
 "au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
 autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
 
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
+augroup end
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
 " omnifuncs
