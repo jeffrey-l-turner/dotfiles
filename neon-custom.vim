@@ -8,11 +8,11 @@
 
 set background=dark
 hi clear
-if exists("syntax_on")
+if exists('syntax_on')
    syntax reset
 endif
 
-let colors_name = "neon-custom"
+let colors_name = 'neon-custom'
 
 hi Normal       guifg=#ffffff guibg=#000030
 "
