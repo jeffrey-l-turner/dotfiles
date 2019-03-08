@@ -11,6 +11,7 @@
 ~  $ pip2 install neovim --uprgrade
 ~  $ pip3 install vim-vint # for vim linting
 ~  $ brew install neovim
+~  $ curl -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " Place in ~/.config/nvim/init.vim
 " Remember to :PlugInstall " after first starting neovim
 "
