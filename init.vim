@@ -7,6 +7,10 @@
 "  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 " Author: Jeff Turner 
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
+~  $ brew install python python3
+~  $ pip2 install neovim --uprgrade
+~  $ pip3 install vim-vint # for vim linting
+~  $ brew install neovim
 " Place in ~/.config/nvim/init.vim
 " Remember to :PlugInstall " after first starting neovim
 "
