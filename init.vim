@@ -7,15 +7,22 @@
 "  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 " Author: Jeff Turner 
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
+" For use with Neovim/VimR:
+" See: https://github.com/qvacua/vimr/releases
+" Place in ~/.config/nvim/init.vim
+"  ```sh
 "  $ brew install python python3
 "  $ pip2 install neovim --uprgrade
 "  $ pip3 install vim-vint # for vim linting
 "  $ brew install neovim
-"  $ curl -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"  $ # if you have problems with Deoplete not finding pyton run:
+"  $ curl --create-dirs -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  $ curl --create-dirs -fLo "${HOME}/.vim/colors/neon-custom.vim" https://raw.githubusercontent.com/jeffrey-l-turner/dotfiles/master/neon-custom.vim # custom neon=vim color scheme
+"  ```
+"  # if you have problems with Deoplete not finding pyton run:
+"  ```vim
 "  :checkhealth provider  
 "  :checkhealth deoplete
-" Place in ~/.config/nvim/init.vim
+"  ```
 " Remember to :PlugInstall " after first starting neovim
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
