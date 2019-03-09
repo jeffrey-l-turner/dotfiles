@@ -7,6 +7,14 @@
 "  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
 " Author: Jeff Turner 
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
+"  $ brew install python python3
+"  $ pip2 install neovim --uprgrade
+"  $ pip3 install vim-vint # for vim linting
+"  $ brew install neovim
+"  $ curl -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  $ # if you have problems with Deoplete not finding pyton run:
+"  :checkhealth provider  
+"  :checkhealth deoplete
 " Place in ~/.config/nvim/init.vim
 " Remember to :PlugInstall " after first starting neovim
 "
