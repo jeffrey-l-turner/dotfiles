@@ -1,10 +1,19 @@
 "Beginning transition to neovim"{{{
-"      ██╗███████╗███████╗███████╗██████╗ ███████╗██╗   ██╗    ██╗         ████████╗██╗   ██╗██████╗ ███╗   ██╗███████╗██████╗ 
-"      ██║██╔════╝██╔════╝██╔════╝██╔══██╗██╔════╝╚██╗ ██╔╝    ██║         ╚══██╔══╝██║   ██║██╔══██╗████╗  ██║██╔════╝██╔══██╗
-"      ██║█████╗  █████╗  █████╗  ██████╔╝█████╗   ╚████╔╝     ██║            ██║   ██║   ██║██████╔╝██╔██╗ ██║█████╗  ██████╔╝
-" ██   ██║██╔══╝  ██╔══╝  ██╔══╝  ██╔══██╗██╔══╝    ╚██╔╝      ██║            ██║   ██║   ██║██╔══██╗██║╚██╗██║██╔══╝  ██╔══██╗
-" ╚█████╔╝███████╗██║     ██║     ██║  ██║███████╗   ██║       ███████╗       ██║   ╚██████╔╝██║  ██║██║ ╚████║███████╗██║  ██║
-"  ╚════╝ ╚══════╝╚═╝     ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+"         ,--.                                                                                                                               ,--,                 ,---._               
+"       ,--.'|                                                 ____       ,--,                              ____  ,-.----.                 ,--.'|               .-- -.' \   .--.--.    
+"   ,--,:  : |                                ,--,           ,'  , `.    / .`|      ,---.  ,--,           ,'  , `.\    /  \             ,--,  | :               |    |   : /  /    '.  
+",`--.'`|  ' :             ,---.            ,--.'|        ,-+-,.' _ |   /' / ;     /__./|,--.'|        ,-+-,.' _ |;   :    \         ,---.'|  : '               :    ;   ||  :  /`. /  
+"|   :  :  | |            '   ,'\      .---.|  |,      ,-+-. ;   , ||  /  / .',---.;  ; ||  |,      ,-+-. ;   , |||   | .\ :         ;   : |  | ;               :        |;  |  |--`   
+":   |   \ | :   ,---.   /   /   |   /.  ./|`--'_     ,--.'|'   |  || /  / .//___/ \  | |`--'_     ,--.'|'   |  ||.   : |: |         |   | : _' |               |    :   :|  :  ;_     
+"|   : '  '; |  /     \ .   ; ,. : .-' . ' |,' ,'|   |   |  ,', |  |,/ ./  / \   ;  \ ' |,' ,'|   |   |  ,', |  |,|   |  \ :         :   : |.'  |               :          \  \    `.  
+"'   ' ;.    ; /    /  |'   | |: :/___/ \: |'  | |   |   | /  | |--'/  /  /   \   \  \: |'  | |   |   | /  | |--' |   : .  /         |   ' '  ; :               |    ;   |  `----.   \ 
+"|   | | \   |.    ' / |'   | .; :.   \  ' .|  | :   |   : |  | ,  /  /  /     ;   \  ' .|  | :   |   : |  | ,    ;   | |  \         \   \  .'. |           ___ l           __ \  \  | 
+"'   : |  ; .''   ;   /||   :    | \   \   ''  : |__ |   : |  |/  ;  /  /       \   \   ''  : |__ |   : |  |/     |   | ;\  \         `---`:  | '         /    /\    J   : /  /`--'  / 
+"|   | '`--'  '   |  / | \   \  /   \   \   |  | '.'||   | |`-' ./__;  /         \   `  ;|  | '.'||   | |`-'      :   ' | \.'              '  ; |        /  ../  `..-    ,'--'.     /  
+"'   : |      |   :    |  `----'     \   \ |;  :    ;|   ;/     |   : /           :   \ |;  :    ;|   ;/          :   : :-'                |  : ;        \    \         ;   `--'---'   
+";   |.'       \   \  /               '---" |  ,   / '---'      ;   |/             '---" |  ,   / '---'           |   |.'                  '  ,/          \    \      ,'               
+"'---'          `----'                       ---`-'             `---'                     ---`-'                  `---'                    '--'            "---....--'                 
+"
 " Author: Jeff Turner 
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
 " For use with Neovim/VimR:
@@ -24,6 +33,8 @@
 "  :checkhealth deoplete
 "  ```
 " Remember to :PlugInstall " after first starting neovim
+"
+" Note: This looks best with Powerline fonts
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
@@ -356,10 +367,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } "
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
-" Plug 'sbdchd/neoformat' " this does not work properly
+"Plug 'sbdchd/neoformat' " this does not work properly, it causes reloads on write
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
 Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
@@ -403,6 +415,8 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airline#extensions#tabline#left_alt_sep = '⮀'
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " " }}}
 
 augroup ale
