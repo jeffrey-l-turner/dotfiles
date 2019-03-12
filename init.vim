@@ -367,7 +367,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } "
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
+"Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}; turning off for now... deoplete/tern seem better
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
@@ -415,8 +415,8 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airline#extensions#tabline#left_alt_sep = '⮀'
-let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+"let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+"let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " " }}}
 
 augroup ale
