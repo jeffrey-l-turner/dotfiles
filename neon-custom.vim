@@ -3,6 +3,10 @@
 " Maintainer: Jeff 
 " Last Change: 2015/4/16 by JLT. 
 "     version: 2.0: This new theme (neon-custom) is based on the neon theme by Tiza.
+" Place in: ${HOME}/.vim/colors
+" ```sh
+" $ curl --create-dirs -fLo "${HOME}/.vim/colors/neon-custom.vim" https://raw.githubusercontent.com/jeffrey-l-turner/dotfiles/master/neon-custom.vim # custom neon=vim color scheme
+" ```
 "
 " This color scheme uses a dark background.
 

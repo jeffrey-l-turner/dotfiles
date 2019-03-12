@@ -1,7 +1,0 @@
-Host heroku.com
-Hostname heroku.com 
-Port 22 
-IdentitiesOnly yes 
-IdentityFile "~/.ssh/heroku-rsa"
-TCPKeepAlive yes 
-
