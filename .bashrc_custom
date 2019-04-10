@@ -11,11 +11,15 @@ alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+
 function _concatToEternalHist() {
     local last recent linenum
     last=$(grep -Fn "$(tail -1 ~/OneDrive/Bash_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/OneDrive/Bash_eternal_hist  | sed s/:.*$//)
     recent=$(wc -l ~/.bash_eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
-    linenum="$(( recent - last ))"
+    # shellcheck disable=SC2219
+    let linenum="${recent} - ${last}"
     tail -n "${linenum}" ~/.bash_eternal_history >> ~/OneDrive/Bash_eternal_hist
 }
 
@@ -36,4 +40,20 @@ if [[ -f "$PowerLineFonts" ]]; then
   export DEFAULT_USER;
   # shellcheck disable=SC1090
   source "${HOME}/dotfiles/PowerLine.sh"
+fi
+
+function FFOW() {
+    local QU="find . -type f -exec grep -nHi $1 {} \\;" 
+    shift
+    for GR in "$@"
+    do
+        QU="${QU} | grep -i ${GR}"
+    done
+    echo "${QU} | grep -v node_modules/ | grep -v commerce/ | grep -v ios/ | grep -v android/ | grep -v public/" >&2 
+    eval "${QU}" | grep -v node_modules/ | grep -v commerce/ | grep -v ios/ | grep -v android/ | grep -v public/
+}
+
+if [ "${TERM_PROGRAM}" == "iTerm.app" ]; then
+   # shellcheck disable=SC1090
+  test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 fi
