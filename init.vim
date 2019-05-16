@@ -375,6 +375,7 @@ Plug 'tpope/vim-fugitive' " only using for airline integration
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
 Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
+Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
 call plug#end()
 " " }}}
 
