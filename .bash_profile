@@ -48,14 +48,6 @@
 ## -- 1) Import .bashrc --
 ## -----------------------
 
-# Factor out all repeated profile initialization into .bashrc
-#  - All non-login shell parameters go there
-#  - All declarations repeated for each screen session go there
-if [ -f ~/.bashrc ]; then
-   # shellcheck disable=SC1090
-   . "$HOME/.bashrc"
-fi
-
 ## ----------------------------------------------------------------
 ## -- determine if on Cygwin, then use other options on ssh-keys --
 ## ----------------------------------------------------------------
@@ -158,7 +150,6 @@ else
         _use-ssh-keys
     fi
 fi
-
 
 # Simple functions to use a piped grep and to search through eternal and regular history
 function eternalhist() {
@@ -274,7 +265,7 @@ else
     export TERM='xterm-color'
 fi
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1091 disable=SC1090
 [ -s "${HOME}/.nvm/nvm.sh" ] && . "${HOME}/.nvm/nvm.sh" # This loads nvm
 # add docker completion from https://github.com/nicferrier/docker-bash-completion
 if [ -f "${HOME}/bin/docker-complete" ]; then
@@ -291,12 +282,39 @@ if [ "${OS}" == "darwin" ]; then
     # shellcheck disable=SC1090
     # shellcheck disable=SC1091
     . "$(brew --prefix)/Cellar/bash-completion/git-flow-completion/git-flow-completion.bash"
-    which aws > /dev/null
+    command -v aws > /dev/null
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         complete -C aws_completer aws
     fi
   fi
+fi
+
+# this allows neovim to work properly with UTF chars
+#export LC_ALL=POSIX
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# shellcheck disable=SC1090
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+if [ "${PATH_TO_NPM_COMPLETION}/npm-completion.sh" != "${NVM_BIN}/../lib/node_modules/npm-completion/npm-completion.sh" ]; then
+    export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
+fi
+
+PATH=$PATH:"${NVM_DIR}:/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
+export PATH_TO_NPM_COMPLETION="${NVM_BIN?NVM_BIN MUST be used and set}/../lib/node_modules/npm-completion"
+# shellcheck disable=SC1090
+source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
+
+#shellcheck disable=SC1090
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Factor out all repeated profile initialization into .bashrc
+#  - All non-login shell parameters go there
+#  - All declarations repeated for each screen session go there
+if [ -f ~/.bashrc ]; then
+   # shellcheck disable=SC1090
+   . "$HOME/.bashrc"
 fi
 
 function shortenPrompt { 
@@ -316,20 +334,4 @@ if [ "${TERM}" != "dumb" ] && [ "$(tput cols)" -lt 140 ] &&  [[ $- == *i* ]]; th
 else
     lengthenPrompt 
 fi
-
-# this allows neovim to work properly with UTF chars
-#export LC_ALL=POSIX
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-# shellcheck disable=SC1090
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
-if [ "${PATH_TO_NPM_COMPLETION}/npm-completion.sh" != "${NVM_BIN}/../lib/node_modules/npm-completion/npm-completion.sh" ]; then
-    export PATH_TO_NPM_COMPLETION="${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"
-fi
-PATH=$PATH:"${NVM_DIR}:/usr/local/bin" && "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion"/update 
-export PATH_TO_NPM_COMPLETION="${NVM_BIN?NVM_BIN MUST be used and set}/../lib/node_modules/npm-completion"
-# shellcheck disable=SC1090
-source "${NVM_BIN?nvm MUST be used and set}/../lib/node_modules/npm-completion/npm-completion.sh"
-
 

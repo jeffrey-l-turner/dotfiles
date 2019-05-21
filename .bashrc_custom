@@ -4,7 +4,7 @@
 if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
     # alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
     alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
-    export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:${PATH}" # adding altool to path
+    export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:/Applications/Visual Studio Code.app//Contents/Resources/app/bin/:${PATH}" # adding altool to path
 fi
 alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
 alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
@@ -12,7 +12,7 @@ alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+export PATH="${PATH}:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools"
 
 function _concatToEternalHist() {
     local last recent linenum
@@ -31,15 +31,15 @@ function mergeEternalHist() {
     mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
 }
 
-export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
+export PATH="${HOME}/.gem/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
 
 if [ -e /Users/jeff/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/jeff/.nix-profile/etc/profile.d/nix.sh; fi
-export PowerLineFonts="${HOME}/.config/fontconfig/conf.d/50-enable-terminess-powerline.conf"
-if [[ -f "$PowerLineFonts" ]]; then
-  DEFAULT_USER=$(whoami)
-  export DEFAULT_USER;
-  # shellcheck disable=SC1090
-  source "${HOME}/dotfiles/PowerLine.sh"
+export THEME="${HOME}/.bash/themes/agnoster-bash/agnoster.bash"
+if [[ -f "$THEME" ]]; then
+    DEFAULT_USER=$(whoami)
+    export DEFAULT_USER
+    # shellcheck disable=SC1090
+    source "$THEME"
 fi
 
 function FFOW() {
@@ -53,7 +53,5 @@ function FFOW() {
     eval "${QU}" | grep -v node_modules/ | grep -v commerce/ | grep -v ios/ | grep -v android/ | grep -v public/
 }
 
-if [ "${TERM_PROGRAM}" == "iTerm.app" ]; then
-   # shellcheck disable=SC1090
-  test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-fi
+export GEM_PATH=~/.gem # to setup local gem installs instead of system wide root
+export GEM_HOME=~/.gem # to setup local gem installs instead of system wide root
