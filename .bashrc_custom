@@ -11,7 +11,10 @@ alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_HOME="${HOME}/Library/Android/sdk"
+export ANDROID_NDK="${HOME}/Library/Android/ndk"
+export ANDROID_SDK="${HOME}/Library/Android/sdk"
+
 export PATH="${PATH}:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools"
 
 function _concatToEternalHist() {
