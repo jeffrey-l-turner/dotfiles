@@ -636,3 +636,4 @@ filetype plugin indent on      " Automatically detect file types.
 "
 "
 " " }}}
+set exrc  " enable project specific vimrc
