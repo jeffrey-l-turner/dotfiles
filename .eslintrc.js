@@ -17,15 +17,9 @@ module.exports = {
   },
 
   'plugins': [
-    'import',
-    'flowtype',
-    'filenames-suffix'
   ],
 
   'extends': [
-    'airbnb',
-    'plugin:flowtype/recommended',
-    'eslint:recommended',
    ],
 
   'env': {
