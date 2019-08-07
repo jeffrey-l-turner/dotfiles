@@ -1,0 +1,16 @@
+[ignore]
+
+[include]
+
+[libs]
+flow-typed
+
+[lints]
+
+[untyped]
+<PROJECT_ROOT>/node_modules/react-native
+
+[options]
+module.ignore_non_literal_requires=true
+esproposal.export_star_as=enable
+[strict]
