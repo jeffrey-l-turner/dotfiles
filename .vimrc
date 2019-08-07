@@ -1,8 +1,8 @@
 " Adapted originally from github.com/gmarik/dotfiles
 " General "{{{
-set nocompatible               " be iMproved
-scriptencoding utf-8           " utf-8 all the way
+if &compatible | set nocompatible | endif " Avoid side effects if `nocp` already set
 set encoding=utf-8
+scriptencoding utf-8           " utf-8 all the way
 
 set history=1000                " Number of things to remember in history.
 set timeoutlen=250             " Time to wait after ESC (default causes an annoying delay)
@@ -18,7 +18,7 @@ set tags=.git/tags;$HOME       " consider the repo tags first, then
                                "  :20  :  up to 20 lines of command-line history will be remembered
                                "   %    :  saves and restores the buffer list
                                "   n... :  where to save the viminfo files
-if has("win32") || has("win16")
+if has('win32') || has('win16')
     set viminfo='10,\"100,:20,%,nc:~/vimfiles/.viminfo 
 else
     set viminfo='10,\"100,:20,%,n~/.viminfo
@@ -50,9 +50,9 @@ let g:netrw_banner = 0         " do not show Netrw help banner
 " "}}}
 
 " Formatting "{{{
-set fo+=o                      " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
-set fo-=r                      " Do not automatically insert a comment leader after an enter
-set fo-=t                      " Do no auto-wrap text using textwidth (does not apply to comments)
+set formatoptions+=o           " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
+set formatoptions-=r                      " Do not automatically insert a comment leader after an enter
+set formatoptions-=t                      " Do no auto-wrap text using textwidth (does not apply to comments)
 
 set nowrap
 "set textwidth=0                " Don't wrap lines by default
@@ -93,16 +93,16 @@ set completeopt-=preview      " disable auto opening preview window
 
 set novisualbell              " No blinking
 set noerrorbells              " No noise.
-set vb t_vb=                  " disable any beeps or flashes on error
+set visualbell t_vb=          " disable any beeps or flashes on error
 
 set laststatus=2              " always show status line.
 set shortmess=atI             " shortens messages
 set showcmd                   " display an incomplete command in statusline
 
 set statusline=%<%f\          " custom statusline
-set stl+=[%{&ff}]             " show fileformat
-set stl+=%y%m%r%=
-set stl+=%-14.(%l,%c%V%)\ %P
+set statusline+=[%{&ff}]             " show fileformat
+set statusline+=%y%m%r%=
+set statusline+=%-14.(%l,%c%V%)\ %P
 
 set foldenable                " Turn on folding
 set foldmethod=marker         " Fold on the marker
@@ -165,7 +165,7 @@ if has('gui_running')
       endif
     endif
     " for MacOS Only: Fix Python Path (for YCM)
-    let g:ycm_path_to_python_interpreter="/usr/bin/python"
+    let g:ycm_path_to_python_interpreter='/usr/bin/python'
     set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
   else
 "    set guifont=Terminus:h16
@@ -275,6 +275,7 @@ map <leader>2h :runtime! syntax/2html.vim<CR>
 
 " AutoCommands " {{{
 "
+augroup code
 au BufRead,BufNewFile {*.go}                                       setl ft=go
 au BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
 au BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
@@ -300,13 +301,15 @@ au BufWinLeave *.* mkview
 au BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
+augroup END
+set suffixesadd=.js
 " " }}}
 
 " Scripts and Plugins " {{{
 " DEIN installation (for tsuquyomi, etc.)
 
 " Required:
-if has("win32") || has("win16")
+if has('win32') || has('win16')
     " for the 'hostile' developer environment...
     set runtimepath+=~/vimfiles/bundle/dein.vim
 else
@@ -341,17 +344,17 @@ syntax enable
 
 filetype off
 runtime macros/matchit.vim
-if has("win32") || has("win16")
-    set rtp+=~/vimfiles/bundle/snipmate.snippets/
-    set rtp+=~/vimfiles/bundle/vundle/
+if has('win32') || has('win16')
+    set runtimepath+=~/vimfiles/bundle/snipmate.snippets/
+    set runtimepath+=~/vimfiles/bundle/vundle/
 else
-    set rtp+=~/.vim/bundle/snipmate.snippets/
-    set rtp+=~/.vim/bundle/vundle/
+    set runtimepath+=~/.vim/bundle/snipmate.snippets/
+    set runtimepath+=~/.vim/bundle/vundle/
 endif
 call vundle#rc()
 
 colorscheme neon-custom
-if has("gui_running")
+if has('gui_running')
 "  colorscheme ingretu
 "  colorscheme blue
 "  colorscheme candy
@@ -460,7 +463,7 @@ Plugin 'flowtype/vim-flow'
 " Snippets
 Plugin 'gmarik/snipmate.vim'
 
-if has("win32") || has("win16")
+if has('win32') || has('win16')
     nnoremap <leader>so :Explore ~/vimfiles/vendor/snipmate.snippets/snippets/<CR>
 else
     nnoremap <leader>so :Explore ~/.vim/vendor/snipmate.snippets/snippets/<CR>
@@ -633,3 +636,5 @@ filetype plugin indent on      " Automatically detect file types.
 "
 "
 " " }}}
+set exrc  " enable project specific vimrc
+set secure " prevent :autocmd actions unless file owned by me
