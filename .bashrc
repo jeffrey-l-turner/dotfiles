@@ -335,10 +335,12 @@ if [ "${OS}" != "sunos" ]; then # doesn't work on sunos
 fi
 export NODE_DISABLE_COLORS=1
 if [ -s ~/.nvm/nvm.sh ]; then
+  NODE_DISABLE_COLORS=1
     export NVM_DIR=~/.nvm
     # shellcheck disable=SC1091 disable=SC1090
     source ~/.nvm/nvm.sh
-    # nvm use v0.10.19 &> /dev/null # silence nvm use; needed for rsync
+  NODE_DISABLE_COLORS=0
+  # nvm use v12.18 &> /dev/null # silence nvm use; needed for rsync
 fi
 
 # 2.8) Pretty Git log graph
