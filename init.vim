@@ -459,6 +459,7 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
+augroup BufStarts
 autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
 autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
 autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
@@ -583,7 +584,7 @@ function! SetPath()
       set path+=node_modules/** 
     endif
   else
-    echom "git dir not found!!!"
+    echom 'git dir not found!!!'
     set path=.
   endif
 endfunction
