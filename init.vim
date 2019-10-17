@@ -368,10 +368,13 @@ Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
 "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}; turning off for now... deoplete/tern seem better
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'leafgarland/typescript-vim' " testing with Typescript syntax highlighting
+Plug 'ianks/vim-tsx' " for .tsx files only
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
-"Plug 'sbdchd/neoformat' " this does not work properly, it causes reloads on write
+" Plug 'sbdchd/neoformat' " this does not work properly
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
 Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
@@ -425,7 +428,9 @@ augroup ale
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow']}
+let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tsserver', 'tslint']}
+let g:ale_fixers = {'typescript': ['prettier']}
+let g:ale_fix_on_save = 1
 let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
 
 let g:flow#autoclose = 1
@@ -454,16 +459,16 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
-augroup syntax
-  autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
-  autocmd BufRead,BufNewFile {*.hs}                                       setl ft=haskell
-  autocmd BufRead,BufNewFile {*.purs}                                     setl ft=purescript
-  autocmd BufRead,BufNewFile {*.coffee}                                   setl ft=coffee tabstop=2 softtabstop=2 expandtab smarttab
-  autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-  autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
+autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
+autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
+autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
+autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
   autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
   autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
   autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
+"au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js :normal gggqG " If you want to format on save:
 "au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
 autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
@@ -498,14 +503,15 @@ augroup omnifuncs
   autocmd BufNewFile,BufRead *.scss  set ft=scss.css tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript 
 "  autocmd BufWritePre *.js,*.jsx Neoformat " this does not work properly
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
   autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.sol}                             setl ft=solidity tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
-  "autocmd BufNewFile,BufRead {*.js}                              :call MarkMargin(1)
-  autocmd BufNewFile,BufRead {*.ts?}                              setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  "autocmd BufNewFile,BufRead {*.js}                             :call MarkMargin(1)
+  autocmd BufNewFile,BufRead {*.ts?}                             setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
   autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=syntax
   autocmd BufNewFile,BufRead {*.sh}                              setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
@@ -518,6 +524,7 @@ augroup omnifuncs
     au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
   endif
 augroup end
+
 
 " Neoformat does not seem to work well. Will experiement again when more mature
 " augroup NeoformatAutoFormat
@@ -554,7 +561,36 @@ let g:errorformat =
 " ALEInfo
 " Check
 let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
+" " }}}
 
-" Original vimrc to move to neovim "{{{
-"source ~/.vimrc
+" Per Project tsx/jsx gf Setup" {{{
+"
+set suffixesadd=.js,.jsx,.ts,.tsx " recognize typescript, javascript
+set path=.
+function! SetPath()
+  set path=.
+  let gitdir =  finddir('./.git', '.;')
+  if !empty(gitdir)
+    echom 'git dir found'
+    let srcdir =  finddir('./src', '.;')
+    if !empty(srcdir)
+        echom 'src/ directory found'
+        set path+=src/** 
+    endif
+    let pkgfile = findfile('./package.json', '.;')
+    if !empty(pkgfile)
+      echom 'package.json file found'
+      set path+=node_modules/** 
+    endif
+  else
+    echom "git dir not found!!!"
+    set path=.
+  endif
+endfunction
+
+augroup SetPath
+  autocmd!
+  autocmd VimEnter,DirChanged * :call SetPath()
+augroup end
+
 " " }}}
