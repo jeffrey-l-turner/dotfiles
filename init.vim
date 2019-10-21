@@ -361,7 +361,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
 Plug 'tomlion/vim-solidity'
 Plug 'ap/vim-css-color' " color highlighting for css
-Plug 'sheerun/vim-polyglot' " bundled language plugin
+Plug 'jeffrey-l-turner/vim-polyglot' " bundled language plugin
 Plug 'tpope/vim-liquid' " liquid files for shopify
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
 Plug 'junegunn/fzf.vim' " fuzzy finder
@@ -377,7 +377,7 @@ Plug 'ianks/vim-tsx' " for .tsx files only
 " Plug 'sbdchd/neoformat' " this does not work properly
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
-Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
+"Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
 Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
 call plug#end()
 " " }}}
@@ -459,7 +459,6 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
-augroup BufStarts
 autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
 autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
 autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
@@ -565,26 +564,51 @@ let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
 " " }}}
 
 " Per Project tsx/jsx gf Setup" {{{
-"
 set suffixesadd=.js,.jsx,.ts,.tsx " recognize typescript, javascript
 set path=.
-function! SetPath()
-  set path=.
-  let gitdir =  finddir('./.git', '.;')
-  if !empty(gitdir)
-    echom 'git dir found'
-    let srcdir =  finddir('./src', '.;')
-    if !empty(srcdir)
-        echom 'src/ directory found'
-        set path+=src/** 
-    endif
-    let pkgfile = findfile('./package.json', '.;')
-    if !empty(pkgfile)
-      echom 'package.json file found'
-      set path+=node_modules/** 
+
+function! LoadMainNodeModule(fname)
+  if !empty($gitdir)
+    let nodeModules = $gitdir."/node_modules/"
+    let packageJsonPath = nodeModules . a:fname . "/package.json"
+    if filereadable(packageJsonPath)
+      :call SetSrcPath()
+      let gotofile = nodeModules . a:fname . "/" . json_decode(join(readfile(packageJsonPath))).main
+      echom gotofile
+      return gotofile
+    else
+      echom "not readable"
+      return nodeModules . a:fname
     endif
   else
-    echom 'git dir not found!!!'
+    echom 'no fname found ' . fname
+  endif
+endfunction
+
+function! SetSrcPath()
+  let $srcdir =  finddir($gitdir.'/src', '.;')
+  if !empty($srcdir)
+    " echom 'src/ directory found' " for debugging
+    set path+=$gitdir/src/** 
+  endif
+endfunction
+
+function! SetPath()
+  let $gitdir = finddir('.git/..', getcwd().';')
+  if !empty($gitdir)
+    " echom 'git dir found:' $gitdir " for degbugging
+    :call SetSrcPath()
+    let $pkgfile = findfile($gitdir.'/package.json', '.;')
+    if !empty($pkgfile)
+      " echom 'package.json file found' " for debugging
+      "set path+=$gitdir/node_modules/**
+      if exists('LoadMainNodeModule')
+        set includeexpr=LoadMainNodeModule(v:fname)
+        " echom 'includexpr' + $gitdir
+      endif
+    endif
+  else
+    " echom "git dir not found!!!"
     set path=.
   endif
 endfunction
