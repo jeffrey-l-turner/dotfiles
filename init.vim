@@ -117,6 +117,9 @@ set cinkeys-=0#
 set cinoptions=:s,ps,ts,cs
 set cinwords=if,else,while,do
 set cinwords+=for,switch,case
+" Set up English Spellchecking
+set spelllang=en
+setlocal spell
 " "}}}
 
 " Visual "{{{
@@ -307,7 +310,8 @@ nnoremap <silent> <D-c> yy
 " close/delete buffer when closing window
 map <silent> <D-w> :bdelete<CR>
 endif
-
+" improve vim-fugitive grep with quickfix
+command! -nargs=+ Ggr execute 'silent Ggrep!' <q-args> | cw | redraw!
 " Control+S and Control+Q are flow-control characters: disable them in your terminal settings.
 " $ stty -ixon -ixoff
 noremap <C-S> :wa<CR>
@@ -378,27 +382,23 @@ Plug 'ianks/vim-tsx' " for .tsx files only
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
 Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
-Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
+"Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
+Plug 'wincent/ferret' " trying for a few weeks
+Plug 'tpope/vim-dispatch' " req'd for ferret 
+"Plug 'yegappan/grep' " req'd for ferret - not working b/c of jobs_ diff in newovim
 call plug#end()
 " " }}}
 
-" neovim plugin settings "{{{
-"let g:neoformat_try_formatprg = 1 " configure Neoformatot use formatprg
-" let g:neoformat_javascript_prettier = {
-"             \ 'exe': 'prettier',
-"             \ 'replace': 1 " replace the file, instead of updating buffer (default: 0),
-"             \ 'stdin': 1, " send data to stdin of formatter (default: 0)
-"             \ 'env': ["DEBUG=1"], " prepend environment variables to formatter command
-"             \ 'valid_exit_codes': [0],
-"             \ 'no_append': 1,
-"             \ }
-" let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
-" let g:neoformat_read_from_buffer = 0 " read from file instead of buffer
-" let g:neoformat_run_all_formatters = 1 " configure Neoformatot to convert tabs to spaces
-" let g:neoformat_basic_format_retab = 1 " configure Neoformatot to convert tabs to spaces
-" let g:neoformat_basic_format_align = 1 " configure Neoformatot to convert tabs to spaces
-" let g:neoformat_basic_format_trim = 1 " configure Neoformatot to convert tabs to spaces
-" let g:neoformat_only_msg_on_error = 1 " only message on errors
+" neovim prettier settings "{{{
+let g:neoformat_try_formatprg = 1 " configure Neoformatot use formatprg
+let g:neoformat_javascript_prettier = { 'exe': 'prettier', 'stdin': 1, 'replace': 1, 'valid_exit_codes': [0], 'no_append': 1, }
+let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
+let g:neoformat_read_from_buffer = 0 " read from file instead of buffer
+let g:neoformat_run_all_formatters = 1 " configure Neoformatot to convert tabs to spaces
+let g:neoformat_basic_format_retab = 1 " configure Neoformatot to convert tabs to spaces
+let g:neoformat_basic_format_align = 1 " configure Neoformatot to convert tabs to spaces
+let g:neoformat_basic_format_trim = 1 " configure Neoformatot to convert tabs to spaces
+let g:neoformat_only_msg_on_error = 1 " only message on errors
 " " }}}
 
 " airline config "{{{
@@ -407,7 +407,7 @@ let g:airline_powerlin_fonts  = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-"let g:airline_symbols.space = "\ua0"
+"let g:airline_symbols.space = ''
 
 " see https://github.com/powerline/fonts instructions, then restart vim w/new fonts
 " unicode symbols
@@ -423,13 +423,24 @@ let g:airline#extensions#tabline#left_alt_sep = '⮀'
 "let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " " }}}
 
-augroup ale
+
+" ferret config "{{{
+" rip grep 
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+" For use with ack.vim set g:ackprg as follows. Now when you run :Ack it will use rg instead:
+" requires `brew install ripgrep`
+let g:ackprg = 'rg --vimgrep --no-heading'
+" " }}}
+
 " ale config "{{{
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tsserver', 'tslint']}
-let g:ale_fixers = {'typescript': ['prettier']}
+let g:ale_fixers = {'javascript': ['prettier'], 'typescript': ['prettier']}
 let g:ale_fix_on_save = 1
 let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
 
@@ -439,6 +450,7 @@ if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
 " let g:deoplete#disable_auto_complete = 1
+augroup ale
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 augroup end
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
@@ -481,7 +493,7 @@ augroup end
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
 " omnifuncs
 " " }}}
-"
+
 " Programming " {{{
 highlight ColorColumn ctermbg=yellow ctermfg=blue
 
@@ -505,13 +517,13 @@ augroup omnifuncs
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript 
-"  autocmd BufWritePre *.js,*.jsx Neoformat " this does not work properly
+  " autocmd BufWritePre *.js,*.jsx Neoformat " this does not work properly
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
   autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.sol}                             setl ft=solidity tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
-  "autocmd BufNewFile,BufRead {*.js}                             :call MarkMargin(1)
+  " autocmd BufNewFile,BufRead {*.js}                             :call MarkMargin(1)
   autocmd BufNewFile,BufRead {*.ts?}                             setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
   autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=syntax
@@ -529,17 +541,9 @@ augroup end
 
 " Neoformat does not seem to work well. Will experiement again when more mature
 " augroup NeoformatAutoFormat
-"   autocmd!
-"   " autocmd BufWritePre *.js :normal gggqG
-"   autocmd FileType javascript,javascript.jsx setlocal formatprg=prettier\
-"                                                             \--stdin\
-"                                                             \--print-width\ 120\
-"                                                             \--single-quote\
-"                                                             \--trailing-comma\ es6
-" augroup end
 
 " " }}}
-"
+
 " Tern " {{{
 " tern
 if exists('g:plugs["tern_for_vim"]')
