@@ -78,6 +78,7 @@ set nobackup
 set nowritebackup
 set directory=/tmp//           " prepend(^=) $HOME/.tmp/ to default path; use full path as backup filename(//)
 set noswapfile                 "
+set showcmd                    " see leader press
 
 set hidden                     " The current buffer can be put to the background without writing to disk
 
@@ -226,7 +227,7 @@ endif
 
 " Key mappings " {{{
 " Duplication
-nnoremap <leader>c mz"dyy"dp`z
+nnoremap <eeader>c mz"dyy"dp`z
 vnoremap <leader>c "dymz"dP`z
 
 " quick nav
@@ -358,6 +359,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/denite.nvim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
+Plug 'ludovicchabant/vim-gutentags' "c-tags plugin <C-j> definition
 Plug 'MaxMEllon/vim-jsx-pretty'          "jsx syntax highlight, incl .js files 
 Plug 'mxw/vim-jsx'          "jsx syntax highlight, incl .js files 
 Plug 'vim-airline/vim-airline' " Nice colorful status line
@@ -365,13 +367,13 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
 Plug 'tomlion/vim-solidity'
 Plug 'ap/vim-css-color' " color highlighting for css
-Plug 'jeffrey-l-turner/vim-polyglot' " bundled language plugin
+Plug 'sheerun/vim-polyglot' " bundled language plugin
 Plug 'tpope/vim-liquid' " liquid files for shopify
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
-"Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}; turning off for now... deoplete/tern seem better
+"Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " turning off for now... deoplete/tern seem better/faster and asyc
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'leafgarland/typescript-vim' " testing with Typescript syntax highlighting
 Plug 'ianks/vim-tsx' " for .tsx files only
@@ -381,12 +383,14 @@ Plug 'ianks/vim-tsx' " for .tsx files only
 " Plug 'sbdchd/neoformat' " this does not work properly
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
-Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
-Plug 'wfleming/vim-codeclimate' "  for Code Climate setup
+"Plug 'wfleming/vim-codeclimate' "  for Code Climate setup -- not a good plugin
 "Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
 Plug 'wincent/ferret' " trying for a few weeks
 Plug 'tpope/vim-dispatch' " req'd for ferret 
+Plug 'statico/vim-javascript-sql' " supposedly experimental
+Plug 'nvie/vim-flake8' " lint integration for Python
 "Plug 'yegappan/grep' " req'd for ferret - not working b/c of jobs_ diff in newovim
+Plug 'makerj/vim-pdf'  " requires pdf to text
 call plug#end()
 " " }}}
 
@@ -424,6 +428,90 @@ let g:airline#extensions#tabline#left_alt_sep = '⮀'
 "let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " " }}}
 
+" fzf config "{{{
+" Using floating windows of Neovim to start fzf
+if has('nvim')
+  let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2'
+
+  function! FloatingFZF()
+    let width = float2nr(&columns * 0.9)
+    let height = float2nr(&lines * 0.6)
+    let opts = { 'relative': 'editor',
+               \ 'row': (&lines - height) / 2,
+               \ 'col': (&columns - width) / 2,
+               \ 'width': width,
+               \ 'height': height }
+
+    let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+    call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
+  endfunction
+
+  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+endif
+" " }}}
+
+" guten tags config "{{{
+let g:gutentags_generate_on_write = 1
+let g:gutentags_ctags_tagfile = '.git/tags'
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+" " }}}
+
+" coc config "{{{
+"let g:coc_global_extensions = [
+"      \ 'coc-snippets',
+"      \ 'coc-pairs',
+"      \ 'coc-tserver',
+"      \ 'coc-omni',
+"      \ 'coc-eslint',
+"      \ 'coc-prettier',
+"      \ 'coc-json',
+"      \  ]
+" " }}}
 
 " ferret config "{{{
 " rip grep 
@@ -472,6 +560,7 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
+augroup BufStarts
 autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
 autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
 autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
@@ -569,51 +658,31 @@ let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
 " " }}}
 
 " Per Project tsx/jsx gf Setup" {{{
+
 set suffixesadd=.js,.jsx,.ts,.tsx " recognize typescript, javascript
 set path=.
-
-function! LoadMainNodeModule(fname)
-  if !empty($gitdir)
-    let nodeModules = $gitdir."/node_modules/"
-    let packageJsonPath = nodeModules . a:fname . "/package.json"
-    if filereadable(packageJsonPath)
-      :call SetSrcPath()
-      let gotofile = nodeModules . a:fname . "/" . json_decode(join(readfile(packageJsonPath))).main
-      echom gotofile
-      return gotofile
-    else
-      echom "not readable"
-      return nodeModules . a:fname
-    endif
-  else
-    echom 'no fname found ' . fname
-  endif
-endfunction
-
-function! SetSrcPath()
-  let $srcdir =  finddir($gitdir.'/src', '.;')
-  if !empty($srcdir)
-    " echom 'src/ directory found' " for debugging
-    set path+=$gitdir/src/** 
-  endif
-endfunction
-
 function! SetPath()
-  let $gitdir = finddir('.git/..', getcwd().';')
-  if !empty($gitdir)
-    " echom 'git dir found:' $gitdir " for degbugging
-    :call SetSrcPath()
-    let $pkgfile = findfile($gitdir.'/package.json', '.;')
-    if !empty($pkgfile)
-      " echom 'package.json file found' " for debugging
-      "set path+=$gitdir/node_modules/**
-      if exists('LoadMainNodeModule')
-        set includeexpr=LoadMainNodeModule(v:fname)
-        " echom 'includexpr' + $gitdir
-      endif
+  set path=.
+  let gitdir =  finddir('./.git', '.;')
+  if !empty(gitdir)
+    " echom 'git dir found'
+    let srcdir =  finddir('./src', '.;')
+    if !empty(srcdir)
+        " echom 'src/ directory found'
+        set path+=src/** 
+      else 
+        let srcdir =  finddir('./source', '.;')
+        if !empty(srcdir)
+          set path+=source/** 
+        endif
+    endif
+    let pkgfile = findfile('./package.json', '.;')
+    if !empty(pkgfile)
+      " echom 'package.json file found'
+      set path+=node_modules/** 
     endif
   else
-    " echom "git dir not found!!!"
+    " echom 'not in project dir, .git not found!!!'
     set path=.
   endif
 endfunction
