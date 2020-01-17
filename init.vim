@@ -431,6 +431,7 @@ let g:airline#extensions#tabline#left_alt_sep = '⮀'
 " fzf config "{{{
 " Using floating windows of Neovim to start fzf
 if has('nvim')
+  command Fzf call fzf#run(fzf#wrap({'source': 'find . -type f' }))
   let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2'
 
   function! FloatingFZF()
@@ -441,13 +442,27 @@ if has('nvim')
                \ 'col': (&columns - width) / 2,
                \ 'width': width,
                \ 'height': height }
-
+    let gitdir =  finddir('./.git', '.;')
     let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
     call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
   endfunction
-
-  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+  let g:fzf_layout = { 'window': 'call FloatingFZF()' } 
 endif
+
+function! FZFDir()
+  let gitdir =  finddir('./.git', '.;')
+  if !empty(gitdir)
+    command! Fzf call fzf#run(fzf#wrap({'source': 'git ls-files' }))
+  else
+    command! Fzf call fzf#run(fzf#wrap({'source': 'find . -type f' }))
+  endif
+endfunction
+
+augroup changePath
+  autocmd!
+  autocmd VimEnter,DirChanged * :call FZFDir()
+augroup end
+" " 
 " " }}}
 
 " guten tags config "{{{
@@ -658,7 +673,6 @@ let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
 " " }}}
 
 " Per Project tsx/jsx gf Setup" {{{
-
 set suffixesadd=.js,.jsx,.ts,.tsx " recognize typescript, javascript
 set path=.
 function! SetPath()
