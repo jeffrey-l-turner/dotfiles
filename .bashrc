@@ -50,7 +50,7 @@ OS="$(lowercase "$(uname)")"
 
 # source some useful color definitions:
 # shellcheck disable=SC1091 disable=SC1090
-source ~/dotfiles/colordefs.sh
+source ~/src/dotfiles/colordefs.sh
 
 
 # -----------------------------------
@@ -361,9 +361,9 @@ fi
 
 # inode command for interactive with tab completion
 if [ "${OS}" == "linux" ]; then
-    alias inode='rlwrap -p"0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
+    alias inode='rlwrap -p"0;35" -S "node >>> " -r --always-readline -f  ~/src/dotfiles/nodeJS_completions node'
 else
-    alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/dotfiles/nodeJS_completions node'
+    alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/src/dotfiles/nodeJS_completions node'
 fi
 
 nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
