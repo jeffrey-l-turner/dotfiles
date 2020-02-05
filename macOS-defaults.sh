@@ -179,7 +179,7 @@ defaults write com.apple.finder QLEnableTextSelection -bool TRUE
 # Enable snap-to-grid for desktop icons
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
-# disable automatic sorting desktops by recent use
+# disable automatic sorting desktops by recent use, set to true to enable
 defaults write com.apple.dock mru-spaces -bool false
 
 # Disable the warning before emptying the Trash
