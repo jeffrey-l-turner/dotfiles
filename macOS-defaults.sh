@@ -179,6 +179,9 @@ defaults write com.apple.finder QLEnableTextSelection -bool TRUE
 # Enable snap-to-grid for desktop icons
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
+# disable automatic sorting desktops by recent use
+defaults write com.apple.dock mru-spaces -bool false
+
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
@@ -437,7 +440,7 @@ defaults write com.bundle.identifier WebKitDeveloperExtras -bool true
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 # Disable local Time Machine backups
-hash tmutil &> /dev/null && sudo tmutil disablelocal
+# hash tmutil &> /dev/null && sudo tmutil disable # disablelocal
 
 ###############################################################################
 # Sysadmin options (requires sudo) - show system info on login
