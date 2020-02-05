@@ -83,8 +83,8 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
 # Note:  MacOS Sierra seems to require setting InitialKeyRepeat now as well
-defaults write NSGlobalDomain InitialKeyRepeat -int 0
-defaults write NSGlobalDomain KeyRepeat -float 0.001
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 
 # Set language and text formats
