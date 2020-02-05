@@ -44,7 +44,6 @@ let &packpath = &runtimepath
 " "}}}
 "
 " General "{{{
-set termguicolors              " use true colors
 "set nocompatible               " be iMproved
 set encoding=utf-8
 scriptencoding utf-8           " utf-8 all the way
@@ -192,6 +191,7 @@ map <silent> <F12> :set invlist<CR>
 source ~/.vim/colors/neon-custom.vim
 colorscheme neon-custom
 if has('gui_running')
+  set termguicolors              " use true colors
   set guioptions=cMg " console dialogs, do not show menu and toolbar
 
   " Fonts
@@ -222,6 +222,16 @@ if has('gui_running')
     set guifont=Consolas:h10
     set lines=123 columns=180
   end
+else
+  if has('mac')
+    let terminal=$TERM_PROGRAM
+    if terminal ==# 'iTerm.app' 
+      set termguicolors              " disable term gui in terminal
+    else
+    " if Apple_Terminal
+      set notermguicolors              " disable term gui in terminal
+    endif
+  endif
 endif
 " "}}}
 
@@ -632,7 +642,7 @@ augroup omnifuncs
   autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
   autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=syntax
   autocmd BufNewFile,BufRead {*.sh}                              setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
-  autocmd BufNewFile,BufRead *.bash                            setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead *.bash                            setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=marker foldlevelstart=1 foldlevel=99 
   autocmd BufWritePost *.sh   :silent make | redraw!             " run shell check on write to .sh files
   autocmd BufWritePost *.bash :silent make | redraw!             " run shell check on write to .bash files
   autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}   exec 'setl ft=gitcommit noml list spell' | norm 1G
