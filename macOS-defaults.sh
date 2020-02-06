@@ -238,6 +238,9 @@ defaults write com.apple.dock showhidden -bool true
 # Enable iTunes track notifications in the Dock
 defaults write com.apple.dock itunes-notifications -bool true
 
+# turn off notif center
+sudo defaults write /System/Library/LaunchAgents/com.apple.notificationcenterui KeepAlive -bool False
+
 # Reset Launchpad
 find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
 
