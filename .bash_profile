@@ -95,13 +95,17 @@ function _use-ssh-keys() {
 }
 
 function _add_ssh_keys {
-if [ "$(find "${HOME}"/.ssh/*.pub | wc -l )" -gt 0 ]; then  
+if [ "$(find "${HOME}"/.ssh/*.pub 2>/dev/null | wc -l )" -gt 0 ]; then  
         if [ "${SSHopts}" = "" ] ; then
             ssh-add "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
+          if [ "$(find "${HOME}"/.ssh/*.pem 2>/dev/null | wc -l )" -gt 0 ]; then  
             ssh-add "$(find ~/.ssh/*.pem)"
+          fi
         else
             ssh-add "${SSHopts}" "$(find ~/.ssh/*.pub | sed 's/\.pub//g')"
+          if [ "$(find "${HOME}"/.ssh/*.pem 2>/dev/null | wc -l )" -gt 0 ]; then  
             ssh-add "${SSHopts}" "$(find ~/.ssh/*.pem)"
+          fi
         fi
         ssh-add -l
     fi
