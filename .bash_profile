@@ -288,6 +288,7 @@ if [ "${OS}" == "darwin" ]; then
         complete -C aws_completer aws
     fi
   fi
+  export BASH_SILENCE_DEPRECATION_WARNING=1 # suppress zsh warning on Catalina
 fi
 
 # this allows neovim to work properly with UTF chars
