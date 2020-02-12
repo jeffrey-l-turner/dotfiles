@@ -28,7 +28,7 @@
 [git-up "bundler"]
     check = true
 [init]
-    templatedir = ~/dotfiles/.git_template
+    templatedir = ~/src/dotfiles/.git_template
 [rerere]
     enabled = true
 [color]
