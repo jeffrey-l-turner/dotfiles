@@ -237,7 +237,7 @@ if [ "${OS}" != "sunos" ]; then
         # shellcheck disable=SC2034
         local declare whale
         whale="\\xF0\\x9F\\x90\\xB3"
-        if [ "$(docker info 2>/dev/null | wc -l)" -gt 0 ]; then
+        if docker info >/dev/null 2>&1; then
             echo -e "${DC}${whale} ${off} "
         else
             # shellcheck disable=SC2005
