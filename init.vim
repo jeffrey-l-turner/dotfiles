@@ -22,12 +22,12 @@
 "  ```sh
 "  $ brew install python python3
 "  $ pip2 install neovim --uprgrade
-"  $ pip3 install vim-vint # for vim linting
+"  $ pip3 install vim-vint pynvim jedi autopep8 yapf flake8 # install globally for linting
 "  $ brew install neovim
 "  $ curl --create-dirs -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "  $ curl --create-dirs -fLo "${HOME}/.vim/colors/neon-custom.vim" https://raw.githubusercontent.com/jeffrey-l-turner/dotfiles/master/neon-custom.vim # custom neon=vim color scheme
 "  ```
-"  # if you have problems with Deoplete not finding pyton run:
+"  # if you have problems with Deoplete not finding python run:
 "  ```vim
 "  :checkhealth provider  
 "  :checkhealth deoplete
@@ -375,7 +375,7 @@ Plug 'mxw/vim-jsx'          "jsx syntax highlight, incl .js files
 Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
-Plug 'tomlion/vim-solidity'
+Plug 'tomlion/vim-solidity'   " solidity programming support
 Plug 'ap/vim-css-color' " color highlighting for css
 Plug 'sheerun/vim-polyglot' " bundled language plugin
 Plug 'tpope/vim-liquid' " liquid files for shopify
@@ -401,6 +401,7 @@ Plug 'statico/vim-javascript-sql' " supposedly experimental
 Plug 'nvie/vim-flake8' " lint integration for Python
 "Plug 'yegappan/grep' " req'd for ferret - not working b/c of jobs_ diff in newovim
 Plug 'makerj/vim-pdf'  " requires pdf to text
+Plug 'zchee/deoplete-jedi' " python jedi plugin
 call plug#end()
 " " }}}
 
@@ -553,8 +554,8 @@ let g:ackprg = 'rg --vimgrep --no-heading'
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tsserver', 'tslint']}
-let g:ale_fixers = {'javascript': ['prettier'], 'typescript': ['prettier']}
+let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tsserver', 'tslint'], 'python': ['flake8']}
+let g:ale_fixers = {'javascript': ['prettier'], 'typescript': ['prettier'], 'python': ['autopep8', 'yapf']}
 let g:ale_fix_on_save = 1
 let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
 
@@ -636,6 +637,7 @@ augroup omnifuncs
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
   autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead {*.py}                              setl ft=python tabstop=8 softtabstop=8 expandtab smarttab number foldmethod=indent foldlevelstart=1 foldlevel=99 
   autocmd BufNewFile,BufRead {*.sol}                             setl ft=solidity tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
   " autocmd BufNewFile,BufRead {*.js}                             :call MarkMargin(1)
   autocmd BufNewFile,BufRead {*.ts?}                             setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
