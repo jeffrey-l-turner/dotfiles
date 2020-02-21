@@ -134,7 +134,7 @@ set matchtime=2               " Bracket blinking.
 
 set wildmode=longest,list     " At command line, complete longest common string, then list alternatives.
 set wildmenu
-set wildignore+=*.o,*.pyc,*/node_modules/*,/.git/*,*/build/*,*/dist/*,npm-debug.log,yarn-error.log,.buckd,*.keystore " wild card ignore
+set wildignore+=*.o,*/lib/python*/*,*.pyc,*/node_modules/*,/.git/*,*/build/*,*/dist/*,npm-debug.log,yarn-error.log,.buckd,*.keystore " wild card ignore
 
 set completeopt-=preview      " disable auto opening preview window
 
@@ -328,6 +328,16 @@ command! -nargs=+ Ggr execute 'silent Ggrep!' <q-args> | cw | redraw!
 noremap <C-S> :wa<CR>
 vnoremap <C-S> <C-C>:wa<CR>
 inoremap <C-S> <C-O>:wa<CR>
+" ToggleBlame 
+function! s:ToggleBlame()
+    if &l:filetype ==# 'fugitiveblame'
+        close
+    else
+        Gblame
+    endif
+endfunction
+
+nnoremap gb :call <SID>s:ToggleBlame()<CR>
 "
 " generate HTML version current buffer using current color scheme
 map <leader>2h :runtime! syntax/2html.vim<CR>
@@ -576,11 +586,11 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
       \ [ '*~', '*.o', '*.exe', '*.bak',
       \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
       \ '.hg/', '.git/', '.bzr/', '.svn/',
-      \ 'node_modules/', 'bower_components/', 'tmp/', 'log/', 'vendor/ruby',
+      \ 'node_modules/', 'bower_components/', 'tmp/', 'env/', 'log/', 'vendor/ruby',
       \ '.idea/', 'dist/',
       \ 'tags', 'tags-*'])
 " " }}}
-"
+
 " AutoCommands " {{{
 " Required:
 filetype plugin indent on
