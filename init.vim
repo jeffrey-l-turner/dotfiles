@@ -207,16 +207,22 @@ if has('gui_running')
       endif
     else
       if system("osascript -e 'tell application \"Finder\" to get bounds of window of desktop' | cut -d ' ' -f 4") > 900
-        set noantialias guifont=Andale\ Mono:h19 
+        if !has('gui_running')
+          set noantialias guifont=Andale\ Mono:h19 
+        endif
       else
-        set noantialias guifont=Andale\ Mono:h15
+        if !has('gui_running')
+          set noantialias guifont=Andale\ Mono:h15
+        endif
       endif
     endif
     " for MacOS Only: Fix Python Path (for YCM)
     let g:ycm_path_to_python_interpreter='/usr/local/bin/python'
     " for MacOS homebrew setup): Dein, etc.
     let g:python_host_prog='/usr/local/bin/python3'
-    set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
+    if !has('gui_running')
+      set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
+    endif
   else
 "    set guifont=Terminus:h16
     set guifont=Consolas:h10
@@ -307,20 +313,16 @@ nnoremap <leader>V :vnew<CR>
 " xnoremap p pgvy
 
 if has('mac')
-
-  if has('gui_running')
-    set macmeta
-  end
-
 " map(range(1,9), 'exec "imap <D-".v:val."> <C-o>".v:val."gt"')
 " map(range(1,9), 'exec " map <D-".v:val."> ".v:val."gt"')
 
 " Copy whole line
-nnoremap <silent> <D-c> yy
+  nnoremap <silent> <D-c> yy
 
 " close/delete buffer when closing window
-map <silent> <D-w> :bdelete<CR>
+  map <silent> <D-w> :bdelete<CR>
 endif
+
 " improve vim-fugitive grep with quickfix
 command! -nargs=+ Ggr execute 'silent Ggrep!' <q-args> | cw | redraw!
 " Control+S and Control+Q are flow-control characters: disable them in your terminal settings.
@@ -411,7 +413,9 @@ Plug 'statico/vim-javascript-sql' " supposedly experimental
 Plug 'nvie/vim-flake8' " lint integration for Python
 "Plug 'yegappan/grep' " req'd for ferret - not working b/c of jobs_ diff in newovim
 Plug 'makerj/vim-pdf'  " requires pdf to text
+Plug 'liuchengxu/vim-clap' " trying for now
 Plug 'zchee/deoplete-jedi' " python jedi plugin
+Plug 'liuchengxu/vim-clap'
 call plug#end()
 " " }}}
 
