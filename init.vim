@@ -30,7 +30,10 @@
 "  # if you have problems with Deoplete not finding python run:
 "  ```vim
 "  :checkhealth provider  
-"  :checkhealth deoplete
+"  :CocInstall coc-tsserver " to install type server for Typescript/Deno setup
+"  :CocInstall coc-deno " for deno setup
+"  :CocCommand deno.types " do while editing .ts file, for deno types setup
+" -> deprecated :checkhealth deoplete " deoplete and coc seem to conflict, using Coc with deno now
 "  ```
 " Remember to :PlugInstall " after first starting neovim
 "
@@ -370,7 +373,7 @@ let g:tagbar_type_javascript = {
 \ }
 
 "Plug 'https://github.com/wesQ3/vim-windowswap'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Place deoplete before autocomplete-flow
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'wokalski/autocomplete-flow'
@@ -379,7 +382,7 @@ Plug 'wokalski/autocomplete-flow'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/denite.nvim'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'ludovicchabant/vim-gutentags' "c-tags plugin <C-j> definition
 Plug 'MaxMEllon/vim-jsx-pretty'          "jsx syntax highlight, incl .js files 
@@ -395,7 +398,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } "
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration
-"Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " turning off for now... deoplete/tern seem better/faster and asyc
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " had performance before
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'leafgarland/typescript-vim' " testing with Typescript syntax highlighting
 Plug 'ianks/vim-tsx' " for .tsx files only
@@ -449,14 +452,14 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airline#extensions#tabline#left_alt_sep = '⮀'
-"let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-"let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " " }}}
 
 " fzf config "{{{
 " Using floating windows of Neovim to start fzf
 if has('nvim')
-  command Fzf call fzf#run(fzf#wrap({'source': 'find . -type f' }))
+  command! Fzf call fzf#run(fzf#wrap({'source': 'find . -type f' }))
   let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2'
 
   function! FloatingFZF()
@@ -574,10 +577,10 @@ let g:ale_fix_on_save = 1
 let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
 
 let g:flow#autoclose = 1
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
+" let g:deoplete#enable_at_startup = 1
+" if !exists('g:deoplete#omni#input_patterns') " no longer exists, says use deoplete#custom#var() instead
+"  let g:deoplete#omni#input_patterns = {}
+"endif
 " let g:deoplete#disable_auto_complete = 1
 augroup ale
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
