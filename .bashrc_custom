@@ -4,7 +4,7 @@
 if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
   # alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
   alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
-  export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:/Applications/Visual Studio Code.app//Contents/Resources/app/bin/:${PATH}" # adding altool to path
+  export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:${PATH}" # adding altool to path
 fi
 alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
 alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
