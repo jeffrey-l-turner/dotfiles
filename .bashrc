@@ -103,7 +103,6 @@ fi
 #  or not.  An interactive shell is one you type commands into, a
 #  non-interactive one is the bash environment used in scripts.
 if [ "$PS1" ]; then
-
     if [ "${OS}" != "darwin" ]; then
         if [ -x /usr/bin/tput ] && [ "${TERM}" != "dumb" ]; then
             if [ "x$(tput kbs)" != "x" ]; then # We can't do this with "dumb" terminal -- this if stmt does not work on Mac OS 
@@ -166,7 +165,7 @@ if [ "$PS1" ]; then
     # define a bash function which escapes the string before writing it; if you
     # have a fix for that which doesn't slow the command down, please submit
     # a patch or pull request.
-    PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND ; }"'echo -e $$\\t$USER\\t$HOSTNAME\\tscreen $WINDOW\\t`date +%D%t%T%t%Y%t%s`\\t$PWD"$(history 1)" >> ~/.bash_eternal_history'
+    PROMPT_COMMAND="setPS1; ${PROMPT_COMMAND:+$PROMPT_COMMAND ; }"'echo -e $$\\t$USER\\t$HOSTNAME\\tscreen $WINDOW\\t`date +%D%t%T%t%Y%t%s`\\t$PWD"$(history 1)" >> ~/.bash_eternal_history'
 
     # Turn on checkwinsize
     shopt -s checkwinsize
@@ -228,22 +227,27 @@ function _git-commits {
 }
 
 if [ "${OS}" != "sunos" ]; then
-    which docker >/dev/null 2>&1 
-    function _docker-prompt { 
-        local declare DC
-        DC=$(color On_ICyan esc)
-        local declare off
-        off=$(color Color_Off)
-        # shellcheck disable=SC2034
-        local declare whale
-        whale="\\xF0\\x9F\\x90\\xB3"
-        if docker info >/dev/null 2>&1; then
-            echo -e "${DC}${whale} ${off} "
-        else
-            # shellcheck disable=SC2005
-            echo "$(color Color_Off)"
-        fi
-}
+    if which docker >/dev/null 2>&1; then 
+       function _docker-prompt { 
+          local declare DC
+          DC=$(color On_ICyan esc)
+          local declare off
+          off=$(color Color_Off)
+          # shellcheck disable=SC2034
+          local declare whale
+          whale="\\xF0\\x9F\\x90\\xB3"
+          if docker info >/dev/null 2>&1; then
+              echo -e "${DC}${whale} ${off} "
+          else
+              # shellcheck disable=SC2005
+              echo "$(color Color_Off)"
+          fi
+       }
+    else
+       function _docker-prompt { 
+           true;
+       }
+    fi
 else
     function _docker-prompt { 
             # shellcheck disable=SC2005
