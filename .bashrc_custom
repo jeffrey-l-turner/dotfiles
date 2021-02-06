@@ -36,9 +36,19 @@ function mergeEternalHist() {
   rm -f /tmp/Bash_eternal_hist
 }
 
-export PATH="${HOME}/.gem/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+if [ -e "${HOME}/.gem/bin" ]; then export PATH="${HOME}/.gem/bin:$PATH"; fi
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+if [ -e "/Library/Frameworks/Python.framework/Versions/2.7/bin" ]; then export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"; fi
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+if [ -e "/Library/Frameworks/Python.framework/Versions/3.7/bin" ]; then export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"; fi
 
-if [ -e /Users/jeff/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/jeff/.nix-profile/etc/profile.d/nix.sh; fi
+# shellcheck disable=SC1091
+# shellcheck disable=SC1090
+if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then . "${HOME}/.nix-profile/etc/profile.d/nix.sh"; fi
 export THEME="${HOME}/.bash/themes/agnoster-bash/agnoster.bash"
 if [[ -f "$THEME" ]]; then
   DEFAULT_USER=$(whoami)
