@@ -45,6 +45,9 @@ if [ -e "/Library/Frameworks/Python.framework/Versions/2.7/bin" ]; then export P
 # shellcheck disable=SC1090
 # shellcheck disable=SC1091
 if [ -e "/Library/Frameworks/Python.framework/Versions/3.7/bin" ]; then export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"; fi
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+if [ -e "${HOME}/.deno/bin" ]; then export PATH="${HOME}/.deno/bin:$PATH"; fi
 
 # shellcheck disable=SC1091
 # shellcheck disable=SC1090
