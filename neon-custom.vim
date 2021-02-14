@@ -1,7 +1,7 @@
 " Vim color file
 "  Neon theme originially by: Tiza
-" Maintainer: Jeff 
-" Last Change: 2015/4/16 by JLT. 
+" Maintainer: Jeff
+" Last Change: 2015/4/16 by JLT.
 "     version: 2.0: This new theme (neon-custom) is based on the neon theme by Tiza.
 " Place in: ${HOME}/.vim/colors
 " ```sh
@@ -46,10 +46,13 @@ hi DiffChange   gui=NONE guifg=#e03870 guibg=#601830
 hi DiffDelete   gui=NONE guifg=#a0d0ff guibg=#0020a0
 hi DiffAdd      gui=NONE guifg=#a0d0ff guibg=#0020a0
 
+" Pmenu
+hi Pmenu        gui=None guifg=#a0d0ff guibg=#3a4acf
+
 " Cursor
-hi Cursor       gui=NONE guifg=#000000 guibg=#92d4ff 
-hi lCursor       gui=NONE guifg=#000000 guibg=#92d4ff 
-hi CursorIM       gui=NONE guifg=#000000 guibg=#92d4ff 
+hi Cursor       gui=NONE guifg=#000000 guibg=#92d4ff
+hi lCursor      gui=NONE guifg=#000000 guibg=#92d4ff
+hi CursorIM     gui=NONE guifg=#000000 guibg=#92d4ff
 "hi Cursor       gui=NONE guifg=#70ffc0 guibg=#8040ff
 "hi lCursor      gui=NONE guifg=#ffffff guibg=#8800ff
 "hi CursorIM     gui=NONE guifg=#ffffff guibg=#8800ff
