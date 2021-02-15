@@ -4,5 +4,5 @@ PATH="/usr/local/bin:$PATH"
 dir="$(git rev-parse --git-dir)"
 trap 'rm -f "$dir/$$.tags"' EXIT
 git ls-files | \
-  ctags --tag-relative --options=$HOME/.git_template/config   -L - -f"$dir/$$.tags" --languages=-sql
+  ctags --tag-relative --options=$HOME/.git_template/config   -L - -f"$dir/$$.tags" --languages=-typescript,javascript
 mv "$dir/$$.tags" "$dir/tags"
