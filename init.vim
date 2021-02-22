@@ -1,20 +1,20 @@
 "Beginning transition to neovim"{{{
-"         ,--.                                                                                                                               ,--,                 ,---._               
-"       ,--.'|                                                 ____       ,--,                              ____  ,-.----.                 ,--.'|               .-- -.' \   .--.--.    
-"   ,--,:  : |                                ,--,           ,'  , `.    / .`|      ,---.  ,--,           ,'  , `.\    /  \             ,--,  | :               |    |   : /  /    '.  
-",`--.'`|  ' :             ,---.            ,--.'|        ,-+-,.' _ |   /' / ;     /__./|,--.'|        ,-+-,.' _ |;   :    \         ,---.'|  : '               :    ;   ||  :  /`. /  
-"|   :  :  | |            '   ,'\      .---.|  |,      ,-+-. ;   , ||  /  / .',---.;  ; ||  |,      ,-+-. ;   , |||   | .\ :         ;   : |  | ;               :        |;  |  |--`   
-":   |   \ | :   ,---.   /   /   |   /.  ./|`--'_     ,--.'|'   |  || /  / .//___/ \  | |`--'_     ,--.'|'   |  ||.   : |: |         |   | : _' |               |    :   :|  :  ;_     
-"|   : '  '; |  /     \ .   ; ,. : .-' . ' |,' ,'|   |   |  ,', |  |,/ ./  / \   ;  \ ' |,' ,'|   |   |  ,', |  |,|   |  \ :         :   : |.'  |               :          \  \    `.  
-"'   ' ;.    ; /    /  |'   | |: :/___/ \: |'  | |   |   | /  | |--'/  /  /   \   \  \: |'  | |   |   | /  | |--' |   : .  /         |   ' '  ; :               |    ;   |  `----.   \ 
-"|   | | \   |.    ' / |'   | .; :.   \  ' .|  | :   |   : |  | ,  /  /  /     ;   \  ' .|  | :   |   : |  | ,    ;   | |  \         \   \  .'. |           ___ l           __ \  \  | 
-"'   : |  ; .''   ;   /||   :    | \   \   ''  : |__ |   : |  |/  ;  /  /       \   \   ''  : |__ |   : |  |/     |   | ;\  \         `---`:  | '         /    /\    J   : /  /`--'  / 
-"|   | '`--'  '   |  / | \   \  /   \   \   |  | '.'||   | |`-' ./__;  /         \   `  ;|  | '.'||   | |`-'      :   ' | \.'              '  ; |        /  ../  `..-    ,'--'.     /  
-"'   : |      |   :    |  `----'     \   \ |;  :    ;|   ;/     |   : /           :   \ |;  :    ;|   ;/          :   : :-'                |  : ;        \    \         ;   `--'---'   
-";   |.'       \   \  /               '---" |  ,   / '---'      ;   |/             '---" |  ,   / '---'           |   |.'                  '  ,/          \    \      ,'               
-"'---'          `----'                       ---`-'             `---'                     ---`-'                  `---'                    '--'            "---....--'                 
+"         ,--.
+"       ,--.'|                                                 ____       ,--,                              ____  ,-.----.
+"   ,--,:  : |                                ,--,           ,'  , `.    / .`|      ,---.  ,--,           ,'  , `.\    /  \
+",`--.'`|  ' :             ,---.            ,--.'|        ,-+-,.' _ |   /' / ;     /__./|,--.'|        ,-+-,.' _ |;   :    \
+"|   :  :  | |            '   ,'\      .---.|  |,      ,-+-. ;   , ||  /  / .',---.;  ; ||  |,      ,-+-. ;   , |||   | .\ :
+":   |   \ | :   ,---.   /   /   |   /.  ./|`--'_     ,--.'|'   |  || /  / .//___/ \  | |`--'_     ,--.'|'   |  ||.   : |: |
+"|   : '  '; |  /     \ .   ; ,. : .-' . ' |,' ,'|   |   |  ,', |  |,/ ./  / \   ;  \ ' |,' ,'|   |   |  ,', |  |,|   |  \ :
+"'   ' ;.    ; /    /  |'   | |: :/___/ \: |'  | |   |   | /  | |--'/  /  /   \   \  \: |'  | |   |   | /  | |--' |   : .  /
+"|   | | \   |.    ' / |'   | .; :.   \  ' .|  | :   |   : |  | ,  /  /  /     ;   \  ' .|  | :   |   : |  | ,    ;   | |  \
+"'   : |  ; .''   ;   /||   :    | \   \   ''  : |__ |   : |  |/  ;  /  /       \   \   ''  : |__ |   : |  |/     |   | ;\  \
+"|   | '`--'  '   |  / | \   \  /   \   \   |  | '.'||   | |`-' ./__;  /         \   `  ;|  | '.'||   | |`-'      :   ' | \.'
+"'   : |      |   :    |  `----'     \   \ |;  :    ;|   ;/     |   : /           :   \ |;  :    ;|   ;/          :   : :-'
+";   |.'       \   \  /               '---" |  ,   / '---'      ;   |/             '---" |  ,   / '---'           |   |.'
+"'---'          `----'                       ---`-'             `---'                     ---`-'                  `---'
 "
-" Author: Jeff Turner 
+" Author: Jeff Turner
 " repo  : https://github.com/jeffrey-l-turner/dotfiles/
 " For use with Neovim/VimR:
 " See: https://github.com/qvacua/vimr/releases
@@ -26,21 +26,25 @@
 "  $ brew install neovim
 "  $ curl --create-dirs -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "  $ curl --create-dirs -fLo "${HOME}/.vim/colors/neon-custom.vim" https://raw.githubusercontent.com/jeffrey-l-turner/dotfiles/master/neon-custom.vim # custom neon=vim color scheme
+"  $ npm install -g fixjson
 "  ```
 "  # if you have problems with Deoplete not finding python run:
-"  ```vim
-"  :checkhealth provider  
+"  ```
+"  inside neovim:
+"  :checkhealth provider
 "  :CocInstall coc-tsserver " to install type server for Typescript/Deno setup
-"  :CocInstall coc-deno " for deno setup
+"  :CocInstall coc-deno " use only for deno setup -> disabled due to: https://medium.com/@jimgbest/fixing-coc-tsserver-errors-due-to-deno-59551d65bde7 
 "  :CocCommand deno.types " do while editing .ts file, for deno types setup
-" -> deprecated :checkhealth deoplete " deoplete and coc seem to conflict, using Coc with deno now
+" -> deprecated: :checkhealth deoplete " deoplete and coc seem to conflict, using Coc with deno now; currently switching between Deopolete for JS & CoC for TS
+"  may need to edit ~/.viminfo file to save cursor position & set nu/nonu state saving
 "  ```
 " Remember to :PlugInstall " after first starting neovim
 "
 " Note: This looks best with Powerline fonts
+" I favor .editorconfig over a prettier setups. Using prettier will require adjustments to the g:ale_fixers & uncomment ts prettier format
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
+let &packpath=&runtimepath
 :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " Loosely based from github.com/gmarik/dotfiles
@@ -57,14 +61,14 @@ set clipboard+=unnamed         " Yanks go on clipboard instead.
 set pastetoggle=<F10>          " toggle between paste and normal: for 'safer' pasting from keyboard
 set shiftround                 " round indent to multiple of 'shiftwidth'
 set tags=.git/tags;$HOME       " consider the repo tags first, then
-                               " walk directory tree upto $HOME looking for tags
-                               " note `;` sets the stop folder. :h file-search
-                               " Tell vim to remember certain things when we exit
-                               "  '10  :  marks will be remembered for up to 10 previously edited files
-                               "  "100 :  will save up to 100 lines for each register
-                               "  :20  :  up to 20 lines of command-line history will be remembered
-                               "   %    :  saves and restores the buffer list
-                               "   n... :  where to save the viminfo files
+" walk directory tree upto $HOME looking for tags
+" note `;` sets the stop folder. :h file-search
+" Tell vim to remember certain things when we exit
+"  '10  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"   %    :  saves and restores the buffer list
+"   n... :  where to save the viminfo files
 set viminfo='10,\"100,:20,%,n~/.nviminfo
 
 set modeline
@@ -201,17 +205,17 @@ if has('gui_running')
   " :set guifont=* " to launch a GUI dialog
   if has('mac')
     if has('macligatures')
-"     Set font size based on screen size. When vertical height is greater than 900
-"     (i.e. an external monitor is attached on 13" or smaller MacBooks), use 18, else use 16.
+      "     Set font size based on screen size. When vertical height is greater than 900
+      "     (i.e. an external monitor is attached on 13" or smaller MacBooks), use 18, else use 16.
       if system("osascript -e 'tell application \"Finder\" to get bounds of window of desktop' | cut -d ' ' -f 4") > 900
-        set noantialias macligatures guifont=Andale\ Mono:h18 
+        set noantialias macligatures guifont=Andale\ Mono:h18
       else
-        set noantialias macligatures guifont=Andale\ Mono:h15 
+        set noantialias macligatures guifont=Andale\ Mono:h15
       endif
     else
       if system("osascript -e 'tell application \"Finder\" to get bounds of window of desktop' | cut -d ' ' -f 4") > 900
         if !has('gui_running')
-          set noantialias guifont=Andale\ Mono:h19 
+          set noantialias guifont=Andale\ Mono:h19
         endif
       else
         if !has('gui_running')
@@ -227,17 +231,17 @@ if has('gui_running')
       set fuoptions=maxvert,maxhorz ",background:#00AAaaaa
     endif
   else
-"    set guifont=Terminus:h16
+    "    set guifont=Terminus:h16
     set guifont=Consolas:h10
     set lines=123 columns=180
   end
 else
   if has('mac')
     let terminal=$TERM_PROGRAM
-    if terminal ==# 'iTerm.app' 
+    if terminal ==# 'iTerm.app'
       set termguicolors              " disable term gui in terminal
     else
-    " if Apple_Terminal
+      " if Apple_Terminal
       set notermguicolors              " disable term gui in terminal
     endif
   endif
@@ -311,18 +315,18 @@ nnoremap <leader>v :exec ':vnew \| CtrlP'<CR>
 " and without
 nnoremap <leader>V :vnew<CR>
 
-" when pasting copy pasted text back to 
+" when pasting copy pasted text back to
 " buffer instead replacing with owerride
 " xnoremap p pgvy
 
 if has('mac')
-" map(range(1,9), 'exec "imap <D-".v:val."> <C-o>".v:val."gt"')
-" map(range(1,9), 'exec " map <D-".v:val."> ".v:val."gt"')
+  " map(range(1,9), 'exec "imap <D-".v:val."> <C-o>".v:val."gt"')
+  " map(range(1,9), 'exec " map <D-".v:val."> ".v:val."gt"')
 
-" Copy whole line
+  " Copy whole line
   nnoremap <silent> <D-c> yy
 
-" close/delete buffer when closing window
+  " close/delete buffer when closing window
   map <silent> <D-w> :bdelete<CR>
 endif
 
@@ -333,13 +337,13 @@ command! -nargs=+ Ggr execute 'silent Ggrep!' <q-args> | cw | redraw!
 noremap <C-S> :wa<CR>
 vnoremap <C-S> <C-C>:wa<CR>
 inoremap <C-S> <C-O>:wa<CR>
-" ToggleBlame 
+" ToggleBlame
 function! s:ToggleBlame()
-    if &l:filetype ==# 'fugitiveblame'
-        close
-    else
-        Gblame
-    endif
+  if &l:filetype ==# 'fugitiveblame'
+    close
+  else
+    Gblame
+  endif
 endfunction
 
 nnoremap gb :call <SID>s:ToggleBlame()<CR>
@@ -348,8 +352,30 @@ nnoremap gb :call <SID>s:ToggleBlame()<CR>
 map <leader>2h :runtime! syntax/2html.vim<CR>
 " close terminal on clean exit
 augroup terminal
-        autocmd!
-        autocmd TermClose * if getline('$') == 'Exit 0' | close | endif
+  autocmd!
+  autocmd TermClose * if getline('$') == 'Exit 0' | close | endif
+augroup end
+" " }}}
+
+" ale config "{{{
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tslint'], 'python': ['flake8']}
+" let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'python': ['flake8']}
+let g:ale_fixers = {'javascript': ['eslint'], 'typescript': ['tslint'], 'python': ['autopep8', 'yapf'], 'json': ['fixjson']}
+let g:ale_fix_on_save = 1
+let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
+let g:ale_disable_lsp = 1
+
+let g:flow#autoclose = 1
+" let g:deoplete#enable_at_startup = 1
+" if !exists('g:deoplete#omni#input_patterns') " no longer exists, says use deoplete#custom#var() instead
+"  let g:deoplete#omni#input_patterns = {}
+"endif
+" let g:deoplete#disable_auto_complete = 1
+augroup ale
+  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 augroup end
 " " }}}
 
@@ -357,23 +383,26 @@ augroup end
 call plug#begin('$HOME/.config/nvim/plugged')
 Plug 'editorconfig/editorconfig-vim'
 Plug 'w0rp/ale'
+" typescript
+Plug 'quramy/tsuquyomi'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'majutsushi/tagbar'
 let g:tagbar_type_javascript = {
-  \ 'ctagstype': 'javascript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
+      \ 'ctagstype': 'javascript',
+      \ 'kinds': [
+      \ 'c:classes',
+      \ 'n:modules',
+      \ 'f:functions',
+      \ 'v:variables',
+      \ 'v:varlambdas',
+      \ 'm:members',
+      \ 'i:interfaces',
+      \ 'e:enums',
+      \ ]
+      \ }
 
-"Plug 'https://github.com/wesQ3/vim-windowswap'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'tpope/vim-commentary'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " seems to conflict with Coc
 " Place deoplete before autocomplete-flow
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'wokalski/autocomplete-flow'
@@ -385,33 +414,34 @@ Plug 'Shougo/denite.nvim'
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'ludovicchabant/vim-gutentags' "c-tags plugin <C-j> definition
-Plug 'MaxMEllon/vim-jsx-pretty'          "jsx syntax highlight, incl .js files 
-Plug 'mxw/vim-jsx'          "jsx syntax highlight, incl .js files 
+Plug 'MaxMEllon/vim-jsx-pretty'  "jsx syntax highlight, incl .js files
+Plug 'ianks/vim-tsx' " for .tsx files only
+Plug 'mxw/vim-jsx'  "jsx syntax highlight, incl .js files
 Plug 'vim-airline/vim-airline' " Nice colorful status line
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter' " git compat gutter
 Plug 'tomlion/vim-solidity'   " solidity programming support
 Plug 'ap/vim-css-color' " color highlighting for css
-Plug 'sheerun/vim-polyglot' " bundled language plugin
+"Plug 'sheerun/vim-polyglot' " disabling due to problems with coc
 Plug 'tpope/vim-liquid' " liquid files for shopify
-Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } " 
+Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } "
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
-Plug 'tpope/vim-fugitive' " only using for airline integration
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " had performance before
+Plug 'tpope/vim-fugitive' " only using for airline integration, ctags no longer supported
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " had performance issues before, not problems w/curr release
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'leafgarland/typescript-vim' " testing with Typescript syntax highlighting
-Plug 'ianks/vim-tsx' " for .tsx files only
+Plug 'leafgarland/typescript-vim' " Typescript syntax highlighting
+Plug 'vim-utils/vim-man' " initial testing
+Plug 'mbbill/undotree' " initial testing
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
-" Plug 'sbdchd/neoformat' " this does not work properly
 Plug 'neovimhaskell/haskell-vim' " better Haskell highlighting/indentation
 Plug 'purescript-contrib/purescript-vim' " better Haskell highlighting/indentation
 "Plug 'wfleming/vim-codeclimate' "  for Code Climate setup -- not a good plugin
 "Plug 'jparise/vim-graphql' "  for graphql file detection, syntax highlighting, etc.
 Plug 'wincent/ferret' " trying for a few weeks
-Plug 'tpope/vim-dispatch' " req'd for ferret 
+Plug 'tpope/vim-dispatch' " req'd for ferret
 Plug 'statico/vim-javascript-sql' " supposedly experimental
 Plug 'nvie/vim-flake8' " lint integration for Python
 "Plug 'yegappan/grep' " req'd for ferret - not working b/c of jobs_ diff in newovim
@@ -419,19 +449,46 @@ Plug 'makerj/vim-pdf'  " requires pdf to text
 Plug 'liuchengxu/vim-clap' " trying for now
 Plug 'zchee/deoplete-jedi' " python jedi plugin
 Plug 'liuchengxu/vim-clap'
+Plug 'mhinz/vim-startify'
 call plug#end()
 " " }}}
 
-" neovim prettier settings "{{{
-let g:neoformat_try_formatprg = 1 " configure Neoformatot use formatprg
-let g:neoformat_javascript_prettier = { 'exe': 'prettier', 'stdin': 1, 'replace': 1, 'valid_exit_codes': [0], 'no_append': 1, }
-let g:neoformat_enabled_javascript = ['prettier', 'eslint_d']
-let g:neoformat_read_from_buffer = 0 " read from file instead of buffer
-let g:neoformat_run_all_formatters = 1 " configure Neoformatot to convert tabs to spaces
-let g:neoformat_basic_format_retab = 1 " configure Neoformatot to convert tabs to spaces
-let g:neoformat_basic_format_align = 1 " configure Neoformatot to convert tabs to spaces
-let g:neoformat_basic_format_trim = 1 " configure Neoformatot to convert tabs to spaces
-let g:neoformat_only_msg_on_error = 1 " only message on errors
+" coc setup "{{{
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~# '\s'
+endfunction
+
+fun! GoCoc()
+  inoremap <buffer> <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <buffer> <expr><S-TAB> pumvisible() ? "\C-p>" : "\<C-h>"
+  inoremap <buffer> <silent><expr> <C-space> coc#refresh()
+
+  " GoTo code navigation
+  nmap <buffer> <leader>gd <Plug>(coc-definition)
+  nmap <buffer> <leader>gy <Plug>(coc-type-definition)
+  nmap <buffer> <leader>gi <Plug>(coc-implementation)
+  nmap <buffer> <leader>gr <Plug>(coc-references)
+  nnoremap <buffer> <leader>cr :CocRestart
+endfunction
+
+" " }}}
+"
+" denite plugin setup "{{{
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+      \ [ '*~', '*.o', '*.exe', '*.bak',
+      \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
+      \ '.hg/', '.git/', '.bzr/', '.svn/',
+      \ 'node_modules/', 'bower_components/', 'tmp/', 'env/', 'log/', 'vendor/ruby',
+      \ '.idea/', 'dist/',
+      \ 'tags', 'tags-*'])
 " " }}}
 
 " airline config "{{{
@@ -454,6 +511,7 @@ let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airline#extensions#tabline#left_alt_sep = '⮀'
 let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
 let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+let g:airline#extensions#ale#enabled = 1
 " " }}}
 
 " fzf config "{{{
@@ -466,15 +524,15 @@ if has('nvim')
     let width = float2nr(&columns * 0.9)
     let height = float2nr(&lines * 0.6)
     let opts = { 'relative': 'editor',
-               \ 'row': (&lines - height) / 2,
-               \ 'col': (&columns - width) / 2,
-               \ 'width': width,
-               \ 'height': height }
+          \ 'row': (&lines - height) / 2,
+          \ 'col': (&columns - width) / 2,
+          \ 'width': width,
+          \ 'height': height }
     let gitdir =  finddir('./.git', '.;')
     let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
     call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
   endfunction
-  let g:fzf_layout = { 'window': 'call FloatingFZF()' } 
+  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 endif
 
 function! FZFDir()
@@ -490,7 +548,7 @@ augroup changePath
   autocmd!
   autocmd VimEnter,DirChanged * :call FZFDir()
 augroup end
-" " 
+" "
 " " }}}
 
 " guten tags config "{{{
@@ -557,45 +615,14 @@ let g:gutentags_ctags_exclude = [
 " " }}}
 
 " ferret config "{{{
-" rip grep 
+" rip grep
 if executable('rg')
-    set grepprg=rg\ --vimgrep\ --no-heading
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 " For use with ack.vim set g:ackprg as follows. Now when you run :Ack it will use rg instead:
 " requires `brew install ripgrep`
 let g:ackprg = 'rg --vimgrep --no-heading'
-" " }}}
-
-" ale config "{{{
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tsserver', 'tslint'], 'python': ['flake8']}
-let g:ale_fixers = {'javascript': ['prettier'], 'typescript': ['prettier'], 'python': ['autopep8', 'yapf']}
-let g:ale_fix_on_save = 1
-let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
-
-let g:flow#autoclose = 1
-" let g:deoplete#enable_at_startup = 1
-" if !exists('g:deoplete#omni#input_patterns') " no longer exists, says use deoplete#custom#var() instead
-"  let g:deoplete#omni#input_patterns = {}
-"endif
-" let g:deoplete#disable_auto_complete = 1
-augroup ale
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup end
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-      \ [ '*~', '*.o', '*.exe', '*.bak',
-      \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
-      \ '.hg/', '.git/', '.bzr/', '.svn/',
-      \ 'node_modules/', 'bower_components/', 'tmp/', 'env/', 'log/', 'vendor/ruby',
-      \ '.idea/', 'dist/',
-      \ 'tags', 'tags-*'])
 " " }}}
 
 " AutoCommands " {{{
@@ -603,23 +630,20 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 filetype plugin indent on
 syntax enable
 
-augroup BufStarts
-autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
-autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
-autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
-autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
-autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
-autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
+augroup Misc programming langues and files
+  autocmd BufRead,BufNewFile {*.go}                                       setl ft=go
+  autocmd BufRead,BufNewFile {Gemfile,Rakefile,*.rake,config.ru,*.rabl}   setl ft=ruby tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab
+  autocmd BufRead,BufNewFile {*.local}                                    setl ft=sh
   autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
   autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
   autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
-"au BufWritePre *.js :normal gggqG " If you want to format on save:
-"au BufWritePre *.js :normal gggqG " If you want to format on save:
-"au BufWritePre *.js exe "normal! gggqG\<C-o>\<C-o> " If you want to restore cursor position on save (can be buggy): 
-autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
+  autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                      setl ft=markdown
+  autocmd BufRead,BufNewFile {*.scala}                                    setl ft=scala
+  autocmd BufRead,BufNewFile {Dockerfile*}                                setl ft=Dockerfile
+  autocmd! bufwritepost init.vim nested source % " automatically reload init.vim on write
 
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
+  autocmd BufWinLeave *.* mkview
+  autocmd BufWinEnter *.* silent loadview  " use mkview to automatically load cursor position, etc.
 augroup end
 " open help in vertical split
 " au BufWinEnter {*.txt} if 'help' == &ft | wincmd H | nmap q :q<CR> | endif
@@ -630,49 +654,48 @@ augroup end
 highlight ColorColumn ctermbg=yellow ctermfg=blue
 
 function! MarkMargin (on)
-    if exists('b:MarkMargin')
-        try
-            call matchdelete(b:MarkMargin)
-        catch /./
-        endtry
-        unlet b:MarkMargin
-    endif
-    if a:on
-        let b:MarkMargin = matchadd('ColorColumn', '\%101v\s*\S', 10)
-    endif
+  if exists('b:MarkMargin')
+    try
+      call matchdelete(b:MarkMargin)
+    catch /./
+    endtry
+    unlet b:MarkMargin
+  endif
+  if a:on
+    let b:MarkMargin = matchadd('ColorColumn', '\%101v\s*\S', 10)
+  endif
 endfunction
 
-augroup omnifuncs
+augroup core programming languages
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd BufNewFile,BufRead *.scss  set ft=scss.css tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead *.scss  set ft=scss.css tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript 
+  " autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
   " autocmd BufWritePre *.js,*.jsx Neoformat " this does not work properly
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
-  autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
-  autocmd BufNewFile,BufRead {*.py}                              setl ft=python tabstop=8 softtabstop=8 expandtab smarttab number foldmethod=indent foldlevelstart=1 foldlevel=99 
-  autocmd BufNewFile,BufRead {*.sol}                             setl ft=solidity tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead {*.js}                              setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.jsx}                             setl ft=javascript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.py}                              setl ft=python tabstop=8 softtabstop=8 expandtab smarttab number foldmethod=indent foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.sol}                             setl ft=solidity tabstop=4 softtabstop=4 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
   " autocmd BufNewFile,BufRead {*.js}                             :call MarkMargin(1)
-  autocmd BufNewFile,BufRead {*.ts?}                             setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
-  autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd BufNewFile,BufRead {*.ts}                              setl ft=typescript tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.tsx}                             setl ft=typescriptreact tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead {*.html}                            setl ft=html number formatoptions-=c formatoptions-=r formatoptions-=o
   autocmd BufRead,BufNewFile {*.json}                            setl ft=json formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=syntax
-  autocmd BufNewFile,BufRead {*.sh}                              setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99 
-  autocmd BufNewFile,BufRead *.bash                            setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=marker foldlevelstart=1 foldlevel=99 
+  autocmd BufNewFile,BufRead {*.sh}                              setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=syntax foldlevelstart=1 foldlevel=99
+  autocmd BufNewFile,BufRead *.bash                            setl number ft=sh tabstop=2 softtabstop=2 expandtab smarttab number foldmethod=marker foldlevelstart=1 foldlevel=99
   autocmd BufWritePost *.sh   :silent make | redraw!             " run shell check on write to .sh files
   autocmd BufWritePost *.bash :silent make | redraw!             " run shell check on write to .bash files
   autocmd! BufReadPost       {COMMIT_EDITMSG,*/COMMIT_EDITMSG}   exec 'setl ft=gitcommit noml list spell' | norm 1G
   autocmd! BufWritePost      {*.snippet,*.snippets}                       call ReloadAllSnippets()
-  if has('gui_running')
-    au! BufWritePost      {*.ts}                                   setl balloonexpr=tsuquyomi#balloonexpr() "use :TsuGeterr here to get errors in new window
-  endif
 augroup end
 
 
-" Neoformat does not seem to work well. Will experiement again when more mature
+" Neoformat does not seem to work well. Will experiment again when more mature
 " augroup NeoformatAutoFormat
 
 " " }}}
@@ -688,16 +711,14 @@ if exists('g:plugs["tern_for_vim"]')
   augroup end
 endif
 let g:errorformat =
-        \ '%f:%l:%c: %trror: %m,' .
-        \ '%f:%l:%c: %tarning: %m,' .
-        \ '%f:%l:%c: %tote: %m'
-" Experiment with 
-" set mouse=nvi
-" set mouse=v 
-" with nvim -e startup in shell
-" to copy/paste with trackpad
-" ALEInfo
-" Check
+      \ '%f:%l:%c: %trror: %m,' .
+      \ '%f:%l:%c: %tarning: %m,' .
+      \ '%f:%l:%c: %tote: %m'
+" Experiment with
+" set mouse=nvim
+" set mouse=v
+" with nvim -e startup in shell to copy/paste with trackpad
+
 let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
 " " }}}
 
@@ -711,18 +732,18 @@ function! SetPath()
     " echom 'git dir found'
     let srcdir =  finddir('./src', '.;')
     if !empty(srcdir)
-        " echom 'src/ directory found'
-        set path+=src/** 
-      else 
-        let srcdir =  finddir('./source', '.;')
-        if !empty(srcdir)
-          set path+=source/** 
-        endif
+      " echom 'src/ directory found'
+      set path+=src/**
+    else
+      let srcdir =  finddir('./source', '.;')
+      if !empty(srcdir)
+        set path+=source/**
+      endif
     endif
     let pkgfile = findfile('./package.json', '.;')
     if !empty(pkgfile)
       " echom 'package.json file found'
-      set path+=node_modules/** 
+      set path+=node_modules/**
     endif
   else
     " echom 'not in project dir, .git not found!!!'
