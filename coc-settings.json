@@ -1,6 +1,6 @@
 {
   "prettier.formatterPriority": -1,
   "javascript.suggestionActions.enabled": false,
-  "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "typescriptreact", "typescript", "json"],
-  "prettier.tslintIntegration": true
+  "diagnostic.displayByAle": true,
+  "prettier.tslintIntegration": false
 }
