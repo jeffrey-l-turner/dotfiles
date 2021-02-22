@@ -41,7 +41,7 @@
 " Remember to :PlugInstall " after first starting neovim
 "
 " Note: This looks best with Powerline fonts
-" I favor .editorconfig over a prettier setups. Using prettier will require adjustments to the g:ale_fixers & uncomment ts prettier format
+" I favor .editorconfig over prettier setups. This config only uses prettier for Typescript
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=&runtimepath
@@ -362,6 +362,7 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tslint'], 'python': ['flake8']}
+let g:ale_javascript_prettier_options = '--single-quote --trailing-comma all'
 " let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'python': ['flake8']}
 let g:ale_fixers = {'javascript': ['eslint'], 'typescript': ['tslint'],'typescriptreact': ['tslint', 'eslint', 'prettier'], 'python': ['autopep8', 'yapf'], 'json': ['fixjson']}
 let g:ale_fix_on_save = 1
