@@ -278,9 +278,15 @@ alias egrep="egrep --color=auto"
 
 # 2.2) Listing, directories, and motion
 if [ "${OS}" == "darwin" ]; then
-    alias ll="ls -lprtFG"
+  if which brew > /dev/null 2>&1 && [ -f "$(brew --prefix)/bin/exa" ]; then
+    alias ll="exa -lr"
+    alias dir='exa -Gx'
+    alias vdir='exa -l@G'
+  else
+    alias ll="ls -lrptFG"
     alias dir='ls -Gx'
     alias vdir='ls -l@G'
+  fi
 elif [ "${OS}" == "sunos" ]; then
     alias ll="ls -lrtF"
     alias dir='ls --color=auto --format=vertical'
@@ -291,8 +297,13 @@ else
     alias dir='ls --color=auto --format=vertical'
     alias vdir='ls --color=auto --format=long'
 fi
-alias la="ls -A"
-alias l="ls -CF"
+if which exa > /dev/null 2>&1; then
+  alias la="exa -A"
+  alias l="exa -F"
+else
+  alias la="ls -A"
+  alias l="ls -CF"
+fi
 alias m='less'
 alias ..='cd ..'
 alias ...='cd ..;cd ..'
