@@ -32,7 +32,7 @@
 "  ```
 "  inside neovim:
 "  :checkhealth provider
-"  :CocInstall coc-tsserver " to install type server for Typescript/Deno setup
+"  :CocInstall coc-tsserver coc-tailwindcss " to install type server for Typescript & tailwind setup
 "  :CocInstall coc-deno " use only for deno setup -> disabled due to: https://medium.com/@jimgbest/fixing-coc-tsserver-errors-due-to-deno-59551d65bde7 
 "  :CocCommand deno.types " do while editing .ts file, for deno types setup
 " -> deprecated: :checkhealth deoplete " deoplete and coc seem to conflict, using Coc with deno now; currently switching between Deopolete for JS & CoC for TS
@@ -41,7 +41,7 @@
 " Remember to :PlugInstall " after first starting neovim
 "
 " Note: This looks best with Powerline fonts
-" I favor .editorconfig over a prettier setups. Using prettier will require adjustments to the g:ale_fixers & uncomment ts prettier format
+" I favor .editorconfig over prettier setups. This config only uses prettier for Typescript
 "
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=&runtimepath
@@ -76,6 +76,7 @@ set modelines=5                " default numbers of lines to read for modeline i
 
 set autowrite                  " Writes on make/shell commands
 set autoread                   " works better than just a plain set autoread
+set t_BE= " turns off bracketed paste mode
 augroup focus
   au FocusGained * :checktime
 augroup end
@@ -362,8 +363,9 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tslint'], 'python': ['flake8']}
+let g:ale_javascript_prettier_options = '--jsx-bracket-same-line --single-quote --print-width 150 --trailing-comma all'
 " let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'python': ['flake8']}
-let g:ale_fixers = {'javascript': ['eslint'], 'typescript': ['tslint'], 'python': ['autopep8', 'yapf'], 'json': ['fixjson']}
+let g:ale_fixers = {'javascript': ['eslint'], 'typescript': ['tslint', 'prettier'],'typescriptreact': ['tslint', 'eslint', 'prettier'], 'python': ['autopep8', 'yapf'], 'json': ['fixjson']}
 let g:ale_fix_on_save = 1
 let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
 let g:ale_disable_lsp = 1
@@ -474,7 +476,7 @@ fun! GoCoc()
   nmap <buffer> <leader>gr <Plug>(coc-references)
   nnoremap <buffer> <leader>cr :CocRestart
 endfunction
-
+let g:coc_global_extensions = ['coc-tsserver', 'coc-tailwindcss', 'coc-svg', 'coc-marketplace', 'coc-coverage']
 " " }}}
 "
 " denite plugin setup "{{{
