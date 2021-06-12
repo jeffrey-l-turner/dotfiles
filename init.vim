@@ -452,6 +452,7 @@ Plug 'liuchengxu/vim-clap' " trying for now
 Plug 'zchee/deoplete-jedi' " python jedi plugin
 Plug 'liuchengxu/vim-clap'
 Plug 'mhinz/vim-startify'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 " " }}}
 
