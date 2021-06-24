@@ -354,7 +354,7 @@ map <leader>2h :runtime! syntax/2html.vim<CR>
 " close terminal on clean exit
 augroup terminal
   autocmd!
-  autocmd TermClose * if getline('$') == 'Exit 0' | close | endif
+  autocmd TermClose * if getline('$') ==# 'Exit 0' | close | endif
 augroup end
 " " }}}
 
@@ -404,6 +404,7 @@ let g:tagbar_type_javascript = {
       \ }
 
 Plug 'tpope/vim-commentary'
+"nmap <C-m> gcc
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " seems to conflict with Coc
 " Place deoplete before autocomplete-flow
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -452,7 +453,7 @@ Plug 'liuchengxu/vim-clap' " trying for now
 Plug 'zchee/deoplete-jedi' " python jedi plugin
 Plug 'liuchengxu/vim-clap'
 Plug 'mhinz/vim-startify'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'mattn/emmet-vim' " trying
 call plug#end()
 " " }}}
 
@@ -722,15 +723,16 @@ let g:errorformat =
 " set mouse=v
 " with nvim -e startup in shell to copy/paste with trackpad
 
-let &runtimepath.=',~/.config/nvim/plugged//ale' " to run ale background linting
+let &runtimepath.=',~/.config/nvim/plugged/ale' " to run ale background linting
 " " }}}
 
-" Per Project tsx/jsx gf Setup" {{{
+" Per Project tsx/jsx/@subdirs with jsconfig.json gf Setup" {{{
 set suffixesadd=.js,.jsx,.ts,.tsx " recognize typescript, javascript
 set path=.
 function! SetPath()
   set path=.
   let gitdir =  finddir('./.git', '.;')
+
   if !empty(gitdir)
     " echom 'git dir found'
     let srcdir =  finddir('./src', '.;')
@@ -748,9 +750,21 @@ function! SetPath()
       " echom 'package.json file found'
       set path+=node_modules/**
     endif
-  else
-    " echom 'not in project dir, .git not found!!!'
-    set path=.
+  "elseho
+  endif
+  let jsconfig_file = findfile('./jsconfig.json', '.;')
+  if len(jsconfig_file)
+    let jsconfig_data = json_decode(join(readfile(jsconfig_file)))
+    let gotopaths = get(get(jsconfig_data, 'compilerOptions', {}), 'paths', {})
+    for key in keys(gotopaths)
+      let value = get(gotopaths, key)
+      let addition = value[0]
+      let pathaddition = substitute(addition, '^', './', '')
+      let &path = &path . ',' . pathaddition
+    endfor
+    if &isfname[0] !=# '^' && &isfname[1] !=# '@'
+      let &isfname ='^@' . ',' . &isfname
+    endif
   endif
 endfunction
 
@@ -758,5 +772,49 @@ augroup SetPath
   autocmd!
   autocmd VimEnter,DirChanged * :call SetPath()
 augroup end
+" " }}}
 
+" Per Project deno check and setup" {{{
+function! InstallnEnableCocDeno()
+  :CocInstall coc-deno
+  :echom 'Detected deno project; Remember to make sure coc-deno is enabled'
+endfunction
+
+function! DisableCocDeno()
+"  :CocUninstall coc-deno
+"  :echom 'Did not detect deno configuration within project; coc-deno disabled'
+endfunction
+
+function! SetupDeno()
+  let s:cocSettings = 'coc-settings.json'
+  let s:enableDenoKey = 'deno.enable'
+  let s:settingsFile = findfile(s:cocSettings, '.vim;') " search for coc settings file project directory
+  if s:settingsFile ==? '.vim/coc-settings.json' " only run logic if at project root
+    let s:denoFile = readfile(s:settingsFile)
+    if !empty(s:denoFile)
+      let s:enableDenoDict = json_decode(s:denoFile)
+      if has_key(s:enableDenoDict, s:enableDenoKey)
+        let s:denoEnable = s:enableDenoDict[s:enableDenoKey]
+        if !empty(s:denoEnable) 
+          if !empty(s:denoEnable) && s:denoEnable ==? 'true'
+            :call InstallnEnableCocDeno()
+          else
+            :call DisableCocDeno()
+          endif
+        else
+          :call DisableCocDeno()
+        endif
+      else
+        :call DisableCocDeno()
+      endif
+    endif
+  else
+    :call DisableCocDeno()
+  endif
+endfunction
+
+augroup SetupDeno
+  autocmd!
+  autocmd VimEnter,DirChanged * :call SetupDeno()
+augroup end
 " " }}}
