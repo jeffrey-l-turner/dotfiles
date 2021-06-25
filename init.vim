@@ -727,8 +727,8 @@ let &runtimepath.=',~/.config/nvim/plugged/ale' " to run ale background linting
 " " }}}
 
 " Per Project tsx/jsx/@subdirs with jsconfig.json gf Setup" {{{
-set suffixesadd=.js,.jsx,.ts,.tsx " recognize typescript, javascript
-set path=.
+set suffixesadd=.js,.jsx,.ts,.tsx,.json " recognize typescript, javascript, json
+set path&vim
 function! SetPath()
   set path=.
   let gitdir =  finddir('./.git', '.;')
@@ -758,13 +758,17 @@ function! SetPath()
     let gotopaths = get(get(jsconfig_data, 'compilerOptions', {}), 'paths', {})
     for key in keys(gotopaths)
       let value = get(gotopaths, key)
-      let addition = value[0]
-      let pathaddition = substitute(addition, '^', './', '')
+      let pathaddition = value[0]
+      "let pathaddition = substitute(addition, '^', './', '')
       let &path = &path . ',' . pathaddition
+      echom "added: " pathaddition
     endfor
-    if &isfname[0] !=# '^' && &isfname[1] !=# '@'
-      let &isfname ='^@' . ',' . &isfname
+    if &isfname[0] !=# '^' && &isfname[1] !=# '@' && &isfname[2] !=# '/'
+      let &isfname ='^@-@' . '/' . ',' . &isfname
     endif
+  else
+    set path&vim
+    set isfname&vim
   endif
 endfunction
 
