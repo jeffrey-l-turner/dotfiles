@@ -407,13 +407,13 @@ Plug 'tpope/vim-commentary'
 "nmap <C-m> gcc
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " seems to conflict with Coc
 " Place deoplete before autocomplete-flow
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'wokalski/autocomplete-flow'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'wokalski/autocomplete-flow'
 "Plug 'steelsojka/deoplete-flow' " this one may not be as good; trying this out for now autocomplet-flow, above
 "  Need the following for function argument completion:
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/denite.nvim'
+"Plug 'Shougo/neosnippet'
+"Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/denite.nvim'
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
 Plug 'ludovicchabant/vim-gutentags' "c-tags plugin <C-j> definition
@@ -426,16 +426,16 @@ Plug 'airblade/vim-gitgutter' " git compat gutter
 Plug 'tomlion/vim-solidity'   " solidity programming support
 Plug 'ap/vim-css-color' " color highlighting for css
 "Plug 'sheerun/vim-polyglot' " disabling due to problems with coc
-Plug 'tpope/vim-liquid' " liquid files for shopify
+"Plug 'tpope/vim-liquid' " liquid files for shopify
 Plug 'junegunn/fzf', { 'dir': '~/.fzf/', 'do': './install --bin ' } "
 Plug 'junegunn/fzf.vim' " fuzzy finder
 Plug 'LnL7/vim-nix' " for editing nix files
 Plug 'tpope/vim-fugitive' " only using for airline integration, ctags no longer supported
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " had performance issues before, not problems w/curr release
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+"Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'leafgarland/typescript-vim' " Typescript syntax highlighting
 Plug 'vim-utils/vim-man' " initial testing
-Plug 'mbbill/undotree' " initial testing
+Plug 'mbbill/undotree' " stilllearn
 "Plug 'vim-ctrlspace/vim-ctrlspace' " testing airline integration
 "Plug 'pangloss/vim-javascript' " bundled language plugin
 "Plug 'flowtype/vim-flow' " json or string format appears to be incorrectly returned with neovim
@@ -449,11 +449,11 @@ Plug 'statico/vim-javascript-sql' " supposedly experimental
 Plug 'nvie/vim-flake8' " lint integration for Python
 "Plug 'yegappan/grep' " req'd for ferret - not working b/c of jobs_ diff in newovim
 Plug 'makerj/vim-pdf'  " requires pdf to text
-Plug 'liuchengxu/vim-clap' " trying for now
-Plug 'zchee/deoplete-jedi' " python jedi plugin
-Plug 'liuchengxu/vim-clap'
+"Plug 'liuchengxu/vim-clap' " whatdo
+"Plug 'zchee/deoplete-jedi' " python jedi plugin
 Plug 'mhinz/vim-startify'
 " Plug 'mattn/emmet-vim' " trying
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 " " }}}
 
@@ -482,17 +482,17 @@ let g:coc_global_extensions = ['coc-tsserver', 'coc-tailwindcss', 'coc-svg', 'co
 " " }}}
 "
 " denite plugin setup "{{{
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-      \ [ '*~', '*.o', '*.exe', '*.bak',
-      \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
-      \ '.hg/', '.git/', '.bzr/', '.svn/',
-      \ 'node_modules/', 'bower_components/', 'tmp/', 'env/', 'log/', 'vendor/ruby',
-      \ '.idea/', 'dist/',
-      \ 'tags', 'tags-*'])
+" call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+" call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+" call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+" call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+" call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+"       \ [ '*~', '*.o', '*.exe', '*.bak',
+"       \ '.DS_Store', '*.pyc', '*.sw[po]', '*.class',
+"       \ '.hg/', '.git/', '.bzr/', '.svn/',
+"       \ 'node_modules/', 'bower_components/', 'tmp/', 'env/', 'log/', 'vendor/ruby',
+"       \ '.idea/', 'dist/',
+"       \ 'tags', 'tags-*'])
 " " }}}
 
 " airline config "{{{
@@ -761,7 +761,7 @@ function! SetPath()
       let pathaddition = value[0]
       "let pathaddition = substitute(addition, '^', './', '')
       let &path = &path . ',' . pathaddition
-      echom "added: " pathaddition
+      "echom "added: " pathaddition
     endfor
     if &isfname[0] !=# '^' && &isfname[1] !=# '@' && &isfname[2] !=# '/'
       let &isfname ='^@-@' . '/' . ',' . &isfname
