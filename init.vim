@@ -416,7 +416,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'Shougo/denite.nvim'
 " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern tern-jsx tern-react' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install --cache-min Infinity --loglevel http' }
-Plug 'ludovicchabant/vim-gutentags' "c-tags plugin <C-j> definition
+" Plug 'ludovicchabant/vim-gutentags' "c-tags plugin <C-j> definition
 Plug 'MaxMEllon/vim-jsx-pretty'  "jsx syntax highlight, incl .js files
 Plug 'ianks/vim-tsx' " for .tsx files only
 Plug 'mxw/vim-jsx'  "jsx syntax highlight, incl .js files
@@ -556,54 +556,54 @@ augroup end
 " " }}}
 
 " guten tags config "{{{
-let g:gutentags_generate_on_write = 1
-let g:gutentags_ctags_tagfile = '.git/tags'
-let g:gutentags_ctags_exclude = [
-      \ '*.git', '*.svg', '*.hg',
-      \ '*/tests/*',
-      \ 'build',
-      \ 'dist',
-      \ '*sites/*/files/*',
-      \ 'bin',
-      \ 'bower_components',
-      \ 'cache',
-      \ 'compiled',
-      \ 'docs',
-      \ 'example',
-      \ 'bundle',
-      \ 'vendor',
-      \ '*.md',
-      \ '*-lock.json',
-      \ '*.lock',
-      \ '*bundle*.js',
-      \ '*build*.js',
-      \ '.*rc*',
-      \ '*.json',
-      \ '*.min.*',
-      \ '*.map',
-      \ '*.bak',
-      \ '*.zip',
-      \ '*.pyc',
-      \ '*.class',
-      \ '*.sln',
-      \ '*.Master',
-      \ '*.csproj',
-      \ '*.tmp',
-      \ '*.csproj.user',
-      \ '*.cache',
-      \ '*.pdb',
-      \ 'tags*',
-      \ 'cscope.*',
-      \ '*.css',
-      \ '*.less',
-      \ '*.scss',
-      \ '*.exe', '*.dll',
-      \ '*.mp3', '*.ogg', '*.flac',
-      \ '*.swp', '*.swo',
-      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
-      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-      \ ]
+"let g:gutentags_generate_on_write = 1
+"let g:gutentags_ctags_tagfile = '.git/tags'
+"let g:gutentags_ctags_exclude = [
+"      \ '*.git', '*.svg', '*.hg',
+"      \ '*/tests/*',
+"      \ 'build',
+"      \ 'dist',
+"      \ '*sites/*/files/*',
+"      \ 'bin',
+"      \ 'bower_components',
+"      \ 'cache',
+"      \ 'compiled',
+"      \ 'docs',
+"      \ 'example',
+"      \ 'bundle',
+"      \ 'vendor',
+"      \ '*.md',
+"      \ '*-lock.json',
+"      \ '*.lock',
+"      \ '*bundle*.js',
+"      \ '*build*.js',
+"      \ '.*rc*',
+"      \ '*.json',
+"      \ '*.min.*',
+"      \ '*.map',
+"      \ '*.bak',
+"      \ '*.zip',
+"      \ '*.pyc',
+"      \ '*.class',
+"      \ '*.sln',
+"      \ '*.Master',
+"      \ '*.csproj',
+"      \ '*.tmp',
+"      \ '*.csproj.user',
+"      \ '*.cache',
+"      \ '*.pdb',
+"      \ 'tags*',
+"      \ 'cscope.*',
+"      \ '*.css',
+"      \ '*.less',
+"      \ '*.scss',
+"      \ '*.exe', '*.dll',
+"      \ '*.mp3', '*.ogg', '*.flac',
+"      \ '*.swp', '*.swo',
+"      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+"      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+"      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+"      \ ]
 " " }}}
 
 " ferret config "{{{
@@ -747,9 +747,9 @@ function! SetPath()
     for key in keys(gotopaths)
       let value = get(gotopaths, key)
       let pathaddition = value[0]
-      "let pathaddition = substitute(addition, '^', './', '')
+      " let pathaddition = substitute(addition, '^', './', '')
       let &path = &path . ',' . pathaddition
-      "echom "added: " pathaddition
+      " echom "added: " pathaddition
     endfor
     if &isfname[0] !=# '^' && &isfname[1] !=# '@' && &isfname[2] !=# '/'
       let &isfname ='^@-@' . '/' . ',' . &isfname
