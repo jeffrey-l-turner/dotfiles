@@ -2,5 +2,7 @@
   "prettier.formatterPriority": -1,
   "javascript.suggestionActions.enabled": false,
   "diagnostic.displayByAle": true,
+  "http.proxyStrictSSL": false,
+  "eslint.autoFixOnSave": true,
   "prettier.tslintIntegration": false
 }

@@ -478,7 +478,7 @@ fun! GoCoc()
   nmap <buffer> <leader>gr <Plug>(coc-references)
   nnoremap <buffer> <leader>cr :CocRestart
 endfunction
-let g:coc_global_extensions = ['coc-tsserver', 'coc-tailwindcss', 'coc-svg', 'coc-marketplace', 'coc-coverage']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-tailwindcss', 'coc-svg', 'coc-marketplace', 'coc-eslint', 'coc-coverage']
 " " }}}
 "
 " denite plugin setup "{{{
@@ -604,18 +604,6 @@ let g:gutentags_ctags_exclude = [
       \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
       \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
       \ ]
-" " }}}
-
-" coc config "{{{
-"let g:coc_global_extensions = [
-"      \ 'coc-snippets',
-"      \ 'coc-pairs',
-"      \ 'coc-tserver',
-"      \ 'coc-omni',
-"      \ 'coc-eslint',
-"      \ 'coc-prettier',
-"      \ 'coc-json',
-"      \  ]
 " " }}}
 
 " ferret config "{{{
