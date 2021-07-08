@@ -37,6 +37,7 @@
 "  :CocCommand deno.types " do while editing .ts file, for deno types setup
 " -> deprecated: :checkhealth deoplete " deoplete and coc seem to conflict, using Coc with deno now; currently switching between Deopolete for JS & CoC for TS
 "  may need to edit ~/.viminfo file to save cursor position & set nu/nonu state saving
+"  Trying xo with ALE instead of prettier; setting up xo as eslint wrapper w/o coc-prettier.(too many problems using prettier, xo is cleaner as a wrapper) 
 "  ```
 " Remember to :PlugInstall " after first starting neovim
 "
@@ -122,7 +123,7 @@ set autoindent
 set cindent
 set indentkeys-=0#            " do not break indent on #
 set cinkeys-=0#
-set cinoptions=:s,ps,ts,cs
+"s:set scollopt-=veret cinoptions=:s,ps,ts,cs
 set cinwords=if,else,while,do
 set cinwords+=for,switch,case
 " Set up English Spellchecking
@@ -358,29 +359,6 @@ augroup terminal
 augroup end
 " " }}}
 
-" ale config "{{{
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tslint'], 'python': ['flake8']}
-let g:ale_javascript_prettier_options = '--jsx-bracket-same-line --single-quote --print-width 150 --trailing-comma all'
-" let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'python': ['flake8']}
-let g:ale_fixers = {'javascript': ['eslint'], 'typescript': ['tslint', 'prettier'],'typescriptreact': ['tslint', 'eslint', 'prettier'], 'python': ['autopep8', 'yapf'], 'json': ['fixjson']}
-let g:ale_fix_on_save = 1
-let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
-let g:ale_disable_lsp = 1
-
-let g:flow#autoclose = 1
-" let g:deoplete#enable_at_startup = 1
-" if !exists('g:deoplete#omni#input_patterns') " no longer exists, says use deoplete#custom#var() instead
-"  let g:deoplete#omni#input_patterns = {}
-"endif
-" let g:deoplete#disable_auto_complete = 1
-augroup ale
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup end
-" " }}}
-
 " neovim plugins "{{{
 call plug#begin('$HOME/.config/nvim/plugged')
 Plug 'editorconfig/editorconfig-vim'
@@ -455,6 +433,29 @@ Plug 'mhinz/vim-startify'
 " Plug 'mattn/emmet-vim' " trying
 Plug 'jiangmiao/auto-pairs'
 call plug#end()
+" " }}}
+
+" ale config "{{{
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'typescript': ['tslint'], 'python': ['flake8']}
+" let g:ale_javascript_prettier_options = '--jsx-bracket-same-line --single-quote --print-width 150 --trailing-comma all'
+let g:ale_linters = {'css': ['stylelint'], 'jsx': ['stylelint', 'eslint'], 'javascript': ['eslint', 'flow'], 'python': ['flake8']}
+let g:ale_fixers = {'javascript': ['xo', 'eslint'], 'typescript': ['xo', 'tslint'],'typescriptreact': ['tslint', 'eslint'], 'python': ['autopep8', 'yapf'], 'json': ['fixjson']}
+let g:ale_fix_on_save = 1
+let g:ale_type_map = {'flow': {'E': 'I', 'W': 'I'}}
+let g:ale_disable_lsp = 1
+
+let g:flow#autoclose = 1
+" let g:deoplete#enable_at_startup = 1
+" if !exists('g:deoplete#omni#input_patterns') " no longer exists, says use deoplete#custom#var() instead
+"  let g:deoplete#omni#input_patterns = {}
+"endif
+" let g:deoplete#disable_auto_complete = 1
+augroup ale
+  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup end
 " " }}}
 
 " coc setup "{{{
