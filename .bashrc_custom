@@ -87,3 +87,18 @@ function setAttrib() { # $1 = host, $2 = user (can be empty), asks for passowrd
   gpg--a --no-symkey-cachea --encrypt < ~/.gnupg/secrets.json.gpg | jq -r ${jqCmd} | pbcopy
 
 }
+
+# added for npm-completion https://github.com/Jephuff/npm-bash-completion
+PATH_TO_NPM_COMPLETION="/Users/jeffrey.turner/.nvm/versions/node/v14.15.5/lib/node_modules/npm-completion"
+source $PATH_TO_NPM_COMPLETION/npm-completion.sh
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
+
+PATH_TO_NPM_COMPLETION="/Users/jeffrey.turner/.nvm/versions/node/v14.17.3/lib/node_modules/npm-completion"
+
+
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true
