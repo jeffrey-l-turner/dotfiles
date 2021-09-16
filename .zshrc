@@ -135,8 +135,12 @@ if [[ -s ${HOME}/nvm/nvm.sh ]]; then
 fi
 
 # inode command for interactive with tab completion
-if [[ "${OS}" == "linux" ]]; then
-    alias inode='rlwrap -p"0;35" -S "node >>> " -r --always-readline -f  ~/src/dotfiles/nodeJS_completions node'
-else
-    alias inode='rlwrap -p "0;35" -S "node >>> " -r --always-readline -f  ~/src/dotfiles/nodeJS_completions node'
+alias inode='rlwrap -p"0;35" -S "node >>> " -r --always-readline -f  ~/src/dotfiles/nodeJS_completions node'
+
+if typeset -f nvm >/dev/null 2>&1; then
+  nodepath=$(dirname $(nvm which --silent))
+  export PATH=$PATH:${nodepath}
+fi
+if [[ -e "${HOME}/.cargo/env" ]]; then
+  source "${HOME}/.cargo/env"
 fi
