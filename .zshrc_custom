@@ -1,0 +1,105 @@
+#!/bin/zsh
+# Pre-configure or override your bashrc environment here:
+# the following alias is for mac environment when version 7.4 has been downloaded:
+#if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir
+#  # alias restartGoogleDrive=' killall -v -SIGKILL Google Driv; eopen -a Google Drive;'
+#  alias restartOneDrive=' killall -v -SIGKILL OneDriv; eopen -a OneDrive;'
+#  export PATH="/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support:${PATH}" # adding altool to path
+#fi
+
+alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
+alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
+
+alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
+
+if [[ -e "${HOME}/Library/Android" ]]; then 
+  export ANDROID_HOME="${HOME}/Library/Android/sdk"
+  export ANDROID_NDK="${HOME}/Library/Android/ndk"
+  export ANDROID_SDK="${HOME}/Library/Android/sdk"
+  export PATH="${PATH}:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools"
+fi
+
+
+#function _concatToEternalHist() {
+#  local last recent linenum
+#  last=$(grep -Fn "$(tail -1 ~/OneDrive/Bash_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/OneDrive/Bash_eternal_hist  | sed s/:.*$//)
+#  recent=$(wc -l ~/.bash_eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
+#  # shellcheck disable=SC2219
+#  let linenum="${recent} - ${last}"
+#  tail -n "${linenum}" ~/.bash_eternal_history >> ~/OneDrive/Bash_eternal_hist
+#}
+#
+#function mergeEternalHist() {
+#  rm -f /tmp/Bash_eternal_hist
+#  _concatToEternalHist 
+#  sort -n --key=8 ~/OneDrive/Bash_eternal_hist  | LC_ALL=C uniq > /tmp/Bash_eternal_hist
+#  chmod 600 /tmp/Bash_eternal_hist
+#  cp -i /tmp/Bash_eternal_hist ~/OneDrive/Bash_eternal_hist  
+#  mv -i /tmp/Bash_eternal_hist ~/.bash_eternal_history 
+#  rm -f /tmp/Bash_eternal_hist
+#}
+#
+## shellcheck disable=SC1090
+## shellcheck disable=SC1091
+#if [ -e "${HOME}/.gem/bin" ]; then export PATH="${HOME}/.gem/bin:$PATH"; fi
+## shellcheck disable=SC1090
+## shellcheck disable=SC1091
+#if [ -e "/Library/Frameworks/Python.framework/Versions/2.7/bin" ]; then export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"; fi
+## shellcheck disable=SC1090
+## shellcheck disable=SC1091
+#if [ -e "/Library/Frameworks/Python.framework/Versions/3.7/bin" ]; then export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH"; fi
+## shellcheck disable=SC1090
+## shellcheck disable=SC1091
+#if [ -e "${HOME}/.deno/bin" ]; then export PATH="${HOME}/.deno/bin:$PATH"; fi
+#
+## shellcheck disable=SC1091
+## shellcheck disable=SC1090
+#if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then . "${HOME}/.nix-profile/etc/profile.d/nix.sh"; fi
+#export THEME="${HOME}/.bash/themes/agnoster-bash/agnoster.bash"
+#if [[ -f "$THEME" ]]; then
+#  DEFAULT_USER=$(whoami)
+#  export DEFAULT_USER
+#  # shellcheck disable=SC1090
+#  source "$THEME"
+#fi
+#
+#function FFOW() {
+#  local QU="find . -type f -exec grep -nHi $1 {} \\;" 
+#  shift
+#  for GR in "$@"
+#  do
+#    QU="${QU} | grep -i ${GR}"
+#  done
+#  echo "${QU} | grep -v node_modules/ | grep -v commerce/ | grep -v ios/ | grep -v android/ | grep -v public/" >&2 
+#  eval "${QU}" | grep -v node_modules/ | grep -v commerce/ | grep -v ios/ | grep -v android/ | grep -v public/
+#}
+#
+## decrypt secrets file and paste/copy without new line at end
+# # shellcheck disable=SC2139
+# # alias getAWSpass="export GPG_TTY=$(tty); gpg --decrypt -a ~/.gnupg/secrets.json.gpg 2>/dev/null | jq -r '.hosts[2][\"git-codecommit.us-east-1.amazonaws.com\"].password' | cat -s"
+# # alias getOpenVPNpass="export GPG_TTY=$(tty); gpg --decrypt -a ~/.gnupg/secrets.json.gpg 2>/dev/null |  jq -r '.hosts[1] | .\"connect.kfapps.net\" | .\"password\"' | cat -s"
+# #  .\"connect.kfapps.net\" | .password' | pbcopy; echo $(pbpaste); echo -n $(pbpaste) | pbcopy"
+# 
+#function findAttrib() {
+#  jqCmd=('.hosts[] | ."'${1}'" | .password') 
+#  gpg -a -decode ~/.gnupg/secrets.json.gpg | jq -r ${jqCmd} | pbcopy
+#}
+#
+#function setAttrib() { # $1 = host, $2 = user (can be empty), asks for passowrd
+#  jqCmd=('.hosts[] | ."'${1}'" | .password') 
+#  gpg--a --no-symkey-cachea --encrypt < ~/.gnupg/secrets.json.gpg | jq -r ${jqCmd} | pbcopy
+#
+#}
+#
+## added for npm-completion https://github.com/Jephuff/npm-bash-completion
+#PATH_TO_NPM_COMPLETION="/Users/jeffrey.turner/.nvm/versions/node/v14.15.5/lib/node_modules/npm-completion"
+#source $PATH_TO_NPM_COMPLETION/npm-completion.sh
+#
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#. "$HOME/.cargo/env"
+#
+#
+#
+## tabtab source for packages
+## uninstall by removing these lines
+## [ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true

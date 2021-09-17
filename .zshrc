@@ -144,3 +144,11 @@ fi
 if [[ -e "${HOME}/.cargo/env" ]]; then
   source "${HOME}/.cargo/env"
 fi
+
+if [[ -e "${HOME}/.local/bin"  ]]; then
+  export PATH=$PATH:${HOME}/.local/bin
+fi
+
+if [[ -e "${HOME}/.zshrc_custom" ]]; then
+    source "${HOME}/.zshrc_custom"
+fi
