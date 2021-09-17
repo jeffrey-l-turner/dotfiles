@@ -1,5 +1,16 @@
 dotfiles.git
 ============
+
+Now using `zsh` instead of `bash`.
+
+On MacOS:
+```
+ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+brew tap homebrew/cask-fonts
+brew install stow fzf zsh font-arimo-nerd-font font-jetbrains-mono-nerd-font font-jetbrains-mono font-fira-code-nerd-font font-blex-mono-nerd-font font-lekton-nerd-font font-liberation-nerd-font neovim rlwrap  shellcheck wget git python python3 gawk java  gpg rustup rustup-init cmake
+```
+============
+
 Clone and run this on  new instances for headless/interactive setup, Windows, *nix, or MAC OS to
 configure `ssh`, `bash`, `node`, `vim`, and `emacs` development environment as follows:
 
