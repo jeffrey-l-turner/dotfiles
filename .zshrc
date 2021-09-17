@@ -152,3 +152,7 @@ fi
 if [[ -e "${HOME}/.zshrc_custom" ]]; then
     source "${HOME}/.zshrc_custom"
 fi
+
+alias mv="mv -i"
+alias cp="cp -i"
+set -o noclobber
