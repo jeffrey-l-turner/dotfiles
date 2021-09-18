@@ -9,8 +9,8 @@ lvim.transparent_window = true
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 -- Must run :set manually when in gui; command below originally worked -- cannot now find default font option
--- O.default_options.guifont = "BlexMono Nerd Font:h14"
--- :set guifont=BlexMono\ Nerd\ Font:h14
+-- O.default_options.guifont = "JetBrainsMono Nerd Font:h14"
+-- :set guifont=JetBrainsMono\ Nerd\ Font:h14
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
