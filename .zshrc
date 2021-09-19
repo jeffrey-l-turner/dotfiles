@@ -97,10 +97,10 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-# lowercase(){
-#     echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
-# }
-# OS="$(lowercase $(uname))"
+function lowercase(){
+     echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+}
+export OS="$(lowercase $(uname))"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -156,3 +156,62 @@ fi
 alias mv="mv -i"
 alias cp="cp -i"
 set -o noclobber
+
+# setup Lunar Vim
+if [[ -e "${HOME}/.local/lvim" ]]; then
+  export EDITOR='lvim'
+  export VISUAL='lvim' 
+fi
+
+function nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
+    # osx must use stty -g
+    local TTYOPTS
+    if [ "${OS}" = "darwin" ]; then
+        TTYOPTS="$(stty -g)"
+    else
+        # shellcheck disable=SC2034
+        TTYOPTS="$(stty --save)"
+    fi
+    stty  stop '' -ixoff
+    command nvim "$@"
+    stty  "$TTYOPTS"
+}
+
+function _concatToEternalHist() {
+  local last recent linenum
+  last=$(grep -Fn "$(tail -1 ~/OneDrive/_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/OneDrive/_eternal_hist  | sed s/:.*$//)
+  recent=$(wc -l ~/._eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
+  # shellcheck disable=SC2219
+  let linenum="${recent} - ${last}"
+  tail -n "${linenum}" ~/.eternal_history >> ~/OneDrive/_eternal_hist
+}
+
+function mergeEternalHist() {
+  rm -f /tmp/_eternal_hist
+  _concatToEternalHist 
+  sort -n --key=8 ~/OneDrive/_eternal_hist  | LC_ALL=C uniq > /tmp/_eternal_hist
+  chmod 600 /tmp/_eternal_hist
+  cp -i /tmp/_eternal_hist ~/OneDrive/_eternal_hist  
+  mv -i /tmp/_eternal_hist ~/.eternal_history 
+  rm -f /tmp/_eternal_hist
+}
+
+function ht() {
+    local QU="history "
+    for GR in "$@"
+    do
+        QU="${QU} | grep -i ${GR} " 
+    done
+    eval "${QU}"
+}
+
+function FF() {
+    local QU="find . -type f -exec grep -nHi $1 {} \\;" 
+    shift
+    for GR in "$@"
+    do
+        QU="${QU} | grep -i ${GR}"
+    done
+    echo "${QU}" >&2 
+    eval "${QU}"
+}
