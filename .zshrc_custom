@@ -9,6 +9,7 @@
 
 alias gitPush='$(git push 2>&1 >/dev/null | grep git)'
 alias gitCurrBranch="git branch | grep ^\\* | sed -e 's/^* //'"
+alias hh='TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} hh'
 
 alias jsb='js-beautify -w 120 -pc " " -s 4 -r' # alias to beautify using my prefs
 
