@@ -8,7 +8,9 @@ lvim.hlsearch = true
 lvim.transparent_window = true
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
--- Must run :set manually when in gui; command below originally worked -- cannot now find default font option
+
+-- Must run :set manually when in gui; command below originally worked -- cannot now find default font option in config
+-- Can change ~/.local/share/lunarvim/lvim/lua/settings.lua to proper font
 -- O.default_options.guifont = "JetBrainsMono Nerd Font:h14"
 -- :set guifont=JetBrainsMono\ Nerd\ Font:h14
 
@@ -84,7 +86,19 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   end
 -- end
 
--- set a formatter if you want to override the default lsp one (if it exists)
+lvim.lang.javascript.formatters = {
+  {
+    exe = "prettier",
+    args = {}
+  }
+}
+
+lvim.lang.javascript.linters = {
+  {
+    exe = "eslint_d",
+    args = {}
+  }
+}
 -- lvim.lang.python.formatters = {
 --   {
 --     exe = "black",
@@ -100,13 +114,26 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
---     {"folke/tokyonight.nvim"}, {
+lvim.plugins = {
+  {"ChristianChiarulli/vim-solidity"},
+  {"mfussenegger/nvim-jdtls" },
+  {
+    "tzachar/cmp-tabnine",
+    config = function()
+      local tabnine = require "cmp_tabnine.config"
+      tabnine:setup {
+        max_lines = 1000,
+        max_num_results = 20,
+        sort = true,
+    }
+    end,
+  }
+}
+-- Additional config options:
 --         "ray-x/lsp_signature.nvim",
 --         config = function() require"lsp_signature".on_attach() end,
 --         event = "InsertEnter"
---     }
--- }
+
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
