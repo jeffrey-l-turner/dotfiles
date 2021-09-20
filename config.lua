@@ -116,6 +116,8 @@ lvim.lang.javascript.linters = {
 -- Additional Plugins
 lvim.plugins = {
   {"ChristianChiarulli/vim-solidity"},
+  {"LnL7/vim-nix"},  -- for editing nix files
+  {"mbbill/undotree"}, -- sets up tree of redo/undo
   {"mfussenegger/nvim-jdtls" },
   {"sgur/vim-editorconfig" },
   {
