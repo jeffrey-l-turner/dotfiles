@@ -153,6 +153,11 @@ if [[ -e "${HOME}/.zshrc_custom" ]]; then
     source "${HOME}/.zshrc_custom"
 fi
 
+if [[ -e "${HOME}/.deno" ]]; then
+  export DENO_INSTALL="${HOME}/.deno"
+  export PATH="$DENO_INSTALL/bin:$PATH"
+fi
+
 alias mv="mv -i"
 alias cp="cp -i"
 set -o noclobber
