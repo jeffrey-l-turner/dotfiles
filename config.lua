@@ -117,6 +117,7 @@ lvim.lang.javascript.linters = {
 lvim.plugins = {
   {"ChristianChiarulli/vim-solidity"},
   {"mfussenegger/nvim-jdtls" },
+  {"sgur/vim-editorconfig" },
   {
     "tzachar/cmp-tabnine",
     config = function()
