@@ -1,4 +1,9 @@
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+-- to be placed in: ~/.config/lvim/config.lua
+
+-- 88     88   88 88b 88    db    88""Yb     Yb    dP 88 8b    d8
+-- 88     88   88 88Yb88   dPYb   88__dP      Yb  dP  88 88b  d88
+-- 88  .o Y8   8P 88 Y88  dP__Yb  88"Yb        YbdP   88 88YbdP88
+-- 88ood8 `YbodP' 88  Y8 dP""""Yb 88  Yb        YP    88 88 YY 88
 
 -- general
 lvim.format_on_save = true
