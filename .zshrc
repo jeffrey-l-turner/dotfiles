@@ -220,3 +220,4 @@ function FF() {
     echo "${QU}" >&2 
     eval "${QU}"
 }
+unsetopt autopushd # do not put cd cmds on dirs
