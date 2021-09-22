@@ -104,19 +104,33 @@ lvim.lang.javascript.linters = {
     args = {}
   }
 }
--- lvim.lang.python.formatters = {
---   {
---     exe = "black",
---     args = {}
---   }
--- }
+lvim.lang.sh.lsp = {
+  -- npm i -g bash-language-server
+  {
+    exe = "bash-language-server",
+    args = {"start"}
+  }
+}
+lvim.lang.sh.formatters = {
+  -- on Mac brew install shellharden
+  {
+    exe = "shellharden",
+    args = {}
+  }
+}
+lvim.lang.python.formatters = {
+  {
+    exe = "black",
+    args = {}
+  }
+}
 -- set an additional linter
--- lvim.lang.python.linters = {
---   {
---     exe = "flake8",
---     args = {}
---   }
--- }
+lvim.lang.python.linters = {
+  {
+    exe = "flake8",
+    args = {}
+  }
+}
 
 -- Additional Plugins
 lvim.plugins = {
