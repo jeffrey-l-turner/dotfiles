@@ -30,7 +30,6 @@ ln -sb dotfiles/.git_template  ~
 cat dotfiles/ssh-config-* >> ~/.ssh/config
 ```
 
-```
 
 See also [syssetup](http://github.com/jeffrey-l-turner/syssetup) to install prerequisite programs. If all goes well, in addition to a eternal history on zsh, these files may
 be used to setup headless systems. The macOS-defaults configures a Mac from the command line.  This was originally developed for
