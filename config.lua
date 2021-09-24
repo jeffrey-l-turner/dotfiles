@@ -14,6 +14,9 @@ lvim.transparent_window = true
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
+-- Gui Font for Lunar Vide setup:
+vim.opt.guifont = "JetBrainsMono Nerd Font:h15"
+
 -- Must run :set manually when in gui; command below originally worked -- cannot now find default font option in config
 -- Can change ~/.local/share/lunarvim/lvim/lua/settings.lua to proper font
 -- O.default_options.guifont = "JetBrainsMono Nerd Font:h14"
