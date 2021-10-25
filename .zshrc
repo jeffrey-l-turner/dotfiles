@@ -74,7 +74,11 @@ ENABLE_CORRECTION="false"
 plugins=(
   adb
   colorize
+  deno
+docker
   eternal-history
+  fzf
+  genpass
   git-prompt
   gpg-agent
   ipfs
@@ -84,8 +88,10 @@ plugins=(
   nvm
   osx
   pip
+  postgres
   pyenv
   pylint
+  rust
   safe-paste
   ssh-agent
   systemadmin
