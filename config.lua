@@ -110,13 +110,6 @@ lvim.lang.javascript.linters = {
     args = {}
   }
 }
-lvim.lang.sh.lsp = {
-  -- npm i -g bash-language-server
-  {
-    exe = "bash-language-server",
-    args = {"start"}
-  }
-}
 lvim.lang.sh.formatters = {
   -- on Mac brew install shellharden
   {
