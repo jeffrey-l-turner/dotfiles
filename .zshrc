@@ -75,10 +75,11 @@ plugins=(
   adb
   colorize
   deno
-docker
+  docker
   eternal-history
   fzf
   genpass
+  # git
   git-prompt
   gpg-agent
   ipfs
@@ -99,7 +100,6 @@ docker
   vi-mode
   # zsh-autosuggestions # need to find plugin
   z
-  # git
 )
 
 source $ZSH/oh-my-zsh.sh
