@@ -23,7 +23,7 @@ cd ~/src
 git clone git@github.com:jeffrey-l-turner/dotfiles.git
 ln -sb dotfiles/.screenrc ~
 ln -sb dotfiles/.vimrc  ~
-ln -sb dotfiles/.zshrc*  ~
+ln -sb dotfiles/.z*  ~
 ln -sb dotfiles/.jshintrc  ~
 ln -sb dotfiles/.eslintrc  ~
 ln -sb dotfiles/.git_template  ~
