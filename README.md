@@ -5,7 +5,7 @@ Now using `zsh` instead of `bash`. No longer supporting emacs in favor of LunarV
 
 ## On MacOS:
 ```
-ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew tap homebrew/cask-fonts
 brew install stow fzf zsh font-meslo-nerd-font font-arimo-nerd-font font-jetbrains-mono-nerd-font font-jetbrains-mono font-fira-code-nerd-font font-blex-mono-nerd-font font-lekton-nerd-font font-liberation-nerd-font neovim rlwrap spellcheck shellcheck wget git python python3 gawk java gpgconf gpg rustup rustup-init cmake ripgrep fd
