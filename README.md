@@ -4,11 +4,14 @@
 Now using `zsh` instead of `bash`. No longer supporting emacs in favor of LunarVim
 
 ## On MacOS:
-```
+```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
+```
+```
 brew tap homebrew/cask-fonts
 brew install stow fzf zsh font-meslo-nerd-font font-arimo-nerd-font font-jetbrains-mono-nerd-font font-jetbrains-mono font-fira-code-nerd-font font-blex-mono-nerd-font font-lekton-nerd-font font-liberation-nerd-font neovim rlwrap spellcheck shellcheck wget git python python3 gawk java gpgconf gpg rustup rustup-init cmake ripgrep fd
+```
+```
 # after installing [node/nvm](https://github.com/nvm-sh/nvm) (any system):
 npm i -g lib language-server bash-language-server create-next-pwa eslint_d eslint expo-cli fixjson hardhat-shorthand neovim npm prettier shellcheck solhint-plugin-prettier solhint tree-sitter-cli yarn
 ```
