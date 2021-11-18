@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # copy neovide to LunarVide in ~/local/bin to setup App
 
-export LUNARVIM_CONFIG_DIR="${LUNARVIM_CONFIG_DIR:-~/.local/share/lunarvim/lvim}"
-export LUNARVIM_RUNTIME_DIR="${LUNARVIM_RUNTIME_DIR:-~/.local/bin/lunarvim}"
+export LUNARVIM_CONFIG_DIR="${LUNARVIM_CONFIG_DIR:-${HOME}/.config/lvim}"
+export LUNARVIM_RUNTIME_DIR="${LUNARVIM_RUNTIME_DIR:-${HOME}/.local/share/lunarvim}"
 
 # osx must use stty -g
 if [ "${OS}" = "darwin" ]; then
