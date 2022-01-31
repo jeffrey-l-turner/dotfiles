@@ -31,6 +31,7 @@ ln -sb dotfiles/.jshintrc  ~
 ln -sb dotfiles/.eslintrc  ~
 ln -sb dotfiles/.git_template  ~
 cat dotfiles/ssh-config-* >> ~/.ssh/config
+nvm current > ~/.nvmrc
 ```
 
 
