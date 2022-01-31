@@ -87,7 +87,7 @@ plugins=(
   lighthouse
   npm
   nvm
-  osx
+  macos
   pip
   postgres
   pyenv
@@ -136,9 +136,8 @@ fi
 alias ll="ls -la"
 
 if [[ -s ${HOME}/.nvm/nvm.sh ]]; then
-  export NVM_DIR="$HOME/.nvm"
+  export NVM_DIR="${HOME}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
   export PATH=$PATH:
 fi
 
@@ -176,7 +175,7 @@ if [[ -e "${HOME}/.local/lvim" ]]; then
   export VISUAL='lvim' 
 fi
 
-function nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
+function nvim() { # remap b/c ctrl-s is flow control in shell, need to disable for vim
     # osx must use stty -g
     local TTYOPTS
     if [ "${OS}" = "darwin" ]; then
