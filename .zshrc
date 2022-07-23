@@ -87,7 +87,7 @@ plugins=(
   lighthouse
   npm
   nvm
-  osx
+  macos
   pip
   postgres
   pyenv
