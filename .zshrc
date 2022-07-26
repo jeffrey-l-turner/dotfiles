@@ -135,9 +135,13 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ll="ls -la"
 
-if typeset -f nvm >/dev/null 2>&1; then
-  nodepath=$(dirname $(nvm which --silent))
-  export PATH=$PATH:${nodepath}
+if [[ -f ${HOME}/.nvmrc ]]; then
+  if typeset -f nvm >/dev/null 2>&1 ; then
+    nodepath=$(dirname $(nvm which | tail -1))
+    export PATH=$PATH:${nodepath}
+  fi
+else
+  echo "must create ~/.nvmrc to set nodepath, please \`nvm ls\` to determine which version to place in file"
 fi
 if [[ -s ${HOME}/.nvm/nvm.sh ]]; then
   export NVM_DIR="$HOME/.nvm"
