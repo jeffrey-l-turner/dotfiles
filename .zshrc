@@ -181,6 +181,14 @@ if [[ -e "${HOME}/.local/bin/lvim" ]]; then
   export PATH="${HOME}/.local/bin/lvim:$PATH"
 fi
 
+# setup Foundry
+if [[ -e "${HOME}/.foundry" ]]; then
+   export PATH="$PATH:${HOME}/.foundry/bin"
+fi
+
+# hardhat completion
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
 function nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     # osx must use stty -g
     local TTYOPTS
