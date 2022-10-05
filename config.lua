@@ -6,7 +6,6 @@
 -- 88  .o Y8   8P 88 Y88  dP__Yb  88"Yb        YbdP   88 88YbdP88
 -- 88ood8 `YbodP' 88  Y8 dP""""Yb 88  Yb        YP    88 88 YY 88
 
-
 lvim is the global options object
 
 Linters should be
@@ -16,6 +15,9 @@ an executable
 ]]
 
 
+=======
+-- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+>>>>>>> Stashed changes
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
@@ -74,11 +76,13 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+>>>>>>> Stashed changes
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -97,10 +101,11 @@ lvim.builtin.treesitter.ensure_installed = {
   "yaml",
 }
 
+-- generic LSP settings
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
--- generic LSP settings
+-- generic lsp settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 -- lvim.lsp.installer.setup.ensure_installed = {
@@ -117,7 +122,9 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- ---@usage disable automatic installation of servers
+-- Which one?: ToDO
 -- lvim.lsp.automatic_servers_installation = false
+-- lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
@@ -127,7 +134,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
--- vim.tbl_map(function(server)
+-- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
 --   return server ~= "emmet_ls"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
 
@@ -184,13 +191,27 @@ lvim.builtin.treesitter.highlight.enabled = true
 --     },
 -- }
 lvim.plugins = {
+<<<<<<< Updated upstream
   { "LunarVim/vim-solidity" },
+  -- { "posva/vim-vue" },
+  { "hrsh7th/nvim-cmp" }
+  -- { "ChristianChiarulli/vim-solidity" },
   { "LnL7/vim-nix" }, -- for editing nix files
   { "mbbill/undotree" }, -- sets up tree of redo/undo
   { "mfussenegger/nvim-jdtls" },
-  -- { "posva/vim-vue" },
+  { "posva/vim-vue" },
   { "sgur/vim-editorconfig" },
-  { "hrsh7th/nvim-cmp" }
+  {
+    "tzachar/cmp-tabnine",
+    config = function()
+      local tabnine = require "cmp_tabnine.config"
+      tabnine:setup {
+        max_lines = 1000,
+        max_num_results = 20,
+        sort = true,
+      }
+    end,
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
