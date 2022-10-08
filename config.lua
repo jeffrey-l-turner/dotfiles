@@ -14,11 +14,11 @@ a global executable or a path to
 an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = false
 lvim.colorscheme = "neon-custom"
-lvim.lint_on_save = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.hlsearch = true
@@ -73,7 +73,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
 --   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+--   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
 
 -- TODO: User Config for predefined plugins
@@ -101,11 +101,10 @@ lvim.builtin.treesitter.ensure_installed = {
   "yaml",
 }
 
--- generic LSP settings
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.highlight.enable = true
 
--- generic lsp settings
+-- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 -- lvim.lsp.installer.setup.ensure_installed = {
@@ -122,8 +121,6 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- ---@usage disable automatic installation of servers
--- Which one?: ToDO
--- lvim.lsp.automatic_servers_installation = false
 -- lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
@@ -194,15 +191,16 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- old plugins?
 -- { "posva/vim-vue" },
 -- { "ChristianChiarulli/vim-solidity" },
+-- { "hrsh7th/nvim-cmp" },
 -- }
 lvim.plugins = {
   { "LunarVim/vim-solidity" },
-  { "hrsh7th/nvim-cmp" },
   { "LnL7/vim-nix" }, -- for editing nix files
   { "mbbill/undotree" }, -- sets up tree of redo/undo
   { "mfussenegger/nvim-jdtls" },
   { "posva/vim-vue" },
   { "sgur/vim-editorconfig" },
+  { "nvim-telescope/telescope-packer.nvim"},
   {
     "tzachar/cmp-tabnine",
     config = function()
