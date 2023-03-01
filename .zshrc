@@ -76,7 +76,6 @@ plugins=(
   colorize
   deno
   docker
-  eternal-history
   fzf
   genpass
   # git
@@ -85,12 +84,13 @@ plugins=(
   ipfs
   jira
   lighthouse
+  nix-shell
   npm
   nvm
   macos
   pip
   postgres
-  pyenv
+  # pyenv
   pylint
   rust
   safe-paste
@@ -242,3 +242,5 @@ function FF() {
     eval "${QU}"
 }
 unsetopt autopushd # do not put cd cmds on dirs
+
+export PATH="$PATH:/Users/jeff/.foundry/bin"
