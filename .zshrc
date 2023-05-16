@@ -223,12 +223,15 @@ function mergeEternalHist() {
 }
 
 function ht() {
-    local QU="history | cat ${HOME}/.bash_history"
+  local QU='cat ${HOME}/.bash_history'
+  local QR="history "
     for GR in "$@"
     do
         QU="${QU} | grep -i ${GR} " 
+        QR="${QR} | grep -i ${GR} " 
     done
     eval "${QU}"
+    eval "${QR}"
 }
 
 function FF() {
