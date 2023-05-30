@@ -27,6 +27,8 @@ export PATH="/usr/local/sbin:$PATH"
 # setup for Agnoster/git-prompt Nix:
 prompt_context() {
   if [[ "$IN_NIX_SHELL" ]]; then
-    prompt_segment black default '❄️"'
+    prompt_segment black default '❄️'
+  else
+    prompt_segment black default ''
   fi
 }
