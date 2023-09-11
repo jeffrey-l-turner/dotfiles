@@ -104,6 +104,16 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
 
+--lvim.lsp.denols.setup {
+  --on_attach = on_attach,
+--  root_dir = lvim.lsp.util.root_pattern("deno.json", "deno.jsonc"),
+-- }
+
+--lvim.lsp.tsserver.setup {
+  -- on_attach = on_attach,
+--  root_dir = lvim.lsp.util.root_pattern("package.json"),
+--  single_file_support = false
+--}
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
@@ -202,6 +212,8 @@ lvim.plugins = {
   { "sgur/vim-editorconfig" },
   { "nvim-telescope/telescope-packer.nvim"},
   { "hrsh7th/nvim-cmp" },
+--  { "vim-denops/denops.vim"},
+  { 'joshuavial/aider.nvim' },
   {
       "tzachar/cmp-tabnine",
       build = "./install.sh",
