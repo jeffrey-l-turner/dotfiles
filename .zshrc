@@ -223,7 +223,8 @@ function mergeEternalHist() {
 }
 
 function ht() {
-  local QU='cat ${HOME}/.bash_history'
+  touch ${HOME}/.eternal_history	
+  local QU='cat ${HOME}/.eternal_history'
   local QR="history "
     for GR in "$@"
     do
