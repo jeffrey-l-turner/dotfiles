@@ -110,8 +110,6 @@ function lowercase(){
 }
 export OS="$(lowercase $(uname))"
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -135,21 +133,6 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ll="ls -la"
 
-if [[ -f ${HOME}/.nvmrc ]]; then
-  if typeset -f nvm >/dev/null 2>&1 ; then
-    nodepath=$(dirname $(nvm which | tail -1))
-    export PATH=$PATH:${nodepath}
-  fi
-else
-  echo "must create ~/.nvmrc to set nodepath, please \`nvm ls\` to determine which version to place in file"
-fi
-if [[ -s ${HOME}/.nvm/nvm.sh ]]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  export PATH=$PATH:
-fi
-
 # inode command for interactive with tab completion
 alias inode='rlwrap -p"0;35" -S "node >>> " -r --always-readline -f  ~/src/dotfiles/nodeJS_completions node'
 
@@ -157,34 +140,13 @@ if [[ -e "${HOME}/.cargo/env" ]]; then
   source "${HOME}/.cargo/env"
 fi
 
-if [[ -e "${HOME}/.local/bin"  ]]; then
-  export PATH=$PATH:${HOME}/.local/bin
-fi
-
 if [[ -e "${HOME}/.zshrc_custom" ]]; then
     source "${HOME}/.zshrc_custom"
-fi
-
-if [[ -e "${HOME}/.deno" ]]; then
-  export DENO_INSTALL="${HOME}/.deno"
-  export PATH="$DENO_INSTALL/bin:$PATH"
 fi
 
 alias mv="mv -i"
 alias cp="cp -i"
 set -o noclobber
-
-# setup Lunar Vim
-if [[ -e "${HOME}/.local/bin/lvim" ]]; then
-  export EDITOR='lvim'
-  export VISUAL='lvim' 
-  export PATH="${HOME}/.local/bin/lvim:$PATH"
-fi
-
-# setup Foundry
-if [[ -e "${HOME}/.foundry" ]]; then
-   export PATH="$PATH:${HOME}/.foundry/bin"
-fi
 
 # hardhat completion
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
@@ -223,7 +185,7 @@ function mergeEternalHist() {
 }
 
 function ht() {
-  touch ${HOME}/.eternal_history	
+  touch ${HOME}/.eternal_history
   local QU='cat ${HOME}/.eternal_history'
   local QR="history "
     for GR in "$@"
@@ -246,5 +208,3 @@ function FF() {
     eval "${QU}"
 }
 unsetopt autopushd # do not put cd cmds on dirs
-
-export PATH="$PATH:/Users/jeff/.foundry/bin"
