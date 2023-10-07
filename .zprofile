@@ -2,6 +2,7 @@
 #export PATH="$PYENV_ROOT/bin:$PATH"
 #eval "$(pyenv init --path)"
 
+which brew > /dev/null 2>&1 && eval $(brew shellenv) # new post M2 setup
 which brew > /dev/null 2>&1 && [[ -f $(brew --prefix)/bin/ctags ]] && alias ctags=$(brew --prefix)/bin/ctags
 
 export JAVA_HOME=$(/usr/libexec/java_home -v 11.0) # defalt to jdk 11
