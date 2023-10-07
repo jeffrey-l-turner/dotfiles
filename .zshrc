@@ -208,28 +208,6 @@ function FF() {
     eval "${QU}"
 }
 
-function reinstallNixOverBrew() {
-  local input="n"
-  echo -e "This function will re-install Nix after Homebrew has overwritten or conflicted with the NixOS installs. It will first check if Nix has previously polluted the /etc profiles and then do a complete reinstall."
-  echo -e "Proceed y/n?"
-  read input
-  if [[ $input == "y" ]]; then
-    return 0
-  fi
-  return 1
-}
-
-function NixStaleInstall() {
-  echo -e "Sudo command may be required; Please provide if prompted"
-  if ! resetNixRCs; then
-    echo "Nix in /etc profiles not found"
-  fi
-  echo "(Re-)installing Nix"
-  curl -L https://nixos.org/nix/install | sh
-
-	return 0
-}
-
 function resetNixRCs() {
   local RESETPROFILES=0
   if grep -i nix /etc/bash.bashrc > /dev/null 2>&1; then
@@ -251,6 +229,28 @@ function resetNixRCs() {
   fi
 
   return 0
+}
+
+function NixStaleInstall() {
+  echo -e "Sudo command may be required; Please provide if prompted"
+  if ! resetNixRCs; then
+    echo "Nix in /etc profiles not found"
+  fi
+  echo "(Re-)installing Nix"
+  # curl -L https://nixos.org/nix/install | sh
+	return 0
+}
+
+function reinstallNixOverBrew() {
+  local input="n"
+  echo -e "This function will re-install Nix after Homebrew has overwritten or conflicted with the NixOS installs. It will first check if Nix has previously polluted the /etc profiles and then do a complete reinstall."
+  echo -e "Proceed y/n?"
+  read input
+  if [[ $input == "y" ]]; then
+    NixStaleInstall
+    return 0
+  fi
+  return 1
 }
 
 unsetopt autopushd # do not put cd cmds on dirs
