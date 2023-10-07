@@ -209,16 +209,46 @@ function FF() {
 }
 
 function reinstallNixOverBrew() {
-
+  local input="n"
+  echo -e "This function will re-install Nix after Homebrew has overwritten or conflicted with the NixOS installs. It will first check if Nix has previously polluted the /etc profiles and then do a complete reinstall."
+  echo -e "Proceed y/n?"
+  read input
+  if [[ $input == "y" ]]; then
+    return 0
+  fi
+  return 1
 }
 
-function staleNix() {
+function NixStaleInstall() {
+  echo -e "Sudo command may be required; Please provide if prompted"
+  if ! resetNixRCs; then
+    echo "Nix in /etc profiles not found"
+  fi
+  echo "(Re-)installing Nix"
+  curl -L https://nixos.org/nix/install | sh
 
 	return 0
-
 }
 
-function resetNix() {
+function resetNixRCs() {
+  local RESETPROFILES=0
+  if grep -i nix /etc/bash.bashrc > /dev/null 2>&1; then
+    sudo mv -f /etc/bashrc.bashrc /etc/bashrc.backup-before-nix-old
+    sudo mv -f /etc/bashrc.backup-before-nix /etc/bashrc.bashrc
+    echo -e "Nix detected in bashrc; Swapping backup-before-nix and /etc/bashrc.bashrc"
+    RESETPROFILES=1
+  fi
+
+  if grep -i nix /etc/zshrc > /dev/null 2>&1; then
+    sudo mv -f /etc/zshrc /etc/zshrc.backup-before-nix-old
+    sudo mv -f /etc/zshrc.backup-before-nix /etc/zashrc
+    echo -e "Nix detected in bashrc; Swapping backup-before-nix and /etc/zshrc"
+    RESETPROFILES=1
+  fi
+
+  if !${RESETPROFILES}; then
+    return 1
+  fi
 
   return 0
 }
