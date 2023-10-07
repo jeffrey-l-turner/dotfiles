@@ -245,6 +245,22 @@ function FF() {
     echo "${QU}" >&2 
     eval "${QU}"
 }
+
+function reinstallNixOverBrew() {
+
+}
+
+function staleNix() {
+
+	return 0
+
+}
+
+function resetNix() {
+
+  return 0
+}
+
 unsetopt autopushd # do not put cd cmds on dirs
 
 export PATH="$PATH:/Users/jeff/.foundry/bin"
