@@ -1,3 +1,9 @@
 *.swp
 *.un~
 .DS_Store
+.aider.chat.history.md
+.aider.ident.cache.v1 .aider.input.history
+.aider.tags.cache.v1/
+.aider.conf.yml
+.aider.input.history
+.aider.ident.cache.v1/
