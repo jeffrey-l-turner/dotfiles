@@ -76,7 +76,7 @@ plugins=(
   colorize
   deno
   docker
-  fzf
+  # fzf
   genpass
   # git
   git-prompt
@@ -84,7 +84,7 @@ plugins=(
   ipfs
   jira
   lighthouse
-  nix-shell
+  # nix-shell
   npm
   nvm
   macos
