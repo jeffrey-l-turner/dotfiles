@@ -6,6 +6,9 @@ which brew > /dev/null 2>&1 && [[ -f $(brew --prefix)/bin/ctags ]] && alias ctag
 
 if [[ -e /usr/libexec/java_home ]]; then
   export JAVA_HOME=$(/usr/libexec/java_home -v 11.0 2>/dev/null) # defalt to jdk 11
+  if [[ "${JAVA_HOME}" = "" ]]; then
+    JAVA_HOME="see ~/.zprofile, set to default to jdk 11"
+  fi
 fi
 
 
