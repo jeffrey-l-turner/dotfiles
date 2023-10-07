@@ -2,5 +2,4 @@
 *.un~
 .DS_Store
 .aider*
-aider.config.yml
-.aider.config.yml
+.aider.conf.yml
