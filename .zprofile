@@ -4,7 +4,9 @@
 
 which brew > /dev/null 2>&1 && [[ -f $(brew --prefix)/bin/ctags ]] && alias ctags=$(brew --prefix)/bin/ctags
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 11.0) # defalt to jdk 11
+if [[ -e /usr/libexec/java_home ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home -v 11.0 2>/dev/null) # defalt to jdk 11
+fi
 
 
 if [[ -e /usr/local/man ]]; then
@@ -21,8 +23,6 @@ fi
 
 if [[ -e "${HOME}/.local/bin"  ]]; then
   export PATH=$PATH:${HOME}/.local/bin
-else
-    echo -e "Cannot find ~/.local/bin"
 fi
 
 if [[ -e "${HOME}/.deno" ]]; then
