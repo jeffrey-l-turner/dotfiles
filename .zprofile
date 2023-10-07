@@ -46,6 +46,3 @@ if [[ -e "${HOME}/.nix-profile" ]] && echo ${PATH} | grep "\/usr\/bin\/:" >/dev/
   echo "Adding '/usr/bin:' to 'PATH' env var for Nix"
   export PATH="/usr/bin:${PATH}"
 fi
-
-export OPENAI_API_KEY=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 # personal_jlt
-#export OPENAI_API_KEY=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
