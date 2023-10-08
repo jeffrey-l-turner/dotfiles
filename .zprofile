@@ -22,11 +22,6 @@ if [[ -e /usr/libexec/java_home ]]; then
   fi
 fi
 
-
-if [[ -e /usr/local/man ]]; then
- export MANPATH="/usr/local/man:$MANPATH"
-fi
-
 if [[ -f ${HOME}/.nvmrc ]]; then
   if typeset -f nvm >/dev/null 2>&1 ; then
     nodepath=$(dirname $(nvm which | tail -1))
@@ -59,4 +54,12 @@ fi
 if [[ -e "${HOME}/.nix-profile" ]] && echo ${PATH} | grep "\/usr\/bin\/:" >/dev/null; then
   echo "Adding '/usr/bin:' to 'PATH' env var for Nix"
   export PATH="/usr/bin:${PATH}"
+fi
+
+
+# Test for duplicates in path:
+local uniqpathitems=$(echo $PATH | sed -e 's/:/:\n/g' | sort | uniq | wc -l)
+local pathlist=$(echo $PATH | sed -e 's/:/:\n/g' | sort | wc -l)
+if [[ "${uniqpathitems}" != "${pathlist}" ]]; then
+  echo "warning: duplicates items in your path." >&2
 fi
