@@ -37,7 +37,7 @@ else
 fi
 
 # Make HOME directory string subsitutable for sed
-HOMESub=$(HOMESub="echo ${HOME} | sed 's/\//\\/g'")
+HOMESub=$(echo "${HOME}" | sed -e 's/\//\\\//g')
 
 # local executables such as lunarvim
 if [[ -e "${HOME}/.local/bin"  ]]; then
