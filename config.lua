@@ -22,7 +22,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "neon-custom"
+lvim.colorscheme = "neon"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.hlsearch = true
@@ -216,6 +216,7 @@ lvim.plugins = {
   { "sgur/vim-editorconfig" },
   { "nvim-telescope/telescope-packer.nvim"},
   { "hrsh7th/nvim-cmp" },
+  { "rafamadriz/neon" },
 --  { "vim-denops/denops.vim"},
   { 'joshuavial/aider.nvim' },
   {
