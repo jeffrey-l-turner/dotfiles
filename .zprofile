@@ -23,7 +23,8 @@ which brew > /dev/null 2>&1 && [[ -f $(brew --prefix)/bin/ctags ]] && alias ctag
 if [[ -e /usr/libexec/java_home ]]; then
   export JAVA_HOME=$(/usr/libexec/java_home -v 11.0 2>/dev/null) # defalt to jdk 11
   if [[ "${JAVA_HOME}" = "" ]]; then
-    JAVA_HOME="see ~/.zprofile, set to default to jdk 11"
+    JAVA_HOME="see ~/.zprofile, sets default to jdk 11"
+    echo 'warning: jdk 11 not set in $JAVA_HOME;  may want to `[brew, sudo apt-install, ...] install openjdk@11`.' >&2
   fi
 fi
 
@@ -35,8 +36,12 @@ else
   echo "must create ~/.nvmrc to set nodepath, please \`nvm ls-remote | grep -i LTS | grep -i Latest | tail -1\` to determine which version to place in file"
 fi
 
+# Make HOME directory string subsitutable for sed
+HOMESub=$(HOMESub="echo ${HOME} | sed 's/\//\\/g'")
+
+# local executables such as lunarvim
 if [[ -e "${HOME}/.local/bin"  ]]; then
-  PATH=$(echo "${PATH}" | sed -e 's/\/.local\/bin://g')
+  PATH=$(echo "${PATH}" | sed -e "s/${HOMESub}\/.local\/bin://g")
   export PATH=$PATH:${HOME}/.local/bin
 fi
 
@@ -46,26 +51,27 @@ if [[ -x "${HOME}/.local/bin/lvim" ]]; then
   export VISUAL='lvim' 
 fi
 
+# for Rust cargo
 if [[ -e "${HOME}/.cargo/bin"  ]]; then
-  PATH=$(echo "${PATH}" | sed -e 's/\/.cargo\/bin://g')
+  PATH=$(echo "${PATH}" | sed -e "s/${HOMESub}\/.cargo\/bin://g")
   export PATH=$PATH:${HOME}/.cargo/bin
 fi
 
 if [[ -e "${HOME}/.deno" ]]; then
-  PATH=$(echo "${PATH}" | sed -e 's/\/.deno\/bin://g')
+  PATH=$(echo "${PATH}" | sed -e "s/${HOMESub}\/.deno\/bin://g")
   export DENO_INSTALL="${HOME}/.deno"
   export PATH="$DENO_INSTALL/bin:$PATH"
 fi
 
 # setup Foundry
 if [[ -e "${HOME}/.foundry" ]]; then
-  PATH=$(echo "${PATH}" | sed -e 's/\/.foundry\/bin://g')
+  PATH=$(echo "${PATH}" | sed -e "s/${HOMESub}\/.foundry\/bin://g")
   export PATH="$PATH:${HOME}/.foundry/bin"
 fi
 
 # nix-profile 
 if [[ -e "${HOME}/.nix-profile" ]] && echo ${PATH} | grep "\/usr\/bin\/:" >/dev/null; then
-  PATH=$(echo "${PATH}" | sed -e 's/\/usr\/bin://g')
+  PATH=$(echo "${PATH}" | sed -e "s/${HOMESub}\/usr\/bin://g")
   echo "Adding '/usr/bin:' to 'PATH' env var for Nix"
   export PATH="/usr/bin:${PATH}"
 fi
