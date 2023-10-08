@@ -4,6 +4,8 @@
 
 function setBrewShellEnv() {
   if [[ -e /opt/homebrew/bin/brew ]]; then
+    PATH=$(echo "${PATH}" | sed -e 's/\/opt\/homebrew\/bin://g')
+    PATH=$(echo "${PATH}" | sed -e 's/\/opt\/homebrew\/sbin://g')
     eval $(/opt/homebrew/bin/brew shellenv)
   elif [[ -e /usr/local/bin/brew ]]; then
     # remove shellenv addition of /usr/local/bin
@@ -67,7 +69,7 @@ Function testDupsInPath() {
   local uniqpathitems=$(echo $PATH | sed -e 's/:/:\n/g' | sort | uniq | wc -l)
   local pathlist=$(echo $PATH | sed -e 's/:/:\n/g' | sort | wc -l)
   if [[ "${uniqpathitems}" != "${pathlist}" ]]; then
-    echo "warning: duplicates items in your path." >&2
+    echo 'warning: duplicate items in your $PATH.' >&2
   fi
 }
 testDupsInPath
