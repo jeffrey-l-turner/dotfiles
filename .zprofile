@@ -40,6 +40,11 @@ if [[ -e "${HOME}/.local/bin"  ]]; then
   export PATH=$PATH:${HOME}/.local/bin
 fi
 
+if [[ -e "${HOME}/.cargo/bin"  ]]; then
+  PATH=$(echo "${PATH}" | sed -e 's/\/.cargo\/bin://g')
+  export PATH=$PATH:${HOME}/.cargo/bin
+fi
+
 if [[ -e "${HOME}/.deno" ]]; then
   PATH=$(echo "${PATH}" | sed -e 's/\/.deno\/bin://g')
   export DENO_INSTALL="${HOME}/.deno"
