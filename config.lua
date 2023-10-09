@@ -207,6 +207,10 @@ linters.setup {
 -- { "ChristianChiarulli/vim-solidity" },
 -- { "hrsh7th/nvim-cmp" },
 -- }
+--use {
+--  'nvim-lualine/lualine.nvim',
+ -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+-- }
 lvim.plugins = {
   { "LunarVim/vim-solidity" },
   { "LnL7/vim-nix" }, -- for editing nix files
@@ -216,7 +220,10 @@ lvim.plugins = {
   { "sgur/vim-editorconfig" },
   { "nvim-telescope/telescope-packer.nvim"},
   { "hrsh7th/nvim-cmp" },
-  { "rafamadriz/neon" },
+  { "jeffrey-l-turner/neon" },
+-- { 'christianchiarulli/nvcode-color-schemes.vim' },
+  { 'nvim-tree/nvim-web-devicons' },
+  { 'nvim-lualine/lualine.nvim' },
 --  { "vim-denops/denops.vim"},
   { 'joshuavial/aider.nvim' },
   {
