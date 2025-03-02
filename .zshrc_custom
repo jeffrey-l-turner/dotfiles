@@ -17,12 +17,11 @@ if [[ -e "${HOME}/Library/Android" ]]; then
   export ANDROID_HOME="${HOME}/Library/Android/sdk"
   export ANDROID_NDK="${HOME}/Library/Android/ndk"
   export ANDROID_SDK="${HOME}/Library/Android/sdk"
-  export PATH="${PATH}:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools"
+  export PATH="${PATH}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools"
 fi
 
 alias gitgraph="git log --first-parent --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' "
 alias gitgraphParent="git log  --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' "
-export PATH="/usr/local/sbin:$PATH"
 
 # setup for Agnoster/git-prompt Nix:
 prompt_context() {
@@ -32,3 +31,24 @@ prompt_context() {
     prompt_segment black default ''
   fi
 }
+
+reinstallNixOverBrew() {
+  echo "use sudo if prompted"
+  if [[ -e /etc/bashrc.backup-before-nix ]]; then
+    sudo mv -f /etc/bashrc.backup-before-nix /etc/bash.bashrc.backup-before-nix.old
+  fi
+  if [[ -e /etc/zshrc.backup-before-nix ]]; then
+    sudo mv -f /etc/zshrc.backup-before-nix /etc/zshrc.backup-before-nix.old
+  fi
+  sh <(curl -L https://nixos.org/nix/install) --daemon # (re-)installs NixOS
+}
+
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+eval "$(direnv hook zsh)"
+
+export APPLE_SSH_ADD_BEHAVIOR=openssh
+export PNPM_HOME="/Users/jeff/Library/pnpm"

@@ -13,12 +13,16 @@ filled in as strings with either
 a global executable or a path to
 an executable
 ]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
+-- Read the docs: https://www.lunarvim.org/docs/configuration
+-- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
+-- Forum: https://www.reddit.com/r/lunarvim/
+-- Discord: https://discord.com/invite/Xb9B4Ny
 
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "neon-custom"
+lvim.colorscheme = "neon"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.hlsearch = true
@@ -203,6 +207,10 @@ linters.setup {
 -- { "ChristianChiarulli/vim-solidity" },
 -- { "hrsh7th/nvim-cmp" },
 -- }
+--use {
+--  'nvim-lualine/lualine.nvim',
+ -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+-- }
 lvim.plugins = {
   { "LunarVim/vim-solidity" },
   { "LnL7/vim-nix" }, -- for editing nix files
@@ -212,6 +220,10 @@ lvim.plugins = {
   { "sgur/vim-editorconfig" },
   { "nvim-telescope/telescope-packer.nvim"},
   { "hrsh7th/nvim-cmp" },
+  { "jeffrey-l-turner/neon" },
+-- { 'christianchiarulli/nvcode-color-schemes.vim' },
+  { 'nvim-tree/nvim-web-devicons' },
+  { 'nvim-lualine/lualine.nvim' },
 --  { "vim-denops/denops.vim"},
   { 'joshuavial/aider.nvim' },
   {
