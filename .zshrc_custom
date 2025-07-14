@@ -26,9 +26,9 @@ alias gitgraphParent="git log  --graph --abbrev-commit --decorate --format=forma
 # setup for Agnoster/git-prompt Nix:
 prompt_context() {
   if [[ "$IN_NIX_SHELL" ]]; then
-    prompt_segment black default '❄️'
-  else
-    prompt_segment black default ''
+    prompt_segment black default "❄️ "
+  else  
+    prompt_segment black default ""
   fi
 }
 
@@ -51,4 +51,3 @@ esac
 eval "$(direnv hook zsh)"
 
 export APPLE_SSH_ADD_BEHAVIOR=openssh
-export PNPM_HOME="/Users/jeff/Library/pnpm"
