@@ -227,6 +227,11 @@ lvim.plugins = {
 --  { "vim-denops/denops.vim"},
   { 'joshuavial/aider.nvim' },
   {
+    "ellisonleao/glow.nvim",
+    config = true,
+    cmd = "Glow"
+  },
+  {
       "tzachar/cmp-tabnine",
       build = "./install.sh",
       dependencies = "hrsh7th/nvim-cmp",

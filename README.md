@@ -1,4 +1,4 @@
-#dotfiles.git
+# dotfiles.git
 ============
 
 Now using `zsh` instead of `bash`. No longer supporting emacs in favor of LunarVim
