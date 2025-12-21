@@ -26,7 +26,7 @@ alias gitgraphParent="git log  --graph --abbrev-commit --decorate --format=forma
 # setup for Agnoster/git-prompt Nix:
 prompt_context() {
   if [[ "$IN_NIX_SHELL" ]]; then
-    prompt_segment black default "❄️ "
+    prompt_segment black default "❄️  "
   else  
     prompt_segment black default ""
   fi
@@ -48,6 +48,40 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
+
+# Smart Assets top-level-gitlab-profile location
+export SA_GITLAB_PROFILE="${HOME}/src/<git-repo>/"
+
+# Claude Code modes (both share history for --continue to work across modes)
+# claude-safe:    ~/.claude with restrictive hooks (blocks direct git commands)
+#                 Use /quick-commit and /recursive-push for git operations
+# claude-agentic: ~/.claude-agentic without restrictive hooks (full git access)
+#                 For autonomous development in worktrees or trusted contexts
+alias claude-safe='claude'
+alias claude-agentic='CLAUDE_CONFIG_DIR=~/.claude-agentic claude'
+
+# Setup Claude Code symlinks (runs quietly on terminal startup)
+# - Links commands, agents, scripts, hooks from AItools to both config dirs
+# - Safe mode gets restrictive hooks; agentic mode does not
+# - Shares history.jsonl, projects/, settings.json between modes
+if [[ -x "${SA_GITLAB_PROFILE}/AItools/scripts/setup-claude-links.sh" ]]; then
+    CLAUDE_LINKS_QUIET=1 "${SA_GITLAB_PROFILE}/AItools/scripts/setup-claude-links.sh" 2>/dev/null || true
+fi
+
+# Manual alias to check/fix claude symlinks with verbose output
+alias claude-check-links='${SA_GITLAB_PROFILE}/AItools/scripts/setup-claude-links.sh'
 eval "$(direnv hook zsh)"
 
 export APPLE_SSH_ADD_BEHAVIOR=openssh
+export CLAUDESAFEPATH="~/src:/tmp:~/src/SA/top-level-gitlab-profile/AItools/hooks"
+
+# Commercial APIs
+export OPENAI_API_KEY=""
+export GEMINI_API_KEY=""
+export GROK_API_KEY=""
+
+# For open source models via Ollama
+export QWEN_API_KEY="ollama"  # Can be any value for local Ollama
+
+# Glab (GitLab) PAT
+export GITLAB_TOKEN=""
