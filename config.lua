@@ -6,13 +6,13 @@
 -- 88  .o Y8   8P 88 Y88  dP__Yb  88"Yb        YbdP   88 88YbdP88
 -- 88ood8 `YbodP' 88  Y8 dP""""Yb 88  Yb        YP    88 88 YY 88
 
-lvim is the global options object
+-- lvim is the global options object
 
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
+-- Linters should be
+-- filled in as strings with either
+-- a global executable or a path to
+-- an executable
+-- ]]
 
 -- Read the docs: https://www.lunarvim.org/docs/configuration
 -- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
@@ -28,7 +28,7 @@ lvim.colorscheme = "neon"
 lvim.hlsearch = true
 lvim.transparent_window = true
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.highlight.enable = true
 -- vim.opt.ic = false
 vim.cmd("set noignorecase")
 
@@ -205,7 +205,6 @@ linters.setup {
 -- old plugins?
 -- { "posva/vim-vue" },
 -- { "ChristianChiarulli/vim-solidity" },
--- { "hrsh7th/nvim-cmp" },
 -- }
 --use {
 --  'nvim-lualine/lualine.nvim',
@@ -218,7 +217,7 @@ lvim.plugins = {
   { "mfussenegger/nvim-jdtls" },
   { "posva/vim-vue" },
   { "sgur/vim-editorconfig" },
-  { "nvim-telescope/telescope-packer.nvim"},
+--  { "nvim-telescope/telescope-packer.nvim"},
   { "hrsh7th/nvim-cmp" },
   { "jeffrey-l-turner/neon" },
 -- { 'christianchiarulli/nvcode-color-schemes.vim' },
@@ -243,23 +242,8 @@ lvim.plugins = {
     else
       vim.notify('rholang-nvim build successful', vim.log.levels.INFO)
     end
-  end,
-  {
-      "tzachar/cmp-tabnine",
-      build = "./install.sh",
-      dependencies = "hrsh7th/nvim-cmp",
-      config = function()
-        local tabnine = require "cmp_tabnine.config"
-        tabnine:setup {
-          max_lines = 1000,
-          max_num_results = 10,
-          sort = true,
-        }
-      end,
-      lazy = true,
-      event = "InsertEnter",
-    }
-}
+  end
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
