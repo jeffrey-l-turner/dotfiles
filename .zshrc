@@ -103,8 +103,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-function lowercase(){
-     echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+function lowercase() {
+  echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
 }
 export OS="$(lowercase $(uname))"
 
@@ -166,7 +166,7 @@ function nvim() { # remap b/c ctrl-s is flow control in bash, need to disable fo
 function _concatToEternalHist() {
   local last recent linenum
   last=$(grep -Fn "$(tail -1 ~/OneDrive/_eternal_hist | cut -f 5 | cut -d ' ' -f 4)" ~/OneDrive/_eternal_hist  | sed s/:.*$//)
-  recent=$(wc -l ~/._eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
+  recent=$(wc -l ~/.eternal_history | sed 's/ \/.*//' | sed 's/^ *//')
   # shellcheck disable=SC2219
   let linenum="${recent} - ${last}"
   tail -n "${linenum}" ~/.eternal_history >> ~/OneDrive/_eternal_hist
@@ -196,7 +196,7 @@ function ht() {
 }
 
 function FF() {
-    local QU="find . -type f -exec grep -nHi $1 {} \\;" 
+    local QU="find . -type f -exec grep -nHi \"$1\" {} \\;"
     shift
     for GR in "$@"
     do
@@ -208,21 +208,21 @@ function FF() {
 
 function resetNixRCs() {
   local RESETPROFILES=0
-  if grep -i nix /etc/bash.bashrc > /dev/null 2>&1; then
-    sudo mv -f /etc/bashrc.bashrc /etc/bashrc.backup-before-nix-old
-    sudo mv -f /etc/bashrc.backup-before-nix /etc/bashrc.bashrc
-    echo -e "Nix detected in bashrc; Swapping backup-before-nix and /etc/bashrc.bashrc"
+  if grep -qi nix /etc/bashrc 2>/dev/null; then
+    sudo mv -f /etc/bashrc /etc/bashrc.backup-before-nix-old
+    sudo mv -f /etc/bashrc.backup-before-nix /etc/bashrc
+    echo "Nix detected in bashrc; Swapping backup-before-nix and /etc/bashrc"
     RESETPROFILES=1
   fi
 
-  if grep -i nix /etc/zshrc > /dev/null 2>&1; then
+  if grep -qi nix /etc/zshrc 2>/dev/null; then
     sudo mv -f /etc/zshrc /etc/zshrc.backup-before-nix-old
-    sudo mv -f /etc/zshrc.backup-before-nix /etc/zashrc
-    echo -e "Nix detected in bashrc; Swapping backup-before-nix and /etc/zshrc"
+    sudo mv -f /etc/zshrc.backup-before-nix /etc/zshrc
+    echo "Nix detected in zshrc; Swapping backup-before-nix and /etc/zshrc"
     RESETPROFILES=1
   fi
 
-  if !${RESETPROFILES}; then
+  if (( ! RESETPROFILES )); then
     return 1
   fi
 
@@ -230,20 +230,20 @@ function resetNixRCs() {
 }
 
 function NixStaleInstall() {
-  echo -e "Sudo command may be required; Please provide if prompted"
+  echo "Sudo command may be required; Please provide if prompted"
   if ! resetNixRCs; then
     echo "Nix in /etc profiles not found"
   fi
   echo "(Re-)installing Nix"
   # curl -L https://nixos.org/nix/install | sh
-	return 0
+  return 0
 }
 
 function reinstallNixOverBrew() {
   local input="n"
-  echo -e "This function will re-install Nix after Homebrew has overwritten or conflicted with the NixOS installs. It will first check if Nix has previously polluted the /etc profiles and then do a complete reinstall."
-  echo -e "Proceed y/n?"
-  read input
+  echo "This function will re-install Nix after Homebrew has overwritten or conflicted with the NixOS installs. It will first check if Nix has previously polluted the /etc profiles and then do a complete reinstall."
+  echo "Proceed y/n?"
+  read -r input
   if [[ $input == "y" ]]; then
     NixStaleInstall
     return 0
