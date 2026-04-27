@@ -66,7 +66,7 @@ if [[ -e "${HOME}/.nix-profile" ]] && echo ${PATH} | grep "\/usr\/bin\/:" >/dev/
 fi
 
 # Test for duplicates in path:
-Function testDupsInPath() {
+function testDupsInPath() {
   local uniqpathitems=$(echo $PATH | sed -e 's/:/:\n/g' | sort | uniq | wc -l)
   local pathlist=$(echo $PATH | sed -e 's/:/:\n/g' | sort | wc -l)
   if [[ "${uniqpathitems}" != "${pathlist}" ]]; then
