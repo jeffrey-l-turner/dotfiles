@@ -30,7 +30,7 @@ fi
 
 if [[ -f ${HOME}/.nvmrc ]]; then
   if typeset -f nvm >/dev/null 2>&1 ; then
-    nodepath=$(dirname $(nvm which | tail -1))
+    nodepath=$(dirname $(nvm which $(cat ${HOME}/.nvmrc)| tail -1))
   fi
 else
   echo "must create ~/.nvmrc to set nodepath, please \`nvm ls-remote | grep -i LTS | grep -i Latest | tail -1\` to determine which version to place in file"
