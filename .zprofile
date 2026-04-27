@@ -11,8 +11,6 @@ function setBrewShellEnv() {
   if [[ -e /opt/homebrew/bin/brew ]]; then
     eval $(/opt/homebrew/bin/brew shellenv)
   elif [[ -e /usr/local/bin/brew ]]; then
-    # brew shellenv prepends /usr/local/{bin,sbin}; typeset -U dedupes any
-    # earlier occurrence so the brew prefix takes precedence (move-to-front).
     eval $(/usr/local/bin/brew shellenv)
   else
    (uname -a | grep Darwin | grep Mac ) && echo "brew not installed" >&2
@@ -64,7 +62,7 @@ if [[ -e "${HOME}/.nix-profile" ]] && echo ${PATH} | grep "\/usr\/bin\/:" >/dev/
 fi
 
 # Test for duplicates in path:
-Function testDupsInPath() {
+function testDupsInPath() {
   local uniqpathitems=$(echo $PATH | sed -e 's/:/:\n/g' | sort | uniq | wc -l)
   local pathlist=$(echo $PATH | sed -e 's/:/:\n/g' | sort | wc -l)
   if [[ "${uniqpathitems}" != "${pathlist}" ]]; then
