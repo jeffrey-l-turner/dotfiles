@@ -30,7 +30,7 @@ fi
 
 if [[ -f ${HOME}/.nvmrc ]]; then
   if typeset -f nvm >/dev/null 2>&1 ; then
-    nodepath=$(dirname $(nvm which | tail -1))
+    nodepath=$(dirname $(nvm which $(cat ${HOME}/.nvmrc)| tail -1))
   fi
 else
   echo "must create ~/.nvmrc to set nodepath, please \`nvm ls-remote | grep -i LTS | grep -i Latest | tail -1\` to determine which version to place in file"
@@ -66,7 +66,7 @@ if [[ -e "${HOME}/.nix-profile" ]] && echo ${PATH} | grep "\/usr\/bin\/:" >/dev/
 fi
 
 # Test for duplicates in path:
-Function testDupsInPath() {
+function testDupsInPath() {
   local uniqpathitems=$(echo $PATH | sed -e 's/:/:\n/g' | sort | uniq | wc -l)
   local pathlist=$(echo $PATH | sed -e 's/:/:\n/g' | sort | wc -l)
   if [[ "${uniqpathitems}" != "${pathlist}" ]]; then
