@@ -85,13 +85,23 @@ install_latest_nvim_linux() {
   ln -sf "${NVIM_RELEASE_DIR}/bin/nvim" "${LOCAL_BIN_DIR}/nvim"
   echo "installed neovim -> ${NVIM_RELEASE_DIR} (symlinked ${LOCAL_BIN_DIR}/nvim)"
 
-  if ! echo ":${PATH}:" | grep -q ":${LOCAL_BIN_DIR}:"; then
-    echo "NOTE: ${LOCAL_BIN_DIR} is not on PATH for this shell."
-    echo "  add to your shell rc:  export PATH=\"\$HOME/.local/bin:\$PATH\""
-    # Prepend for the remainder of this script so the prereq check picks it up.
-    export PATH="${LOCAL_BIN_DIR}:${PATH}"
-  fi
+  # Always prepend ${LOCAL_BIN_DIR} for the remainder of this script. A guard
+  # that only prepended when the dir was *missing* from PATH let a stale
+  # /usr/bin/nvim (apt) keep winning whenever ~/.local/bin was on PATH but
+  # ordered after /usr/bin.
+  export PATH="${LOCAL_BIN_DIR}:${PATH}"
   hash -r 2>/dev/null || true
+
+  # Tell the user how to make the new nvim win in their interactive shell too.
+  local resolved
+  resolved="$(command -v nvim || true)"
+  if [[ "${resolved}" != "${LOCAL_BIN_DIR}/nvim" ]]; then
+    echo "WARNING: after install, 'nvim' on PATH still resolves to: ${resolved:-<none>}"
+    echo "  another nvim (likely apt's /usr/bin/nvim) shadows ${LOCAL_BIN_DIR}/nvim."
+    echo "  fix one of:"
+    echo "    1. sudo apt remove neovim   (recommended)"
+    echo "    2. add to ~/.zshrc / ~/.bashrc:  export PATH=\"\$HOME/.local/bin:\$PATH\""
+  fi
 }
 
 # ---------------------------------------------------------------------------
@@ -128,21 +138,27 @@ install_macos_deps() {
 }
 
 install_linux_deps() {
+  # `python3-venv` and `python3-pip` are needed so mason can install Python-
+  # based tools (flake8, codespell, ruff, debugpy) into per-package venvs.
+  # `unzip` + `build-essential` cover mason's archive types and the C
+  # compiler that nvim-treesitter parsers need.
   if command -v apt-get >/dev/null 2>&1; then
-    echo "installing CLI deps via apt: git ripgrep fd-find curl tar"
+    echo "installing CLI deps via apt: git ripgrep fd-find curl tar unzip python3 python3-venv python3-pip build-essential"
     sudo apt-get update
-    sudo apt-get install -y git ripgrep fd-find curl tar
+    sudo apt-get install -y git ripgrep fd-find curl tar unzip \
+      python3 python3-venv python3-pip build-essential
     echo "NOTE: lazygit and JetBrainsMono Nerd Font are not in stock apt repos."
     echo "  lazygit: https://github.com/jesseduffield/lazygit#installation"
     echo "  nerd font: https://github.com/ryanoasis/nerd-fonts/releases (JetBrainsMono.zip)"
   elif command -v dnf >/dev/null 2>&1; then
-    echo "installing CLI deps via dnf: git ripgrep fd-find lazygit curl tar"
-    sudo dnf install -y git ripgrep fd-find lazygit curl tar || true
+    echo "installing CLI deps via dnf: git ripgrep fd-find lazygit curl tar unzip python3 python3-pip @development-tools"
+    sudo dnf install -y git ripgrep fd-find lazygit curl tar unzip \
+      python3 python3-pip @development-tools || true
     echo "NOTE: install JetBrainsMono Nerd Font manually:"
     echo "  https://github.com/ryanoasis/nerd-fonts/releases (JetBrainsMono.zip)"
   else
     echo "WARNING: no supported package manager (apt, dnf); install deps manually:" >&2
-    echo "  git, ripgrep, fd, lazygit, curl, JetBrainsMono Nerd Font" >&2
+    echo "  git, ripgrep, fd, lazygit, curl, tar, unzip, python3-venv, python3-pip, build-essential, JetBrainsMono Nerd Font" >&2
   fi
 
   # Stock Linux distros (Ubuntu in particular) ship a neovim too old for
@@ -183,7 +199,20 @@ if ! nvim_version_ok; then
 fi
 
 NVIM_VERSION="$(nvim --version | head -1)"
-echo "ok: ${NVIM_VERSION} (>= ${MIN_NVIM_VERSION})"
+NVIM_RESOLVED="$(command -v nvim)"
+echo "ok: ${NVIM_VERSION} (>= ${MIN_NVIM_VERSION}) at ${NVIM_RESOLVED}"
+
+# Headless smoke test: confirm the resolved nvim binary can boot with a clean
+# environment (no user config, no plugins) before we ask it to bootstrap
+# LazyVim. Catches broken downloads, glibc mismatch, or a non-executable
+# symlink target with a clear error instead of a cryptic Lua trace.
+echo "smoke test: nvim --headless --clean +q"
+if ! nvim --headless --clean +q </dev/null >/dev/null 2>&1; then
+  echo "ERROR: ${NVIM_RESOLVED} failed to start in --headless --clean mode." >&2
+  echo "  rerun manually to see the failure:  nvim --headless --clean +q" >&2
+  exit 1
+fi
+echo "ok: nvim boots cleanly headless"
 
 # ---------------------------------------------------------------------------
 # 3. Clone lazy.nvim (the LazyVim install step)
@@ -240,5 +269,117 @@ fi
 echo "running headless: nvim --headless +'Lazy! sync' +qa"
 nvim --headless "+Lazy! sync" +qa
 
+# ---------------------------------------------------------------------------
+# 6b. Synchronous mason install
+# ---------------------------------------------------------------------------
+# `Lazy! sync` above clones every plugin but mason's `ensure_installed` tools
+# (stylua, shfmt, shellcheck, codespell, flake8, codelldb, tree-sitter-cli,
+# plus LSPs from LazyVim language extras) are kicked off asynchronously and
+# get killed when headless nvim exits at `+qa`. Run a second headless step
+# that explicitly installs them and waits via vim.wait().
+NVIM_MASON_TIMEOUT_MS="${NVIM_MASON_TIMEOUT_MS:-600000}"
+MASON_INSTALL_LUA="$(mktemp --suffix=.lua)"
+trap 'rm -f "${MASON_INSTALL_LUA}"' EXIT
+cat >"${MASON_INSTALL_LUA}" <<LUA
+local ok, mr = pcall(require, "mason-registry")
+if not ok then
+  io.stderr:write("mason-registry not available; skipping mason sync\n")
+  return
+end
+
+local refreshed = false
+mr.refresh(function() refreshed = true end)
+vim.wait(30000, function() return refreshed end, 250)
+
+local settings_ok, settings = pcall(require, "mason.settings")
+local raw = (settings_ok and (settings.current or {}).ensure_installed) or {}
+local names = {}
+for _, e in ipairs(raw) do
+  names[#names + 1] = (type(e) == "table") and e[1] or e
+end
+
+if #names == 0 then
+  io.write("no mason ensure_installed packages declared\n")
+  return
+end
+
+io.write(string.format("mason: waiting for %d package(s) (timeout %dms)\n",
+  #names, ${NVIM_MASON_TIMEOUT_MS}))
+
+-- Mason's setup() auto-fires ensure_installed at load time, so installs may
+-- already be in flight. Only kick off packages that are NOT already queued,
+-- and wrap in pcall to tolerate races / API changes.
+for _, name in ipairs(names) do
+  local pok, pkg = pcall(mr.get_package, name)
+  if pok and not pkg:is_installed() then
+    local installing = false
+    if type(pkg.is_installing) == "function" then
+      local iok, val = pcall(pkg.is_installing, pkg)
+      installing = iok and val
+    end
+    if not installing then
+      pcall(function() pkg:install() end)
+    end
+  end
+end
+
+-- Give mason a moment to flip is_installing() to true for auto-dispatched
+-- ensure_installed packages before we start polling for their completion.
+vim.wait(3000, function() return false end, 250)
+
+-- Poll until no package is still installing. is_installing() is the reliable
+-- "done" signal — is_installed() can return true while the binary is still
+-- being written, leading to false positives.
+local done = vim.wait(${NVIM_MASON_TIMEOUT_MS}, function()
+  for _, name in ipairs(names) do
+    local pok, pkg = pcall(mr.get_package, name)
+    if pok and type(pkg.is_installing) == "function" then
+      local iok, installing = pcall(pkg.is_installing, pkg)
+      if iok and installing then return false end
+    end
+  end
+  return true
+end, 1000)
+
+local missing = 0
+for _, name in ipairs(names) do
+  local pok, pkg = pcall(mr.get_package, name)
+  local state = (pok and pkg:is_installed()) and "ok" or "MISSING"
+  if state == "MISSING" then missing = missing + 1 end
+  io.write(string.format("  %s: %s\n", name, state))
+end
+
+if not done then
+  io.stderr:write("WARNING: mason install timed out before all packages finished\n")
+end
+if missing > 0 then
+  io.stderr:write(string.format(
+    "WARNING: %d mason package(s) still missing; re-run :Mason interactively\n", missing))
+end
+LUA
+
+echo "running headless: mason ensure_installed (sync wait, up to $((NVIM_MASON_TIMEOUT_MS / 1000))s)"
+nvim --headless \
+  +"lua require('lazy').load({plugins = {'mason.nvim'}})" \
+  -c "luafile ${MASON_INSTALL_LUA}" \
+  +qa
+
+# ---------------------------------------------------------------------------
+# 7. Post-install verification
+# ---------------------------------------------------------------------------
+# Confirm under the user config (i.e. the symlinked nvim/ dir) that LazyVim
+# is reachable. `Lazy! sync` above would have errored under `set -e` if it
+# failed outright, but this gives a positive signal and surfaces silent
+# config mistakes (e.g. lazy.nvim cloned but the plugin spec never loaded).
+echo "verifying LazyVim loaded under user config..."
+if ! nvim --headless \
+    "+lua local ok = pcall(require, 'lazy'); if not ok then vim.cmd('cq') end" \
+    +qa </dev/null >/dev/null 2>&1; then
+  echo "ERROR: 'require(\"lazy\")' failed under user config." >&2
+  echo "  inspect: nvim --headless +'lua require(\"lazy\")' +qa" >&2
+  exit 1
+fi
+
 echo
-echo "done. Open nvim and run :checkhealth and :Mason to verify."
+echo "done. nvim: ${NVIM_VERSION} at ${NVIM_RESOLVED}"
+echo "Open nvim and run :checkhealth and :Mason to verify LSPs/linters."
