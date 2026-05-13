@@ -1,0 +1,2 @@
+-- LazyVim auto-loads this on VeryLazy.
+-- Default LazyVim autocmds: lua/lazyvim/config/autocmds.lua
