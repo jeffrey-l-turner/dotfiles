@@ -36,9 +36,16 @@ ln -sb dotfiles/.git_template  ~
 cat dotfiles/ssh-config-* >> ~/.ssh/config
 nvm current > ~/.nvmrc
 
-# install the LazyVim config: symlinks ~/.config/nvim -> ./nvim,
-# backs up any existing ~/.config/nvim or ~/.config/lvim, then runs
-# `nvim --headless +'Lazy! sync' +qa` to pull plugins.
+# install LazyVim end-to-end. The script:
+#   - installs CLI deps (git, ripgrep, fd, lazygit) via brew/apt/dnf
+#   - installs JetBrainsMono Nerd Font (macOS via brew cask)
+#   - clones lazy.nvim into ~/.local/share/nvim/lazy/lazy.nvim (no curl|sh
+#     installer exists upstream; this is the LazyVim "install" step)
+#   - backs up any existing ~/.config/nvim or ~/.config/lvim
+#   - symlinks ~/.config/nvim -> ./nvim
+#   - runs `nvim --headless +'Lazy! sync' +qa` to pull LazyVim + all plugins
+#
+# Prereq: install neovim first, e.g. `brew install neovim`.
 ./lazyvim-setup.sh
 ```
 
