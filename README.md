@@ -12,6 +12,24 @@ Now using `zsh` instead of `bash`. No longer supporting emacs in favor of
 brew tap homebrew/cask-fonts
 brew install stow fzf zsh font-meslo-nerd-font font-arimo-nerd-font font-jetbrains-mono-nerd-font font-jetbrains-mono font-fira-code-nerd-font font-blex-mono-nerd-font font-lekton-nerd-font font-liberation-nerd-font neovim rlwrap spellcheck shellcheck wget git python python3 gawk java gpgconf gpg rustup rustup-init cmake ripgrep fd lazygit
 ```
+
+## On Linux (Ubuntu/Debian/Fedora):
+No manual neovim install is required — `lazyvim-setup.sh` installs the latest
+neovim from the upstream GitHub release tarball (Ubuntu's apt ships an older
+release that does not meet LazyVim's `>= 0.11.2` minimum). Both `x86_64` and
+`arm64` are supported. The binary lands at `~/.local/share/nvim-release/bin/nvim`
+and is symlinked into `~/.local/bin/nvim`, so make sure that directory is on
+your `PATH`:
+```sh
+# add to ~/.zshrc / ~/.bashrc if it isn't already
+export PATH="$HOME/.local/bin:$PATH"
+```
+The script uses `sudo apt-get` / `sudo dnf` only to install `git`, `ripgrep`,
+`fd-find`, `curl`, and `tar`. `lazygit` and the JetBrainsMono Nerd Font are not
+in stock apt repos and must still be installed manually on Debian/Ubuntu:
+- lazygit: https://github.com/jesseduffield/lazygit#installation
+- Nerd Font: https://github.com/ryanoasis/nerd-fonts/releases (`JetBrainsMono.zip`)
+
 ```
 # after installing [node/nvm](https://github.com/nvm-sh/nvm) (any system):
 npm i -g lib language-server bash-language-server create-next-pwa eslint_d eslint expo-cli fixjson hardhat-shorthand neovim npm prettier shellcheck solhint-plugin-prettier solhint tree-sitter-cli yarn
@@ -37,15 +55,20 @@ cat dotfiles/ssh-config-* >> ~/.ssh/config
 nvm current > ~/.nvmrc
 
 # install LazyVim end-to-end. The script:
-#   - installs CLI deps (git, ripgrep, fd, lazygit) via brew/apt/dnf
+#   - installs CLI deps (git, ripgrep, fd, lazygit, curl, tar) via brew/apt/dnf
 #   - installs JetBrainsMono Nerd Font (macOS via brew cask)
+#   - on Linux: installs the latest neovim from the upstream release tarball
+#     (x86_64 / arm64) when nvim is missing or below the LazyVim minimum
+#     (>= 0.11.2), into ~/.local/share/nvim-release with a symlink at
+#     ~/.local/bin/nvim — ensure ~/.local/bin is on your PATH
 #   - clones lazy.nvim into ~/.local/share/nvim/lazy/lazy.nvim (no curl|sh
 #     installer exists upstream; this is the LazyVim "install" step)
 #   - backs up any existing ~/.config/nvim or ~/.config/lvim
 #   - symlinks ~/.config/nvim -> ./nvim
 #   - runs `nvim --headless +'Lazy! sync' +qa` to pull LazyVim + all plugins
 #
-# Prereq: install neovim first, e.g. `brew install neovim`.
+# macOS prereq: install neovim first, e.g. `brew install neovim`.
+# Linux: no prereq — the script will install/upgrade neovim automatically.
 ./lazyvim-setup.sh
 ```
 
