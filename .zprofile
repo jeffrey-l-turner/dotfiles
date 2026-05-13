@@ -1,6 +1,18 @@
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zprofile.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zprofile.pre.zsh"
 
+# ----------------------------------------------------------------------------
+# This file is intended to be SYMLINKED from your dotfiles checkout, e.g.
+# from inside the checkout dir:
+#   ln -sfn "$PWD/.zprofile" ~/.zprofile
+# Treat it as stable / shared across machines. Do NOT edit ~/.zprofile in
+# place -- changes will be lost on the next dotfiles pull.
+#
+# For per-machine additions (secrets, machine-local PATH, custom aliases),
+# put them in ~/.zshrc_custom instead. That file is the ONLY shell login
+# file that is intentionally NOT symlinked, and is sourced from .zshrc.
+# ----------------------------------------------------------------------------
+
 typeset -U path PATH
 
 #export PYENV_ROOT="$HOME/.pyenv"
@@ -37,7 +49,10 @@ else
 fi
 
 if [[ -e "${HOME}/.local/bin" ]]; then
-  export PATH="$PATH:${HOME}/.local/bin"
+  # Prepend so user-local binaries (e.g. an upstream neovim symlinked from
+  # ~/.local/share/nvim-release) win over apt's /usr/bin equivalents.
+  # `typeset -U path PATH` above dedupes, keeping the leftmost occurrence.
+  export PATH="${HOME}/.local/bin:$PATH"
 fi
 
 if [[ -e "${HOME}/.deno" ]]; then

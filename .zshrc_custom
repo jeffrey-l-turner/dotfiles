@@ -1,4 +1,23 @@
 #!/bin/zsh
+# ----------------------------------------------------------------------------
+# Per-machine local overrides. This is the ONE shell config file that is
+# intentionally NOT symlinked from the dotfiles repo -- it's meant to be
+# copied once on a new machine and then appended to with machine-specific
+# values (secrets, real paths, host-only aliases, API keys, etc.).
+#
+# Setup on a fresh box (run from inside your dotfiles checkout, BEFORE
+# symlinking .zprofile / .zshrc):
+#   cp "$PWD/.zshrc_custom" ~/.zshrc_custom   # template, only if not present
+#   $EDITOR ~/.zshrc_custom                   # fill in secrets
+#
+# .zshrc sources this file near the bottom, so anything defined here can
+# override or extend what the symlinked .zprofile / .zshrc set up.
+#
+# WARNING: do not commit your real secrets here. The version in the dotfiles
+# repo should stay a placeholder/template only. Consider adding the home
+# copy to your global gitignore.
+# ----------------------------------------------------------------------------
+
 # Pre-configure or override your bashrc environment here:
 # the following alias is for mac environment when version 7.4 has been downloaded:
 #if [ "${OS}" == "darwin" ]; then # on MacOS change current directory to Finder dir

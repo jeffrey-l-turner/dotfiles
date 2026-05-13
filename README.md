@@ -45,13 +45,26 @@ mkdir ~/src
 cd ~/src
 git clone git@github.com:jeffrey-l-turner/dotfiles.git
 cd dotfiles
-ln -sb dotfiles/.screenrc ~
-ln -sb dotfiles/.vimrc  ~
-ln -sb dotfiles/.z*  ~
-ln -sb dotfiles/.jshintrc  ~
-ln -sb dotfiles/.eslintrc  ~
-ln -sb dotfiles/.git_template  ~
-cat dotfiles/ssh-config-* >> ~/.ssh/config
+
+# Stable, shared config files: SYMLINK so future `git pull` updates land
+# live in your shell with no manual sync step. Use absolute paths so the
+# links survive being read from any cwd.
+ln -sfn "$PWD/.screenrc"     ~/.screenrc
+ln -sfn "$PWD/.vimrc"        ~/.vimrc
+ln -sfn "$PWD/.zprofile"     ~/.zprofile
+ln -sfn "$PWD/.zshrc"        ~/.zshrc
+ln -sfn "$PWD/.jshintrc"     ~/.jshintrc
+ln -sfn "$PWD/.eslintrc.js"  ~/.eslintrc.js
+ln -sfn "$PWD/.git_template" ~/.git_template
+
+# Per-machine local overrides: COPY (do NOT symlink). This is the only
+# shell config file intended to be edited in place on each machine -- put
+# secrets, host-specific paths, machine-only aliases here. The repo
+# version is a placeholder template; your real ~/.zshrc_custom should
+# never be committed back.
+[ -e ~/.zshrc_custom ] || cp "$PWD/.zshrc_custom" ~/.zshrc_custom
+
+cat ssh-config-* >> ~/.ssh/config
 nvm current > ~/.nvmrc
 
 # install LazyVim end-to-end. The script:

@@ -1,4 +1,16 @@
-#!/usr/bin/env zsh 
+#!/usr/bin/env zsh
+
+# ----------------------------------------------------------------------------
+# This file is intended to be SYMLINKED from your dotfiles checkout, e.g.
+# from inside the checkout dir:
+#   ln -sfn "$PWD/.zshrc" ~/.zshrc
+# Treat it as stable / shared across machines. Do NOT edit ~/.zshrc in
+# place -- changes will be lost on the next dotfiles pull.
+#
+# For per-machine additions (secrets, machine-local PATH, custom aliases),
+# put them in ~/.zshrc_custom (sourced near the bottom of this file). That
+# file is the ONLY shell login file that is intentionally NOT symlinked.
+# ----------------------------------------------------------------------------
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -151,16 +163,23 @@ set -o noclobber
 
 function nvim() { # remap b/c ctrl-s is flow control in bash, need to disable for vim
     # osx must use stty -g
-    local TTYOPTS
-    if [ "${OS}" = "darwin" ]; then
-        TTYOPTS="$(stty -g)"
-    else
-        # shellcheck disable=SC2034
-        TTYOPTS="$(stty --save)"
+    # Only touch tty state when stdin is actually a tty -- otherwise headless
+    # / piped invocations (e.g. `nvim --headless ... | tee`) spam
+    # "stty: Inappropriate ioctl for device" and may even fail under set -e.
+    local TTYOPTS=""
+    if [[ -t 0 ]]; then
+        if [ "${OS}" = "darwin" ]; then
+            TTYOPTS="$(stty -g 2>/dev/null)"
+        else
+            # shellcheck disable=SC2034
+            TTYOPTS="$(stty --save 2>/dev/null)"
+        fi
+        [[ -n "${TTYOPTS}" ]] && stty stop '' -ixoff 2>/dev/null
     fi
-    stty  stop '' -ixoff
     command nvim "$@"
-    stty  "$TTYOPTS"
+    local rc=$?
+    [[ -n "${TTYOPTS}" ]] && stty "${TTYOPTS}" 2>/dev/null
+    return $rc
 }
 
 function _concatToEternalHist() {

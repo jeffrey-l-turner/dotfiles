@@ -85,22 +85,39 @@ install_latest_nvim_linux() {
   ln -sf "${NVIM_RELEASE_DIR}/bin/nvim" "${LOCAL_BIN_DIR}/nvim"
   echo "installed neovim -> ${NVIM_RELEASE_DIR} (symlinked ${LOCAL_BIN_DIR}/nvim)"
 
-  # Always prepend ${LOCAL_BIN_DIR} for the remainder of this script. A guard
-  # that only prepended when the dir was *missing* from PATH let a stale
-  # /usr/bin/nvim (apt) keep winning whenever ~/.local/bin was on PATH but
-  # ordered after /usr/bin.
+  # Check the INHERITED PATH (what the user's interactive shell will see)
+  # before we modify our own copy. A stale /usr/bin/nvim (apt) that comes
+  # earlier than ~/.local/bin will silently win in the user's shell even
+  # though ~/.local/bin is on PATH. Detect that and tell the user how to
+  # fix it -- otherwise they re-run nvim, get an old binary, and the
+  # script's later prepend masks the problem from any in-script check.
+  local inherited_path="${PATH}"
+  local stale_apt_nvim=""
+  if [[ -x /usr/bin/nvim ]]; then stale_apt_nvim="/usr/bin/nvim"; fi
+  local local_bin_pos usr_bin_pos
+  local_bin_pos="$(printf '%s\n' "${inherited_path}" | tr ':' '\n' | grep -nx -- "${LOCAL_BIN_DIR}" | head -1 | cut -d: -f1)"
+  usr_bin_pos="$(printf '%s\n' "${inherited_path}" | tr ':' '\n' | grep -nx '/usr/bin' | head -1 | cut -d: -f1)"
+  local shadow_warning=""
+  if [[ -n "${stale_apt_nvim}" ]]; then
+    if [[ -z "${local_bin_pos}" ]]; then
+      shadow_warning="${LOCAL_BIN_DIR} is not on your interactive shell PATH; ${stale_apt_nvim} will be used instead."
+    elif [[ -n "${usr_bin_pos}" ]] && (( local_bin_pos > usr_bin_pos )); then
+      shadow_warning="${LOCAL_BIN_DIR} (pos ${local_bin_pos}) comes AFTER /usr/bin (pos ${usr_bin_pos}) on your PATH; ${stale_apt_nvim} will shadow the new nvim."
+    fi
+  fi
+
+  # Prepend ${LOCAL_BIN_DIR} for the remainder of THIS script so the rest of
+  # the install (smoke test, Lazy! sync, mason wait) uses the new binary.
+  # This does NOT affect the user's interactive shell.
   export PATH="${LOCAL_BIN_DIR}:${PATH}"
   hash -r 2>/dev/null || true
 
-  # Tell the user how to make the new nvim win in their interactive shell too.
-  local resolved
-  resolved="$(command -v nvim || true)"
-  if [[ "${resolved}" != "${LOCAL_BIN_DIR}/nvim" ]]; then
-    echo "WARNING: after install, 'nvim' on PATH still resolves to: ${resolved:-<none>}"
-    echo "  another nvim (likely apt's /usr/bin/nvim) shadows ${LOCAL_BIN_DIR}/nvim."
+  if [[ -n "${shadow_warning}" ]]; then
+    echo "WARNING: ${shadow_warning}"
     echo "  fix one of:"
-    echo "    1. sudo apt remove neovim   (recommended)"
+    echo "    1. sudo apt remove neovim   (recommended — removes the stale binary)"
     echo "    2. add to ~/.zshrc / ~/.bashrc:  export PATH=\"\$HOME/.local/bin:\$PATH\""
+    echo "  then 'hash -r' or open a new shell. Verify with 'type -a nvim'."
   fi
 }
 
