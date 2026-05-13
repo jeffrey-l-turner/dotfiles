@@ -82,7 +82,6 @@ ENABLE_CORRECTION="false"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  adb
   colorize
   deno
   docker
@@ -111,6 +110,14 @@ plugins=(
   # zsh-autosuggestions # need to find plugin
   z
 )
+
+# Conditionally enable the oh-my-zsh `adb` plugin only when its file is
+# actually present in this omz install (built-in or user-custom). Avoids
+# "[oh-my-zsh] plugin 'adb' not found" on hosts without Android tooling
+# / on omz checkouts that don't ship the plugin.
+if [[ -d "${ZSH}/plugins/adb" || -d "${ZSH_CUSTOM:-${ZSH}/custom}/plugins/adb" ]]; then
+  plugins+=(adb)
+fi
 
 source $ZSH/oh-my-zsh.sh
 
