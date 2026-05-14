@@ -295,8 +295,11 @@ nvim --headless "+Lazy! sync" +qa
 # get killed when headless nvim exits at `+qa`. Run a second headless step
 # that explicitly installs them and waits via vim.wait().
 NVIM_MASON_TIMEOUT_MS="${NVIM_MASON_TIMEOUT_MS:-600000}"
-MASON_INSTALL_LUA="$(mktemp --suffix=.lua)"
-trap 'rm -f "${MASON_INSTALL_LUA}"' EXIT
+# Portable temp file with a .lua suffix: BSD mktemp on macOS does not support
+# GNU's `--suffix=`, so create a temp dir and put a named file inside it.
+MASON_INSTALL_TMPDIR="$(mktemp -d 2>/dev/null || mktemp -d -t mason-install)"
+MASON_INSTALL_LUA="${MASON_INSTALL_TMPDIR}/mason-install.lua"
+trap 'rm -rf "${MASON_INSTALL_TMPDIR}"' EXIT
 cat >"${MASON_INSTALL_LUA}" <<LUA
 local ok, mr = pcall(require, "mason-registry")
 if not ok then
