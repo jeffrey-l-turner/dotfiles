@@ -47,7 +47,8 @@ prompt_context() {
   if [[ -n "$IN_NIX_SHELL" ]]; then
     prompt_segment black default "❄️  "
   elif [[ "$(uname -s)" == "Darwin" ]]; then
-    prompt_segment black default ""
+    local APPLE_LOGO=$'\UF8FF'
+    prompt_segment black default "${APPLE_LOGO}"
   else
     prompt_segment black default "🐧"
   fi
